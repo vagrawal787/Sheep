@@ -1,0 +1,4 @@
+type Form @model {
+  id: ID!
+  name: String!
+}

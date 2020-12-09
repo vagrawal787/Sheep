@@ -1,6 +1,14 @@
 
 import './App.css';
-import React, {useReducer, useState} from 'react';
+import React, {Component, Fragment} from 'react';
+import LandingFormContainer from './containers/LandingFormContainer';
+
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
+
+import LandPage from "./pages/landingForm.jsx";
+import NotFoundPage from "./pages/404.jsx";
+import MainPage from "./pages/userForm.jsx";
 
 const formReducer = (state, event) => {
   return {
@@ -9,57 +17,19 @@ const formReducer = (state, event) => {
   }
 }
 
-function App() {
-  const [formData, setFormData] = useReducer(formReducer, {});
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    setSubmitting(true);
-
-    setTimeout(() => {
-      setSubmitting(false);
-    }, 3000);
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <Switch>
+          <Route exact path = "/" component = {LandPage}/>
+          <Route exact path = "/404" component = {NotFoundPage}/>
+          <Route exact path = "/userForm" component = {MainPage} />
+          <Redirect to ="/404" component = {LandPage}/>
+        </Switch>
+      </Router> 
+    );
   }
-
-  const handleChange = event => {
-    setFormData({
-      name: event.target.name,
-      value: event.target.value,
-    });
-  }
-
-  return (
-    <div className="wrapper">
-      <h1>sheep</h1>
-      {submitting &&
-       <div>
-         You are submitting the following:
-         <ul>
-           {Object.entries(formData).map(([name, value]) => (
-             <li key={name}><strong>{name}</strong>:{value.toString()}</li>
-           ))}
-         </ul>
-       </div>
-      }
-      <form onSubmit = {handleSubmit}>
-        <fieldset class = "form">
-         <label>
-           <p className = "code">Enter Code:</p>
-           <div className = "input">
-            <input className = "in" name="name" onChange = {handleChange}/>
-           </div>
-         </label>
-        </fieldset>
-        <div className = "buttongo">
-          <button type="submit">Go!</button>
-        </div>
-        <div className = "buttonadmin">
-          <button type="link">Admin Portal</button>
-        </div>
-      </form>
-    </div>
-  )
 }
 
 export default App;

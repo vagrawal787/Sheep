@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-sheep-dev-171754-authRole",
+      "UnauthRoleArn": "arn:aws:iam::977233360696:role/amplify-sheep-dev-171754-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::977233360696:role/amplify-sheep-dev-171754-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-sheep-dev-171754-deployment",
+      "UnauthRoleName": "amplify-sheep-dev-171754-unauthRole",
+      "StackName": "amplify-sheep-dev-171754",
+      "StackId": "arn:aws:cloudformation:us-west-2:977233360696:stack/amplify-sheep-dev-171754/34a5edb0-38f3-11eb-8096-0a26b22d6f48",
+      "AmplifyAppId": "d2vhtw03tinudn"
+    }
+  }
+}
