@@ -20,11 +20,13 @@ class MainPage extends Component {
         this.setState({string: apiData.data.getForm.name});
     }
 
+
     render() {
+      (async () => { await this.findForm();})();
       return (
         <div>
           {this.state.string}
-          </div>
+        </div>
       );
     }
   }
