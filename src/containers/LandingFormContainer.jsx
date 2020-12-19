@@ -38,6 +38,7 @@ class LandingFormContainer extends Component {
 
   render() {
     if (this.state.redirect){
+        console.log("call mainpage");
         return <MainPage code={this.state.code}/>
     }
     return (

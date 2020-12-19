@@ -20,11 +20,10 @@ class MainPage extends Component {
         this.setState({string: apiData.data.getForm.name});
     }
 
-
     render() {
       return (
-          <div>
-            {this.state.string}
+        <div>
+          {this.state.string}
           </div>
       );
     }
