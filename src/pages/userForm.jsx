@@ -18,7 +18,8 @@ class MainPage extends Component {
         console.log("hello");
         const apiData = await API.graphql({query: queries.getForm, 
                                           variables: { id: 123 }, 
-                                          authMode: 'API_KEY'});
+                                          authMode: 'API_KEY',
+                                          apiKey: 'da2-aucq7wxpurbqjkg5ikimt26gdm'});
         this.setState({string: apiData.data.getForm.name});
     }
 
