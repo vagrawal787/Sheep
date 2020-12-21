@@ -16,7 +16,7 @@ class MainPage extends Component {
 
     async findForm() {
         console.log("hello");
-        const apiData = await API.graphql({query: queries.getForm, variables: { id: 123 }});
+        const apiData = await API.graphql({query: queries.getForm, variables: { id: 123 }, authMode: 'API_KEY'});
         this.setState({string: apiData.data.getForm.name});
     }
 
@@ -31,4 +31,4 @@ class MainPage extends Component {
     }
   }
   
-  export default MainPage;
+  export default withAuthenticator(MainPage);
