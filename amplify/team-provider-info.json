@@ -10,6 +10,11 @@
       "StackName": "amplify-sheep-dev-171754",
       "StackId": "arn:aws:cloudformation:us-west-2:977233360696:stack/amplify-sheep-dev-171754/34a5edb0-38f3-11eb-8096-0a26b22d6f48",
       "AmplifyAppId": "d2vhtw03tinudn"
+    },
+    "categories": {
+      "auth": {
+        "sheepd982400e": {}
+      }
     }
   }
 }

@@ -16,9 +16,7 @@ class MainPage extends Component {
 
     async findForm() {
         console.log("hello");
-        const apiData = await API.graphql({query: queries.getForm, 
-                                          variables: { id: 123 }, 
-                                          apiKey: 'da2-aucq7wxpurbqjkg5ikimt26gdm'});
+        const apiData = await API.graphql({query: queries.getForm, variables: { id: 123 }});
         this.setState({string: apiData.data.getForm.name});
     }
 
