@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import formId from "../pages/landingForm.jsx";
 
 import {API} from 'aws-amplify';
+import { withAuthenticator } from '@aws-amplify/ui-react'
 import * as queries from '../graphql/queries';
 
 class MainPage extends Component { 
