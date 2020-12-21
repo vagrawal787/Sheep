@@ -32,4 +32,4 @@ class MainPage extends Component {
     }
   }
   
-  export default withAuthenticator(MainPage);
+  export default MainPage;
