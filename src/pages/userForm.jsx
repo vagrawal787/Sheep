@@ -14,7 +14,16 @@ class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            questions: {q1:'', q2:'', q3:'', q4: '', q5:'', q6:'', q7:'', q8:'', q9:'', q10:''},
+            q1:'',
+            q2:'',
+            q3:'',
+            q4:'',
+            q5:'',
+            q6:'',
+            q7:'',
+            q8:'',
+            q9:'',
+            q10:'',
         }
     }
 
@@ -37,8 +46,7 @@ class MainPage extends Component {
       });
         console.log("hello");
         const apiData = await client.query({query: gql(queries.getForm), variables: { id: 456 }});
-        this.state.questions.q1 = apiData.data.getForm.q1;
-        //this.setState({string: apiData.data.getForm});
+        this.setState({q1: apiData.data.getForm.q1});
     }
 
 
@@ -46,7 +54,7 @@ class MainPage extends Component {
       (async () => { await this.findForm();})();
       return (
         <div>
-          {this.state.questions.q1}
+          {this.state.q1}
         </div>
       );
     }
