@@ -29,7 +29,7 @@ class MainPage extends Component {
         },
       });
         console.log("hello");
-        const apiData = await client.graphql({query: queries.getForm, variables: { id: 123 }});
+        const apiData = await client.query({query: queries.getForm, variables: { id: 123 }});
         this.setState({string: apiData.data.getForm.name});
     }
 
