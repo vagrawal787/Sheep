@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom';
 import formId from "../pages/landingForm.jsx";
 
 import {API} from 'aws-amplify';
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
+import awsconfig from '../aws-exports';
+
 import { withAuthenticator } from '@aws-amplify/ui-react'
 import * as queries from '../graphql/queries';
 
@@ -16,8 +19,17 @@ class MainPage extends Component {
     }
 
     async findForm() {
+      console.log("hi");
+      const client = new AWSAppSyncClient({
+        url: awsconfig.aws_appsync_graphqlEndpoint,
+        region: awsconfig.aws_appsync_region,
+        auth: {
+          type: AUTH_TYPE.API_KEY,
+          apiKey: awsconfig.aws_appsync_apiKey,
+        },
+      });
         console.log("hello");
-        const apiData = await API.graphql({query: queries.getForm, variables: { id: 123 }, authMode: 'API_KEY'});
+        const apiData = await client.graphql({query: queries.getForm, variables: { id: 123 }});
         this.setState({string: apiData.data.getForm.name});
     }
 
