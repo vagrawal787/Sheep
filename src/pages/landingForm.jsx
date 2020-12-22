@@ -3,9 +3,18 @@ import LandingFormContainer from '../containers/LandingFormContainer';
 
 class LandPage extends Component {  
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: '',
+    }
+  }
   render() {
     return (
-        <LandingFormContainer />  
+        <div>
+          <LandingFormContainer />  
+          <p> {this.state.message} </p>
+        </div>
     );
   }
 }

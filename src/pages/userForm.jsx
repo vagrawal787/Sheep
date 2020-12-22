@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import LandPage from "../pages/landingForm.jsx";
+import ThankPage from '../pages/thankPage';
 
 import {API} from 'aws-amplify';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
@@ -16,6 +17,7 @@ class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            code: 0,
             q1:'',
             q2:'',
             q3:'',
@@ -61,17 +63,22 @@ class MainPage extends Component {
         },
       });
         console.log("hello");
-        const apiData = await client.query({query: gql(queries.getForm), variables: { id: 456 }});
-        this.setState({q1: apiData.data.getForm.q1});
-        this.setState({q2: apiData.data.getForm.q2});
-        this.setState({q3: apiData.data.getForm.q3});
-        this.setState({q4: apiData.data.getForm.q4});
-        this.setState({q5: apiData.data.getForm.q5});
-        this.setState({q6: apiData.data.getForm.q6});
-        this.setState({q7: apiData.data.getForm.q7});
-        this.setState({q8: apiData.data.getForm.q8});
-        this.setState({q9: apiData.data.getForm.q9});
-        this.setState({q10: apiData.data.getForm.q10});
+        const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.state.code }});
+        if (apiData.data.getForm == null){
+          (() => {this.handleError();})();
+        }
+        else{
+          this.setState({q1: apiData.data.getForm.q1});
+          this.setState({q2: apiData.data.getForm.q2});
+          this.setState({q3: apiData.data.getForm.q3});
+          this.setState({q4: apiData.data.getForm.q4});
+          this.setState({q5: apiData.data.getForm.q5});
+          this.setState({q6: apiData.data.getForm.q6});
+          this.setState({q7: apiData.data.getForm.q7});
+          this.setState({q8: apiData.data.getForm.q8});
+          this.setState({q9: apiData.data.getForm.q9});
+          this.setState({q10: apiData.data.getForm.q10});
+        }
     }
 
     handleInput(e) {
@@ -83,14 +90,18 @@ class MainPage extends Component {
     handleFormSubmit(e) {
       e.preventDefault();
       this.setState({redirect: true});
-    }   
+    }
+    
+    handleError() {
+      <LandPage message= "The code did not match! Try another one :)" />
+    }
 
 
     render() {
       (async () => { await this.findForm();})();
       if (this.state.redirect){
         console.log("call thank you page");
-        return <LandPage/>
+        return <ThankPage/>
       }
       return (
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
