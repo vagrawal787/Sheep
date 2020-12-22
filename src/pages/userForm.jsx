@@ -43,6 +43,7 @@ class MainPage extends Component {
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
+        this.handleError = this.handleError.bind(this);
     }
 
     async findForm() {
