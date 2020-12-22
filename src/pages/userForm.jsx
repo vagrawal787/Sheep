@@ -68,16 +68,16 @@ class MainPage extends Component {
         //   (() => {this.handleError();})();
         // }
         // else{
-          this.setState({q1: apiData.data.getForm.q1},
-            {q2: apiData.data.getForm.q2},
-            {q3: apiData.data.getForm.q3},
-            {q4: apiData.data.getForm.q4},
-            {q5: apiData.data.getForm.q5},
-            {q6: apiData.data.getForm.q6},
-            {q7: apiData.data.getForm.q7},
-            {q8: apiData.data.getForm.q8},
-            {q9: apiData.data.getForm.q9},
-            {q10: apiData.data.getForm.q10});
+          this.setState({q1: apiData.data.getForm.q1,
+            q2: apiData.data.getForm.q2,
+            q3: apiData.data.getForm.q3,
+            q4: apiData.data.getForm.q4,
+            q5: apiData.data.getForm.q5,
+            q6: apiData.data.getForm.q6,
+            q7: apiData.data.getForm.q7,
+            q8: apiData.data.getForm.q8,
+            q9: apiData.data.getForm.q9,
+            q10: apiData.data.getForm.q10});
           this.state.call = true;
         // }
         }
