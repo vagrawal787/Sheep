@@ -26,7 +26,7 @@ class LandingFormContainer extends Component {
   
   handleInput(e) {
        let value = e.target.value;
-       this.setState({code: parseInt(value)});
+       this.setState({code: value});
   }
 
   handleFormSubmit(e) {
@@ -37,6 +37,7 @@ class LandingFormContainer extends Component {
   render() {
     if (this.state.redirect){
         console.log("call mainpage");
+        console.log(this.state.code)
         return <MainPage code={this.state.code} error={false}/>
     }
     return (

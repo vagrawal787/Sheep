@@ -46,7 +46,6 @@ class MainPage extends Component {
         this.handleInput = this.handleInput.bind(this);
         this.handleError = this.handleError.bind(this);
         
-        
     }
 
     async findForm() {
@@ -63,7 +62,7 @@ class MainPage extends Component {
               apiKey: awsconfig.aws_appsync_apiKey,
             },
           });
-          const apiData = await client.query({query: gql(queries.getForm), variables: { id: [this.state.code]}});
+          const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.state.code}});
         // if (apiData.data.getForm.id != this.state.code){
         //   (() => {this.handleError();})();
         // }
