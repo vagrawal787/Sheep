@@ -40,32 +40,30 @@ class MainPage extends Component {
             r10:'',
             redirect: false,
             error: false,
+            call : false,
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.handleError = this.handleError.bind(this);
         
+        
     }
 
     async findForm() {
       console.log("hi");
-      const normalizeData = repos => repos.map(repo => ({
-        q1: repo.html_url,
-        name: repo.name,
-        owner: repo.owner.login,
-        description: repo.description,
-        stars: repo.stargazers_count
-      }));
-      const client = new AWSAppSyncClient({
-        url: awsconfig.aws_appsync_graphqlEndpoint,
-        region: awsconfig.aws_appsync_region,
-        auth: {
-          type: AUTH_TYPE.API_KEY,
-          apiKey: awsconfig.aws_appsync_apiKey,
-        },
-      });
+      
         console.log("hello");
-        const apiData = await client.query({query: gql(queries.getForm), variables: { id: 456}});
+        if (!this.state.call){
+          const client = new AWSAppSyncClient({
+            url: awsconfig.aws_appsync_graphqlEndpoint,
+            region: awsconfig.aws_appsync_region,
+            disableOffline: true,
+            auth: {
+              type: AUTH_TYPE.API_KEY,
+              apiKey: awsconfig.aws_appsync_apiKey,
+            },
+          });
+          const apiData = await client.query({query: gql(queries.getForm), variables: { id: 456}});
         // if (apiData.data.getForm.id != this.state.code){
         //   (() => {this.handleError();})();
         // }
@@ -80,7 +78,9 @@ class MainPage extends Component {
             {q8: apiData.data.getForm.q8},
             {q9: apiData.data.getForm.q9},
             {q10: apiData.data.getForm.q10});
+          this.state.call = true;
         // }
+        }
     }
 
     handleInput(e) {
