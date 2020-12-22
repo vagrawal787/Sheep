@@ -65,7 +65,7 @@ class MainPage extends Component {
         },
       });
         console.log("hello");
-        const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.state.code }});
+        const apiData = await client.query({query: gql(queries.getForm), variables: { id: [this.state.code] }});
         if (apiData.data.getForm == null){
           (() => {this.handleError();})();
         }
@@ -107,7 +107,7 @@ class MainPage extends Component {
       }
       if (this.state.error){
         console.log("recall landing page");
-        return <LandPage message = "Oops... the code you entered isn't valid. Try another one :)"/>
+        return <LandPage message="Oops... the code you entered isn't valid. Try another one :)"/>
       }
       return (
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
