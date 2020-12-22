@@ -51,7 +51,6 @@ class MainPage extends Component {
       console.log("hi");
       
       console.log(this.props.code);
-      if (!this.state.call){
           const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
@@ -62,7 +61,7 @@ class MainPage extends Component {
             },
           });
           const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.props.code}});
-        if (apiData.data.getForm == null){
+        if (apiData.data.getForm.q1 == null){
           (() => {this.handleError();})();
         }
         else{
@@ -78,7 +77,6 @@ class MainPage extends Component {
             q10: apiData.data.getForm.q10});
           this.state.call = true;
          }
-      }
     }
 
     handleInput(e) {
@@ -99,7 +97,9 @@ class MainPage extends Component {
 
 
     render() {
-      (async () => { await this.findForm();})();
+      if (!this.state.call){
+        (async () => { await this.findForm();})();
+      }
       if (this.state.redirect){
         console.log("call thank you page");
         return <ThankPage/>

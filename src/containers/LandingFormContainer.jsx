@@ -51,7 +51,7 @@ class LandingFormContainer extends Component {
                    placeholder = {'Enter your code'}
                    handleChange = {this.handleInput}
                    
-            /> {/* Name of the user */}
+            /> {/* Code */}
 
           <Button 
               action = {this.handleFormSubmit}
