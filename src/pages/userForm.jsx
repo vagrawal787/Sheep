@@ -38,7 +38,7 @@ class MainPage extends Component {
             r9:'',
             r10:'',
             redirect: false,
-            error: false,
+            error: this.props.error,
             call : false,
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -62,10 +62,10 @@ class MainPage extends Component {
             },
           });
           const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.props.code}});
-        // if (apiData.data.getForm.id != this.state.code){
-        //   (() => {this.handleError();})();
-        // }
-        // else{
+        if (apiData.data.getForm == null){
+          (() => {this.handleError();})();
+        }
+        else{
           this.setState({q1: apiData.data.getForm.q1,
             q2: apiData.data.getForm.q2,
             q3: apiData.data.getForm.q3,
@@ -76,8 +76,8 @@ class MainPage extends Component {
             q8: apiData.data.getForm.q8,
             q9: apiData.data.getForm.q9,
             q10: apiData.data.getForm.q10});
-          this.state.call = true;
-        // }
+            this.state.call = true;
+         }
         }
     }
 
@@ -104,10 +104,10 @@ class MainPage extends Component {
         console.log("call thank you page");
         return <ThankPage/>
       }
-      // if (this.state.error){
-      //   console.log("recall landing page");
-      //   return <LandPage message={"Oops... the code you entered isn't valid. Try another one :)"}/>
-      // }
+      if (this.state.error){
+        console.log("recall landing page");
+        return <LandPage message={"Oops... the code you entered isn't valid. Try another one :)"}/>
+      }
       return (
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
 
