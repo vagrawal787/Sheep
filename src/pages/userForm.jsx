@@ -36,7 +36,7 @@ class MainPage extends Component {
         },
       });
         console.log("hello");
-        const apiData = await client.query({query: gql(queries.getForm), variables: { id: 123 }});
+        const apiData = await client.query({query: gql(queries.getForm), variables: { id: 456 }});
         this.state.questions.q1 = apiData.data.getForm.q1;
         //this.setState({string: apiData.data.getForm});
     }
