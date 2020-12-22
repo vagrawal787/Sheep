@@ -5,7 +5,16 @@ export const onCreateForm = /* GraphQL */ `
   subscription OnCreateForm {
     onCreateForm {
       id
-      name
+      q1
+      q2
+      q3
+      q4
+      q5
+      q6
+      q7
+      q8
+      q9
+      q10
       createdAt
       updatedAt
     }
@@ -15,7 +24,16 @@ export const onUpdateForm = /* GraphQL */ `
   subscription OnUpdateForm {
     onUpdateForm {
       id
-      name
+      q1
+      q2
+      q3
+      q4
+      q5
+      q6
+      q7
+      q8
+      q9
+      q10
       createdAt
       updatedAt
     }
@@ -25,7 +43,16 @@ export const onDeleteForm = /* GraphQL */ `
   subscription OnDeleteForm {
     onDeleteForm {
       id
-      name
+      q1
+      q2
+      q3
+      q4
+      q5
+      q6
+      q7
+      q8
+      q9
+      q10
       createdAt
       updatedAt
     }

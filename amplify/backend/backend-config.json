@@ -17,12 +17,5 @@
       }
     }
   },
-  "auth": {
-    "sheepd982400e": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
-    }
-  }
+  "auth": {}
 }

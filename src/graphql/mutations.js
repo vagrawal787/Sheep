@@ -8,7 +8,16 @@ export const createForm = /* GraphQL */ `
   ) {
     createForm(input: $input, condition: $condition) {
       id
-      name
+      q1
+      q2
+      q3
+      q4
+      q5
+      q6
+      q7
+      q8
+      q9
+      q10
       createdAt
       updatedAt
     }
@@ -21,7 +30,16 @@ export const updateForm = /* GraphQL */ `
   ) {
     updateForm(input: $input, condition: $condition) {
       id
-      name
+      q1
+      q2
+      q3
+      q4
+      q5
+      q6
+      q7
+      q8
+      q9
+      q10
       createdAt
       updatedAt
     }
@@ -34,7 +52,16 @@ export const deleteForm = /* GraphQL */ `
   ) {
     deleteForm(input: $input, condition: $condition) {
       id
-      name
+      q1
+      q2
+      q3
+      q4
+      q5
+      q6
+      q7
+      q8
+      q9
+      q10
       createdAt
       updatedAt
     }

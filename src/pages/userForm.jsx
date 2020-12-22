@@ -8,7 +8,6 @@ import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
 import gql from 'graphql-tag';
 
-import { withAuthenticator } from '@aws-amplify/ui-react'
 import * as queries from '../graphql/queries';
 
 class MainPage extends Component { 

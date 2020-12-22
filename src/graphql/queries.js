@@ -5,7 +5,16 @@ export const getForm = /* GraphQL */ `
   query GetForm($id: ID!) {
     getForm(id: $id) {
       id
-      name
+      q1
+      q2
+      q3
+      q4
+      q5
+      q6
+      q7
+      q8
+      q9
+      q10
       createdAt
       updatedAt
     }
@@ -20,7 +29,16 @@ export const listForms = /* GraphQL */ `
     listForms(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
+        q1
+        q2
+        q3
+        q4
+        q5
+        q6
+        q7
+        q8
+        q9
+        q10
         createdAt
         updatedAt
       }
