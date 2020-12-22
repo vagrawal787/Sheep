@@ -6,6 +6,7 @@ import formId from "../pages/landingForm.jsx";
 import {API} from 'aws-amplify';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
+import gql from 'graphql-tag';
 
 import { withAuthenticator } from '@aws-amplify/ui-react'
 import * as queries from '../graphql/queries';
@@ -29,7 +30,7 @@ class MainPage extends Component {
         },
       });
         console.log("hello");
-        const apiData = await client.query({query: queries.getForm, variables: { id: 123 }});
+        const apiData = await client.query({query: gql(queries.getForm), variables: { id: 123 }});
         this.setState({string: apiData.data.getForm.name});
     }
 
