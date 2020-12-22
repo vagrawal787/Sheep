@@ -26,13 +26,11 @@ class LandingFormContainer extends Component {
   
   handleInput(e) {
        let value = e.target.value;
-       let name = e.target.name;
-       this.setState({code: value});
+       this.setState({code: parseInt(value)});
   }
 
   handleFormSubmit(e) {
     e.preventDefault();
-    let userData = this.state;
     this.setState({redirect: true});
   }   
 
@@ -44,7 +42,7 @@ class LandingFormContainer extends Component {
     return (
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
        
-            <Input inputType={'text'}
+            <Input inputType={'number'}
                    title= {'Code:'} 
                    name= {'code'}
                    value={this.state.code} 

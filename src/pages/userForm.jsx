@@ -17,7 +17,7 @@ class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            code: 0,
+            code: '',
             q1:'',
             q2:'',
             q3:'',
@@ -40,7 +40,6 @@ class MainPage extends Component {
             r10:'',
             redirect: false,
             error: false,
-
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
@@ -65,8 +64,8 @@ class MainPage extends Component {
         },
       });
         console.log("hello");
-        const apiData = await client.query({query: gql(queries.getForm), variables: { id: [this.state.code] }});
-        if (apiData.data.getForm == null){
+        const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.state.code}});
+        if (apiData.data.getForm.ID != this.state.code){
           (() => {this.handleError();})();
         }
         else{
@@ -107,7 +106,7 @@ class MainPage extends Component {
       }
       if (this.state.error){
         console.log("recall landing page");
-        return <LandPage message="Oops... the code you entered isn't valid. Try another one :)"/>
+        return <LandPage message={"Oops... the code you entered isn't valid. Try another one :)"}/>
       }
       return (
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
