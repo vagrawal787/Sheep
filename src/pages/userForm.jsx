@@ -44,6 +44,14 @@ class MainPage extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.handleError = this.handleError.bind(this);
+        const client = new AWSAppSyncClient({
+          url: awsconfig.aws_appsync_graphqlEndpoint,
+          region: awsconfig.aws_appsync_region,
+          auth: {
+            type: AUTH_TYPE.API_KEY,
+            apiKey: awsconfig.aws_appsync_apiKey,
+          },
+        });
     }
 
     async findForm() {
@@ -55,17 +63,9 @@ class MainPage extends Component {
         description: repo.description,
         stars: repo.stargazers_count
       }));
-      const client = new AWSAppSyncClient({
-        url: awsconfig.aws_appsync_graphqlEndpoint,
-        region: awsconfig.aws_appsync_region,
-        auth: {
-          type: AUTH_TYPE.API_KEY,
-          apiKey: awsconfig.aws_appsync_apiKey,
-        },
-      });
         console.log("hello");
-        const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.state.code}});
-        if (apiData.data.getForm.ID != this.state.code){
+        const apiData = await client.query({query: gql(queries.getForm), variables: { id: 456}});
+        if (apiData.data.getForm.id != this.state.code){
           (() => {this.handleError();})();
         }
         else{
