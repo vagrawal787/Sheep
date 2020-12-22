@@ -15,7 +15,7 @@ class LandingFormContainer extends Component {
 
     this.state = {
         code: '',
-        redirect: false,
+        redirect: this.props.redirect,
 
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -38,6 +38,7 @@ class LandingFormContainer extends Component {
     if (this.state.redirect){
         console.log("call mainpage");
         console.log(this.state.code)
+        this.state.redirect = false;
         return <MainPage code={this.state.code} error={false}/>
     }
     return (

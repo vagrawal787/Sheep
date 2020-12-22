@@ -50,8 +50,8 @@ class MainPage extends Component {
     async findForm() {
       console.log("hi");
       
-        console.log(this.state.code);
-        if (!this.state.call){
+      console.log(this.props.code);
+      if (!this.state.call){
           const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
@@ -76,9 +76,9 @@ class MainPage extends Component {
             q8: apiData.data.getForm.q8,
             q9: apiData.data.getForm.q9,
             q10: apiData.data.getForm.q10});
-            this.state.call = true;
+          this.state.call = true;
          }
-        }
+      }
     }
 
     handleInput(e) {
@@ -106,6 +106,7 @@ class MainPage extends Component {
       }
       if (this.state.error){
         console.log("recall landing page");
+        this.state.error = false;
         return <LandPage message={"Oops... the code you entered isn't valid. Try another one :)"}/>
       }
       return (
