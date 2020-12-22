@@ -63,7 +63,7 @@ class MainPage extends Component {
               apiKey: awsconfig.aws_appsync_apiKey,
             },
           });
-          const apiData = await client.query({query: gql(queries.getForm), variables: { id: 456}});
+          const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.state.code}});
         // if (apiData.data.getForm.id != this.state.code){
         //   (() => {this.handleError();})();
         // }
