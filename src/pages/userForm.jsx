@@ -17,7 +17,6 @@ class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            code: '',
             q1:'',
             q2:'',
             q3:'',
@@ -62,7 +61,7 @@ class MainPage extends Component {
               apiKey: awsconfig.aws_appsync_apiKey,
             },
           });
-          const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.state.code}});
+          const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.props.code}});
         // if (apiData.data.getForm.id != this.state.code){
         //   (() => {this.handleError();})();
         // }
