@@ -69,16 +69,16 @@ class MainPage extends Component {
           (() => {this.handleError();})();
         }
         else{
-          this.setState({q1: apiData.data.getForm.q1});
-          this.setState({q2: apiData.data.getForm.q2});
-          this.setState({q3: apiData.data.getForm.q3});
-          this.setState({q4: apiData.data.getForm.q4});
-          this.setState({q5: apiData.data.getForm.q5});
-          this.setState({q6: apiData.data.getForm.q6});
-          this.setState({q7: apiData.data.getForm.q7});
-          this.setState({q8: apiData.data.getForm.q8});
-          this.setState({q9: apiData.data.getForm.q9});
-          this.setState({q10: apiData.data.getForm.q10});
+          this.setState({q1: apiData.data.getForm.q1},
+            {q2: apiData.data.getForm.q2},
+            {q3: apiData.data.getForm.q3},
+            {q4: apiData.data.getForm.q4},
+            {q5: apiData.data.getForm.q5},
+            {q6: apiData.data.getForm.q6},
+            {q7: apiData.data.getForm.q7},
+            {q8: apiData.data.getForm.q8},
+            {q9: apiData.data.getForm.q9},
+            {q10: apiData.data.getForm.q10});
         }
     }
 
@@ -94,7 +94,8 @@ class MainPage extends Component {
     }
     
     handleError() {
-      this.setState({error: true})
+      console.log('error reached');
+      this.setState({error: true});
     }
 
 

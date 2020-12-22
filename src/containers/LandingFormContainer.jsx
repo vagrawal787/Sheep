@@ -37,7 +37,7 @@ class LandingFormContainer extends Component {
   render() {
     if (this.state.redirect){
         console.log("call mainpage");
-        return <MainPage code={this.state.code}/>
+        return <MainPage code={this.state.code} error={false}/>
     }
     return (
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
