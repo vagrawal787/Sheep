@@ -38,7 +38,7 @@ class MainPage extends Component {
         console.log("hello");
         const apiData = await client.query({query: gql(queries.getForm), variables: { id: 123 }});
         for (var key in apiData){
-          this.state.questions.key = apiData[key];
+          this.state.questions.key = apiData.data.getForm[key];
         }
         //this.setState({string: apiData.data.getForm});
     }
