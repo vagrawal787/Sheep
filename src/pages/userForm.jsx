@@ -106,7 +106,7 @@ class MainPage extends Component {
       }
       if (this.state.error){
         console.log("recall landing page");
-        return <LandPage message={"Oops... the code you entered isn't valid. Try another one :)"}/>
+        return <LandPage message={"Oops... the code you entered isn't valid. Try another one :)"} redirect= {false}/>
       }
       return (
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
