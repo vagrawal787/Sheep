@@ -52,7 +52,7 @@ class MainPage extends Component {
     async findForm() {
       console.log("hi");
       
-        console.log("hello");
+        console.log(this.state.code);
         if (!this.state.call){
           const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
@@ -63,7 +63,7 @@ class MainPage extends Component {
               apiKey: awsconfig.aws_appsync_apiKey,
             },
           });
-          const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.state.code}});
+          const apiData = await client.query({query: gql(queries.getForm), variables: { id: [this.state.code]}});
         // if (apiData.data.getForm.id != this.state.code){
         //   (() => {this.handleError();})();
         // }
