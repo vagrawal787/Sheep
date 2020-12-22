@@ -12,7 +12,7 @@ class LandPage extends Component {
   render() {
     return (
         <div>
-          <LandingFormContainer redirect = {false}/>  
+          <LandingFormContainer redirect={false}/>  
           <p> {this.state.message} </p>
         </div>
     );
