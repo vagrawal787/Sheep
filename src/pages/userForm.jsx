@@ -14,12 +14,19 @@ class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            string: '',
+            questions: {q1:'', q2:'', q3:'', q4: '', q5:'', q6:'', q7:'', q8:'', q9:'', q10:''},
         }
     }
 
     async findForm() {
       console.log("hi");
+      const normalizeData = repos => repos.map(repo => ({
+        q1: repo.html_url,
+        name: repo.name,
+        owner: repo.owner.login,
+        description: repo.description,
+        stars: repo.stargazers_count
+      }));
       const client = new AWSAppSyncClient({
         url: awsconfig.aws_appsync_graphqlEndpoint,
         region: awsconfig.aws_appsync_region,
@@ -30,7 +37,10 @@ class MainPage extends Component {
       });
         console.log("hello");
         const apiData = await client.query({query: gql(queries.getForm), variables: { id: 123 }});
-        this.setState({string: apiData.data.getForm.name});
+        for (var key in apiData){
+          this.state.questions.key = apiData[key];
+        }
+        //this.setState({string: apiData.data.getForm});
     }
 
 
@@ -38,7 +48,7 @@ class MainPage extends Component {
       (async () => { await this.findForm();})();
       return (
         <div>
-          {this.state.string}
+          {this.state.questions.q1}
         </div>
       );
     }
