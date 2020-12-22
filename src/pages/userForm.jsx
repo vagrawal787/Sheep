@@ -38,7 +38,7 @@ class MainPage extends Component {
             r9:'',
             r10:'',
             redirect: false,
-            error: this.props.error,
+            error: false,
             call : false,
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);

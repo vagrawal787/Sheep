@@ -15,7 +15,7 @@ class LandingFormContainer extends Component {
 
     this.state = {
         code: '',
-        redirect: this.props.redirect,
+        redirect: false,
 
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
