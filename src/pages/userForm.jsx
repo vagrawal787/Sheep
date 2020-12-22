@@ -39,6 +39,7 @@ class MainPage extends Component {
             r9:'',
             r10:'',
             redirect: false,
+            error: false,
 
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -94,7 +95,7 @@ class MainPage extends Component {
     }
     
     handleError() {
-      <LandPage message= "The code did not match! Try another one :)" />
+      this.setState({error: true})
     }
 
 
@@ -103,6 +104,10 @@ class MainPage extends Component {
       if (this.state.redirect){
         console.log("call thank you page");
         return <ThankPage/>
+      }
+      if (this.state.error){
+        console.log("recall landing page");
+        return <LandPage message = "Oops... the code you entered isn't valid. Try another one :)"/>
       }
       return (
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
