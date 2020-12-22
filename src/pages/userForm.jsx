@@ -44,7 +44,7 @@ class MainPage extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.handleError = this.handleError.bind(this);
-        const client = new AWSAppSyncClient({
+        this.client = new AWSAppSyncClient({
           url: awsconfig.aws_appsync_graphqlEndpoint,
           region: awsconfig.aws_appsync_region,
           auth: {
@@ -64,7 +64,7 @@ class MainPage extends Component {
         stars: repo.stargazers_count
       }));
         console.log("hello");
-        const apiData = await client.query({query: gql(queries.getForm), variables: { id: 456}});
+        const apiData = await this.client.query({query: gql(queries.getForm), variables: { id: 456}});
         if (apiData.data.getForm.id != this.state.code){
           (() => {this.handleError();})();
         }
