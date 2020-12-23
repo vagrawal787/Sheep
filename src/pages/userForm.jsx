@@ -118,7 +118,7 @@ class MainPage extends Component {
         apiKey: awsconfig.aws_appsync_apiKey,
       },
     });
-    const newResponse = await client.query({mutation: gql(mutations.createResponse), variables: {input: createRes}});
+    const newResponse = await client.mutate({mutation: gql(mutations.createResponse), variables: {input: createRes}});
     this.setState({ redirect: true });
   }
 
