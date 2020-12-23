@@ -64,6 +64,8 @@ export const onCreateResponse = /* GraphQL */ `
       id
       fname
       lname
+      form_id
+      email
       r1
       r2
       r3
@@ -85,6 +87,8 @@ export const onUpdateResponse = /* GraphQL */ `
       id
       fname
       lname
+      form_id
+      email
       r1
       r2
       r3
@@ -106,6 +110,8 @@ export const onDeleteResponse = /* GraphQL */ `
       id
       fname
       lname
+      form_id
+      email
       r1
       r2
       r3

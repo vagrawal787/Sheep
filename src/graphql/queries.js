@@ -52,6 +52,8 @@ export const getResponse = /* GraphQL */ `
       id
       fname
       lname
+      form_id
+      email
       r1
       r2
       r3
@@ -78,6 +80,8 @@ export const listResponses = /* GraphQL */ `
         id
         fname
         lname
+        form_id
+        email
         r1
         r2
         r3

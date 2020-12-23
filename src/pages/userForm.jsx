@@ -20,6 +20,7 @@ class MainPage extends Component {
     this.state = {
       fname: '',
       lname: '',
+      email: '',
       q1: '',
       q2: '',
       q3: '',
@@ -95,9 +96,10 @@ class MainPage extends Component {
   async handleFormSubmit(e) {
     e.preventDefault();
     const createRes = {
-      id: this.props.code,
+      form_id: this.props.code,
       fname: this.state.fname,
       lname: this.state.lname,
+      email: this.state.email,
       r1: this.state.r1,
       r2: this.state.r2,
       r3: this.state.r3,
@@ -137,6 +139,7 @@ class MainPage extends Component {
     }
     if (this.state.redirect) {
       console.log("call thank you page");
+      this.state.redirect = false;
       return <ThankPage />
     }
     if (this.state.error) {
@@ -166,6 +169,15 @@ class MainPage extends Component {
 
         /> {/* Last name */}
         
+        <Input inputType={'text'}
+          title={'Email:'}
+          name={'email'}
+          value={this.state.email}
+          placeholder={'Email'}
+          handleChange={this.handleInput}
+
+        /> {/* email */}
+
         <p>{this.state.q1}</p>
 
         <Input inputType={'text'}
