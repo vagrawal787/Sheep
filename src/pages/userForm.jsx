@@ -44,7 +44,7 @@ class MainPage extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.handleError = this.handleError.bind(this);
-        
+        this.setMessage = this.setMessage.bind(this);
     }
 
     async findForm() {
@@ -95,6 +95,9 @@ class MainPage extends Component {
       console.log('error reached');
       this.setState({error: true});
     }
+    setMessage(){
+      this.props.message = '';
+    }
 
 
     render() {
@@ -110,9 +113,8 @@ class MainPage extends Component {
         this.state.error = false;
         return <LandPage message={"Oops... the code you entered isn't valid. Try another one :)"}/>
       }
+      (() => {this.setMessage();})();
       return (
-        <div>
-        {this.props.message} = {''};
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
             <p>{this.state.q1}</p>
        
@@ -225,7 +227,6 @@ class MainPage extends Component {
           
           
         </form>
-        </div>
       );
     }
   }
