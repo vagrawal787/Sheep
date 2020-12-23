@@ -61,7 +61,8 @@ class MainPage extends Component {
             },
           });
           const apiData = await client.query({query: gql(queries.getForm), variables: { id: this.props.code}});
-        if (apiData.data.getForm.q1 == null){
+        if (apiData.data.getForm == null){
+          this.state.call = true;
           (() => {this.handleError();})();
         }
         else{
