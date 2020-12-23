@@ -58,3 +58,66 @@ export const onDeleteForm = /* GraphQL */ `
     }
   }
 `;
+export const onCreateResponse = /* GraphQL */ `
+  subscription OnCreateResponse {
+    onCreateResponse {
+      id
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateResponse = /* GraphQL */ `
+  subscription OnUpdateResponse {
+    onUpdateResponse {
+      id
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteResponse = /* GraphQL */ `
+  subscription OnDeleteResponse {
+    onDeleteResponse {
+      id
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;

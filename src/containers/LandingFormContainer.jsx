@@ -42,6 +42,7 @@ class LandingFormContainer extends Component {
         return <MainPage code={this.state.code} error={false}/>
     }
     return (
+        <div>
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
        
             <Input inputType={'number'}
@@ -61,6 +62,9 @@ class LandingFormContainer extends Component {
           
           
         </form>
+        <p> {this.state.message} </p>
+        </div>
+
   
     );
   }

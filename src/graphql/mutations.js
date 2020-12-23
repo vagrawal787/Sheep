@@ -67,3 +67,75 @@ export const deleteForm = /* GraphQL */ `
     }
   }
 `;
+export const createResponse = /* GraphQL */ `
+  mutation CreateResponse(
+    $input: CreateResponseInput!
+    $condition: ModelResponseConditionInput
+  ) {
+    createResponse(input: $input, condition: $condition) {
+      id
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateResponse = /* GraphQL */ `
+  mutation UpdateResponse(
+    $input: UpdateResponseInput!
+    $condition: ModelResponseConditionInput
+  ) {
+    updateResponse(input: $input, condition: $condition) {
+      id
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteResponse = /* GraphQL */ `
+  mutation DeleteResponse(
+    $input: DeleteResponseInput!
+    $condition: ModelResponseConditionInput
+  ) {
+    deleteResponse(input: $input, condition: $condition) {
+      id
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;

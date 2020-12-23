@@ -46,3 +46,52 @@ export const listForms = /* GraphQL */ `
     }
   }
 `;
+export const getResponse = /* GraphQL */ `
+  query GetResponse($id: ID!) {
+    getResponse(id: $id) {
+      id
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listResponses = /* GraphQL */ `
+  query ListResponses(
+    $filter: ModelResponseFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listResponses(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        fname
+        lname
+        r1
+        r2
+        r3
+        r4
+        r5
+        r6
+        r7
+        r8
+        r9
+        r10
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
