@@ -14,13 +14,14 @@ class ThankFormCreate extends Component {
 
     handleButtonPress(e) {
         e.preventDefault();
+        console.log("button pressed");
         this.setState({ redirect: true });
     }
 
     render() {
         if (this.state.redirect){
             this.state.redirect = false;
-            <ConsolePage />
+            <ConsolePage refresh={true}/>
         }
         return (
             <div>

@@ -1,18 +1,42 @@
-import React, {Component} from 'react';  
-import LandingFormContainer from '../containers/LandingFormContainer';
+import React, { Component } from 'react';
+import LandPage from '../pages/landingForm';
+import Button from '../components/Button';
 
-class ThankPage extends Component {  
+class ThankPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: false,
+    }
+    this.handleButtonPress = this.handleButtonPress.bind(this);
+  }
+
+
+  handleButtonPress(e) {
+    e.preventDefault();
+    this.setState({ redirect: true });
+  }
 
   render() {
+    if (this.state.redirect){
+      this.state.redirect = false;
+      <LandPage />
+  }
     return (
-        <div>
-            <h1>
-                Thanks for playing!
+      <div>
+        <h1>
+          Thanks for playing!
             </h1>
-            <h3>
-                Be sure to check back at the end of the week for results. 
+        <h3>
+          Be sure to check back at the end of the week for results.
             </h3>
-        </div>
+        <Button
+          action={this.handleButtonPress}
+          type={'primary'}
+          title={'Return to Admin Console'}
+        />
+      </div>
     );
   }
 }

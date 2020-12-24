@@ -142,7 +142,6 @@ class CreatePage extends Component {
 
                 /> {/* Question 5 */}
 
-                <p>{this.state.q6}</p>
                 <Input inputType={'text'}
                     title={'Question 6:'}
                     name={'q6'}

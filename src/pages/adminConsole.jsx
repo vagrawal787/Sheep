@@ -14,10 +14,13 @@ class ConsolePage extends Component {
         this.state = {
             userID: '',
             message: '',
+            call: false,
+            refresh: this.props.refresh,
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
         this.setMessage = this.setMessage.bind(this);
         this.getUserID = this.getUserID.bind(this);
+        this.refreshState = this.refreshState.bind(this);
     }
 
     handleButtonPress(e) {
@@ -33,12 +36,23 @@ class ConsolePage extends Component {
     async getUserID() {
         const user = await Auth.currentUserInfo().username;
         console.log(user);
+        this.state.call = true;
         this.state.userID = user;
     }
+    refreshState(){
+        this.setState({refresh: false});
+    }
     render() {
+        if(this.state.refresh){
+            (() => {this.refreshState();})();
+        }
+        if(!this.state.call){
+            (async () => {this.getUserID();})();
+        }
         if (this.state.redirect) {
             this.state.redirect = false;
-            (async () => {this.getUserID();})();
+            this.state.refresh = false;
+            this.state.call = false;
             return <CreatePage userID={this.state.userID}/>
         }
         (()=>{this.setMessage();})();
