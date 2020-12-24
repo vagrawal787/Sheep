@@ -35,10 +35,10 @@ class ConsolePage extends Component {
     }
 
     async getUserID() {
-        const user = await Auth.currentUserInfo().username;
-        console.log(user);
+        const user = await Auth.currentUserInfo();
+        console.log(user.username);
         this.state.call = true;
-        this.state.userID = user;
+        this.setState({userID: user.username});
     }
     refreshState(){
         this.setState({refresh: false});
