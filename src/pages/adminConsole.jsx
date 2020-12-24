@@ -16,6 +16,7 @@ class ConsolePage extends Component {
             message: '',
             call: false,
             refresh: this.props.refresh,
+            redirect: false,
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
         this.setMessage = this.setMessage.bind(this);
