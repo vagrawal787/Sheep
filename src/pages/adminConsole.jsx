@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import Button from '../components/Button';
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from '../aws-exports';
 
 import CreatePage from '../pages/formCreator';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+
 
 class ConsolePage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            userID: '',
+            userID: Auth.currentUserInfo(),
             message: '',
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
@@ -33,6 +37,7 @@ class ConsolePage extends Component {
         (()=>{this.setMessage();})();
         return (
             <div>
+                <AmplifySignOut />
                 <h1> Welcome to Admin Console! </h1>
                 <h3> {mes} </h3>
                 <Button
@@ -45,4 +50,4 @@ class ConsolePage extends Component {
     }
 }
 
-export default ConsolePage;
+export default withAuthenticator(ConsolePage);

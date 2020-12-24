@@ -10,6 +10,10 @@ import LandPage from "./pages/landingForm.jsx";
 import NotFoundPage from "./pages/404.jsx";
 import MainPage from "./pages/userForm.jsx";
 
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
 const formReducer = (state, event) => {
   return {
     ...state,

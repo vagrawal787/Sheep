@@ -22,6 +22,7 @@ class LandingFormContainer extends Component {
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleAdminButton = this.handleAdminButton.bind(this);
   }
 
   /* This lifecycle hook gets executed when the component mounts */
