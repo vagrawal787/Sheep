@@ -8,8 +8,8 @@ class ConsolePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: Auth.currentUserInfo(),
-            message: this.props.message,
+            userID: '',
+            message: '',
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
         this.setMessage = this.setMessage.bind(this);

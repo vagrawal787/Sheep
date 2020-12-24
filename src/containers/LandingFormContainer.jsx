@@ -8,6 +8,7 @@ import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-rout
 import {useHistory} from 'react-router-dom';
 
 import MainPage from "../pages/userForm.jsx";
+import ConsolePage from '../pages/adminConsole';
 
 class LandingFormContainer extends Component {  
   constructor(props) {
@@ -15,7 +16,8 @@ class LandingFormContainer extends Component {
 
     this.state = {
         code: '',
-        redirect: false,
+        redirectSubmit: false,
+        redirectAdmin: false,
 
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -31,16 +33,25 @@ class LandingFormContainer extends Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    this.setState({redirect: true});
+    this.setState({redirectSubmit: true});
+  }   
+  handleAdminButton(e) {
+    e.preventDefault();
+    this.setState({redirectAdmin: true});
   }   
 
   render() {
-    if (this.state.redirect){
+    if (this.state.redirectSubmit){
         console.log("call mainpage");
         console.log(this.state.code)
-        this.state.redirect = false;
+        this.state.redirectSubmit = false;
         return <MainPage code={this.state.code} error={false}/>
     }
+    if (this.state.redirectAdmin){
+      console.log("call admin");
+      this.state.redirectAdmin = false;
+      return <ConsolePage/>
+  }
     return (
         <div>
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
@@ -62,6 +73,12 @@ class LandingFormContainer extends Component {
           
           
         </form>
+        <Button 
+              action = {this.handleAdminButton}
+              type = {'primary'} 
+              title = {'Go To Admin'} 
+          /> { /* Admin */ }
+
         <p> {this.state.message} </p>
         </div>
 
