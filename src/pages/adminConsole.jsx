@@ -12,7 +12,7 @@ class ConsolePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: Auth.currentUserInfo().attributes.sub,
+            userID: '',
             message: '',
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
@@ -32,6 +32,7 @@ class ConsolePage extends Component {
     render() {
         if (this.state.redirect) {
             this.state.redirect = false;
+            this.state.userID = Auth.currentUserInfo().attributes.sub;
             return <CreatePage userID={this.state.userID}/>
         }
         const mes = this.state.message;
