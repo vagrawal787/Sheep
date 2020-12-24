@@ -31,7 +31,8 @@ class ConsolePage extends Component {
     }
 
     async getUserID() {
-        const user = await Auth.currentUserInfo().attributes.email;
+        const user = await Auth.currentUserInfo().username;
+        console.log(user);
         this.state.userID = user;
     }
     render() {
