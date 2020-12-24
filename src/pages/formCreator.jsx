@@ -29,6 +29,8 @@ class CreatePage extends Component {
             q10: '',
             redirect: false,
         }
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleInput = this.handleInput.bind(this);
     }
 
     handleInput(e) {

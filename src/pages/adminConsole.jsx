@@ -24,6 +24,7 @@ class ConsolePage extends Component {
         this.setState({ redirect: true });
     }
 
+
     setMessage() {
         this.state.message = '';
     }
@@ -43,7 +44,7 @@ class ConsolePage extends Component {
                 <Button
                     action={this.handleButtonPress}
                     type={'primary'}
-                    title={'Submit'}
+                    title={'Create Game'}
                 />
             </div>
         );
