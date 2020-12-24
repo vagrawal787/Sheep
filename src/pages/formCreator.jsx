@@ -8,14 +8,14 @@ import gql from 'graphql-tag';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-import ConsolePage from '../pages/adminConsole';
+import ThankFormCreate from '../pages/thankYouForm';
 
 class CreatePage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            userID: '',
+            userID: this.props.userID,
             id: '',
             q1: '',
             q2: '',
@@ -43,6 +43,7 @@ class CreatePage extends Component {
         e.preventDefault();
         const createF = {
             id: this.state.id,
+            userID: this.state.userID,
             q1: this.state.q1,
             q2: this.state.q2,
             q3: this.state.q3,
@@ -70,7 +71,7 @@ class CreatePage extends Component {
     render() {
         if (this.state.redirect) {
             this.state.redirect = false;
-            return <ConsolePage message={'form created'}/>
+            return <ThankFormCreate code={this.state.id}/>
         }
         return (
             <div>
@@ -96,8 +97,6 @@ class CreatePage extends Component {
 
                 /> {/* id */}
 
-                <p>{this.state.q1}</p>
-
                 <Input inputType={'text'}
                     title={'Question 1:'}
                     name={'q1'}
@@ -106,8 +105,6 @@ class CreatePage extends Component {
                     handleChange={this.handleInput}
 
                 /> {/* Question 1 */}
-
-                <p>{this.state.q2}</p>
 
                 <Input inputType={'text'}
                     title={'Question 2:'}
@@ -118,7 +115,6 @@ class CreatePage extends Component {
 
                 /> {/* Question 2 */}
 
-                <p>{this.state.q3}</p>
                 <Input inputType={'text'}
                     title={'Question 3:'}
                     name={'q3'}
@@ -128,7 +124,6 @@ class CreatePage extends Component {
 
                 /> {/* Question 3 */}
 
-                <p>{this.state.q4}</p>
                 <Input inputType={'text'}
                     title={'Question 4:'}
                     name={'q4'}
@@ -138,8 +133,6 @@ class CreatePage extends Component {
 
                 /> {/* Question 4 */}
 
-
-                <p>{this.state.q5}</p>
                 <Input inputType={'text'}
                     title={'Question 5:'}
                     name={'q5'}
@@ -159,7 +152,6 @@ class CreatePage extends Component {
 
                 /> {/* Question 6 */}
 
-                <p>{this.state.q7}</p>
                 <Input inputType={'text'}
                     title={'Question 7:'}
                     name={'q7'}
@@ -169,7 +161,6 @@ class CreatePage extends Component {
 
                 /> {/* Question 7 */}
 
-                <p>{this.state.q8}</p>
                 <Input inputType={'text'}
                     title={'Question 8:'}
                     name={'q8'}
@@ -179,7 +170,6 @@ class CreatePage extends Component {
 
                 /> {/* Question 8 */}
 
-                <p>{this.state.q9}</p>
                 <Input inputType={'text'}
                     title={'Question 9:'}
                     name={'q9'}
@@ -189,7 +179,6 @@ class CreatePage extends Component {
 
                 /> {/* Question 9 */}
 
-                <p>{this.state.q10}</p>
                 <Input inputType={'text'}
                     title={'Question 10:'}
                     name={'q10'}
@@ -204,7 +193,6 @@ class CreatePage extends Component {
                     type={'primary'}
                     title={'Submit'}
                 /> { /*Submit */}
-
 
             </form>
             </div>
