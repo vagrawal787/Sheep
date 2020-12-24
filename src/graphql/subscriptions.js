@@ -5,6 +5,7 @@ export const onCreateForm = /* GraphQL */ `
   subscription OnCreateForm {
     onCreateForm {
       id
+      userID
       q1
       q2
       q3
@@ -24,6 +25,7 @@ export const onUpdateForm = /* GraphQL */ `
   subscription OnUpdateForm {
     onUpdateForm {
       id
+      userID
       q1
       q2
       q3
@@ -43,6 +45,7 @@ export const onDeleteForm = /* GraphQL */ `
   subscription OnDeleteForm {
     onDeleteForm {
       id
+      userID
       q1
       q2
       q3

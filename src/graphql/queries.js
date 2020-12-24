@@ -5,6 +5,7 @@ export const getForm = /* GraphQL */ `
   query GetForm($id: ID!) {
     getForm(id: $id) {
       id
+      userID
       q1
       q2
       q3
@@ -29,6 +30,7 @@ export const listForms = /* GraphQL */ `
     listForms(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        userID
         q1
         q2
         q3

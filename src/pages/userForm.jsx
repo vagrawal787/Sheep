@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import LandPage from "../pages/landingForm.jsx";
 import ThankPage from '../pages/thankPage';
 
+
 import { API } from 'aws-amplify';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';

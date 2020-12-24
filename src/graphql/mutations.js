@@ -8,6 +8,7 @@ export const createForm = /* GraphQL */ `
   ) {
     createForm(input: $input, condition: $condition) {
       id
+      userID
       q1
       q2
       q3
@@ -30,6 +31,7 @@ export const updateForm = /* GraphQL */ `
   ) {
     updateForm(input: $input, condition: $condition) {
       id
+      userID
       q1
       q2
       q3
@@ -52,6 +54,7 @@ export const deleteForm = /* GraphQL */ `
   ) {
     deleteForm(input: $input, condition: $condition) {
       id
+      userID
       q1
       q2
       q3
