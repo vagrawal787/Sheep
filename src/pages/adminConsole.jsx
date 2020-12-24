@@ -17,6 +17,7 @@ class ConsolePage extends Component {
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
         this.setMessage = this.setMessage.bind(this);
+        this.getUserID = this.getUserID.bind(this);
     }
 
     handleButtonPress(e) {
@@ -29,19 +30,21 @@ class ConsolePage extends Component {
         this.state.message = '';
     }
 
+    async getUserID() {
+        const user = await Auth.currentUserInfo().attributes.email;
+        this.state.userID = user;
+    }
     render() {
         if (this.state.redirect) {
             this.state.redirect = false;
-            this.state.userID = Auth.currentUserInfo().attributes.sub;
+            (async () => {this.getUserID();})();
             return <CreatePage userID={this.state.userID}/>
         }
-        const mes = this.state.message;
         (()=>{this.setMessage();})();
         return (
             <div>
                 <AmplifySignOut />
                 <h1> Welcome to Admin Console! </h1>
-                <h3> {mes} </h3>
                 <Button
                     action={this.handleButtonPress}
                     type={'primary'}
