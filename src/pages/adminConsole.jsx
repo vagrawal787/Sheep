@@ -48,9 +48,6 @@ class ConsolePage extends Component {
         console.log(user.username);
         this.state.call = true;
         this.setState({userID: user.username});
-    }
-
-    async getApiData() {
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
@@ -70,6 +67,10 @@ class ConsolePage extends Component {
           }
           this.setState({apicall: true});
     }
+
+    // async getApiData() {
+
+    // }
     refreshState(){
         this.setState({refresh: false});
     }
@@ -79,14 +80,16 @@ class ConsolePage extends Component {
         }
         if(!this.state.call){
             (async () => {this.getUserID();})();
+            
         }
-        if (!this.state.apicall){
-            (async () => {this.getApiData();})();
-        }
+        // if (!this.state.apicall){
+        //     (async () => {this.getApiData();})();
+        // }
         if (this.state.redirect) {
             this.state.redirect = false;
             this.state.refresh = false;
             this.state.call = false;
+            this.state.apicall = false;
             return <CreatePage userID={this.state.userID}/>
         }
         (()=>{this.setMessage();})();
