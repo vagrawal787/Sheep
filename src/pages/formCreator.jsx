@@ -43,6 +43,7 @@ class CreatePage extends Component {
         e.preventDefault();
         const createF = {
             id: this.state.id,
+            formUserId: this.state.userID,
             userID: this.state.userID,
             q1: this.state.q1,
             q2: this.state.q2,

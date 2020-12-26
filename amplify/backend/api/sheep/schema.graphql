@@ -1,4 +1,4 @@
-type Form @model {
+type Form @model{
   id: ID!
   userID: ID
   q1: String!
@@ -11,6 +11,7 @@ type Form @model {
   q8: String!
   q9: String!
   q10: String!
+  user: Users @connection(name: "UserFormConnection")
 }
 type Response @model {
   id: ID!
@@ -28,4 +29,8 @@ type Response @model {
   r8: String!
   r9: String!
   r10: String!
+}
+type Users @model {
+  userID: ID!
+  forms: [Form] @connection(name: "UserFormConnection")
 }

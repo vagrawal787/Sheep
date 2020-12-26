@@ -17,6 +17,8 @@ class ConsolePage extends Component {
             call: false,
             refresh: this.props.refresh,
             redirect: false,
+            apicall: false,
+            forms: [],
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
         this.setMessage = this.setMessage.bind(this);
@@ -40,15 +42,38 @@ class ConsolePage extends Component {
         this.state.call = true;
         this.setState({userID: user.username});
     }
+
+    async getApiData() {
+        const client = new AWSAppSyncClient({
+            url: awsconfig.aws_appsync_graphqlEndpoint,
+            region: awsconfig.aws_appsync_region,
+            disableOffline: true,
+            auth: {
+              type: AUTH_TYPE.API_KEY,
+              apiKey: awsconfig.aws_appsync_apiKey,
+            },
+          });
+          const apiData = await client.query({ query: gql(queries.getUsers), variables: { id: this.state.userID, userID: this.state.userID} });
+          if(apiData.getForm == null){
+              const mutData = await client.mutate({mutation: gql(mutations.createUsers), variables: {id: this.state.userID, userID: this.state.userID}});
+          } else {
+              this.state.forms = JSON.parse(apiData.getForm.forms.items)
+              console.log(this.state.forms);
+          }
+          this.setState({apicall: true});
+    }
     refreshState(){
         this.setState({refresh: false});
     }
     render() {
-        if(this.state.refresh){
+        if(this.props.refresh == true){
             (() => {this.refreshState();})();
         }
         if(!this.state.call){
             (async () => {this.getUserID();})();
+        }
+        if (!this.state.apicall){
+            (async () => {this.getApiData();})();
         }
         if (this.state.redirect) {
             this.state.redirect = false;

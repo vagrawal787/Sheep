@@ -16,6 +16,15 @@ export const getForm = /* GraphQL */ `
       q8
       q9
       q10
+      user {
+        id
+        userID
+        forms {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -41,6 +50,12 @@ export const listForms = /* GraphQL */ `
         q8
         q9
         q10
+        user {
+          id
+          userID
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -94,6 +109,55 @@ export const listResponses = /* GraphQL */ `
         r8
         r9
         r10
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getUsers = /* GraphQL */ `
+  query GetUsers($id: ID!) {
+    getUsers(id: $id) {
+      id
+      userID
+      forms {
+        items {
+          id
+          userID
+          q1
+          q2
+          q3
+          q4
+          q5
+          q6
+          q7
+          q8
+          q9
+          q10
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listUserss = /* GraphQL */ `
+  query ListUserss(
+    $filter: ModelUsersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        forms {
+          nextToken
+        }
         createdAt
         updatedAt
       }
