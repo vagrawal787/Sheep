@@ -58,11 +58,11 @@ class ConsolePage extends Component {
             },
           });
           const apiData = await client.query({ query: gql(queries.getUsers), variables: { id: this.state.userID} });
-          if(apiData.getForm == null){
+          if(apiData.data.getForm == null){
               const mutData = await client.mutate({mutation: gql(mutations.createUsers), variables: {input: {id: this.state.userID, userID: this.state.userID}}});
               console.log('normal retrieval')
           } else {
-              this.state.forms = JSON.parse(apiData.getForm.forms.items)
+              this.state.forms = JSON.parse(apiData.data.getForm.forms.items)
               console.log(this.state.forms);
           }
           this.setState({apicall: true});
