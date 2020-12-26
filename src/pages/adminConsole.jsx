@@ -3,8 +3,15 @@ import Button from '../components/Button';
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from '../aws-exports';
 
+import { API } from 'aws-amplify';
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
+import gql from 'graphql-tag';
+
 import CreatePage from '../pages/formCreator';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+
+import * as queries from '../graphql/queries';
+import * as mutations from '../graphql/mutations';
 
 
 class ConsolePage extends Component {
