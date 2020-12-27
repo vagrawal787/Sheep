@@ -22,7 +22,7 @@ class ConsolePage extends Component {
             userID: '',
             message: '',
             call: false,
-            refresh: this.props.refresh,
+            //refresh: this.props.refresh,
             redirect: false,
             apicall: false,
             forms: [],
@@ -66,14 +66,18 @@ class ConsolePage extends Component {
             });
             console.log("api data fetched");
             console.log(apiData);
-        } catch (e){
+        } catch (e) {
             console.log(e);
         }
         if (apiData.data.getForm == null) {
-            const mutData = await client.mutate({
-                mutation: gql(mutations.createUsers),
-                variables: { input: { id: this.state.userID } }
-            });
+            try {
+                const mutData = await client.mutate({
+                    mutation: gql(mutations.createUsers),
+                    variables: { input: { id: this.state.userID } }
+                });
+            } catch (e) {
+                console.log(e);
+            }
             console.log('normal retrieval');
         } //else {
         //     this.state.forms = JSON.parse(apiData.data.getForm.forms.items);
@@ -101,7 +105,7 @@ class ConsolePage extends Component {
         // }
         if (this.state.redirect) {
             this.state.redirect = false;
-            this.state.refresh = false;
+            //this.state.refresh = false;
             this.state.call = false;
             this.state.apicall = false;
             console.log("redirecting from admin");
