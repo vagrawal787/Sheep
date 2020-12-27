@@ -58,15 +58,16 @@ class ConsolePage extends Component {
             },
         });
         console.log("fetching api data");
+        const apiData = '';
         try {
-            const apiData = await client.query({
+            apiData = await client.query({
                 query: gql(queries.getUsers),
                 variables: { id: this.state.userID }
             });
             console.log("api data fetched");
             console.log(apiData);
-        } catch{
-            console.log(error);
+        } catch (e){
+            console.log(e);
         }
         if (apiData.data.getForm == null) {
             const mutData = await client.mutate({
