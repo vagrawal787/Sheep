@@ -47,43 +47,44 @@ class ConsolePage extends Component {
         const user = await Auth.currentUserInfo();
         console.log(user.username);
         this.state.call = true;
-        this.setState({userID: user.username});
+        this.setState({ userID: user.username });
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
             disableOffline: true,
             auth: {
-              type: AUTH_TYPE.API_KEY,
-              apiKey: awsconfig.aws_appsync_apiKey,
+                type: AUTH_TYPE.API_KEY,
+                apiKey: awsconfig.aws_appsync_apiKey,
             },
-          });
-          console.log("fetching api data");
-          const apiData = await client.query({ query: gql(queries.getUsers), variables: { id: this.state.userID} });
-          console.log("api data fetched");
-          console.log(apiData);
-          if(apiData.data.getForm == null){
-              const mutData = await client.mutate({mutation: gql(mutations.createUsers), variables: {input: {id: this.state.userID, userID: this.state.userID}}});
-              console.log('normal retrieval');
-          } else {
-              this.state.forms = JSON.parse(apiData.data.getForm.forms.items)
-              console.log(this.state.forms);
-          }
-          this.setState({apicall: true});
+        });
+        console.log("fetching api data");
+        const apiData = await client.query({ query: gql(queries.getUsers), variables: { id: this.state.userID } });
+        console.log("api data fetched");
+        console.log(apiData);
+        if (apiData.data.getForm == null) {
+            const mutData = await client.mutate({ mutation: gql(mutations.createUsers), 
+                variables: { input: { id: this.state.userID, userID: this.state.userID }}});
+            console.log('normal retrieval');
+        } //else {
+        //     this.state.forms = JSON.parse(apiData.data.getForm.forms.items);
+        //     console.log(this.state.forms);
+        // }
+        this.setState({ apicall: true });
     }
 
     // async getApiData() {
 
     // }
-    refreshState(){
-        this.setState({refresh: false});
+    refreshState() {
+        this.setState({ refresh: false });
     }
     render() {
-        if(this.props.refresh == true){
-            (() => {this.refreshState();})();
+        if (this.props.refresh == true) {
+            (() => { this.refreshState(); })();
         }
-        if(!this.state.call){
-            (async () => {this.getUserID();})();
-            
+        if (!this.state.call) {
+            (async () => { this.getUserID(); })();
+
         }
         // if (!this.state.apicall){
         //     (async () => {this.getApiData();})();
@@ -93,9 +94,9 @@ class ConsolePage extends Component {
             this.state.refresh = false;
             this.state.call = false;
             this.state.apicall = false;
-            return <CreatePage userID={this.state.userID}/>
+            return <CreatePage userID={this.state.userID} />
         }
-        (()=>{this.setMessage();})();
+        (() => { this.setMessage(); })();
         return (
             <div>
                 <AmplifySignOut />
