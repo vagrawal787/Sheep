@@ -83,6 +83,7 @@ class ConsolePage extends Component {
         //     (() => { this.refreshState(); })();
         // }
         if (!this.state.call) {
+            console.log("calling admin api");
             (async () => { this.getUserID(); })();
         }
         // if (!this.state.apicall){
@@ -93,6 +94,7 @@ class ConsolePage extends Component {
             this.state.refresh = false;
             this.state.call = false;
             this.state.apicall = false;
+            console.log("redirecting from admin");
             return <CreatePage userID={this.state.userID} />
         }
         (() => { this.setMessage(); })();
