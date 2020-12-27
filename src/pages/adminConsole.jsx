@@ -101,7 +101,7 @@ class ConsolePage extends Component {
                 action={this.handleButtonPress}
                 type={'primary'}
                 label = {p}
-                title={p}
+                title={"form buttons"}
             />
             arr.push(button);
         }
@@ -136,7 +136,7 @@ class ConsolePage extends Component {
             <div>
                 <AmplifySignOut />
                 <h1> Welcome to Admin Console! </h1>
-                <p> {this.state.buttons}</p>
+                {this.state.buttons}
                 <Button
                     action={this.handleButtonPress}
                     type={'primary'}
