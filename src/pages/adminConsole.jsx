@@ -26,6 +26,7 @@ class ConsolePage extends Component {
             redirect: false,
             apicall: false,
             forms: [],
+            buttons: [],
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
         this.setMessage = this.setMessage.bind(this);
@@ -82,13 +83,27 @@ class ConsolePage extends Component {
         } else {
             var dict = apiData.data.getUsers.forms.items;
             var arr = [];
-            for (var key in dict){
+            for (var key in dict) {
                 arr.push((dict[key]).id);
             }
             this.state.forms = arr;
             console.log(this.state.forms);
         }
         this.setState({ apicall: true });
+    }
+
+    setButtons() {
+        var arr = [];
+        for (var p in this.state.forms) {
+            var button = <Button
+                action={this.handleButtonPress}
+                type={'primary'}
+                label = {p}
+                title={p}
+            />
+            arr.push(button);
+        }
+        this.setState({buttons: arr});
     }
 
     // async getApiData() {
@@ -108,6 +123,7 @@ class ConsolePage extends Component {
         // if (!this.state.apicall){
         //     (async () => {this.getApiData();})();
         // }
+        (() => { this.setButtons(); })();
         if (this.state.redirect) {
             this.state.redirect = false;
             this.state.refresh = false;
@@ -116,12 +132,11 @@ class ConsolePage extends Component {
             console.log("redirecting from admin");
             return <CreatePage userID={this.state.userID} />
         }
-        (() => { this.setMessage(); })();
         return (
             <div>
                 <AmplifySignOut />
                 <h1> Welcome to Admin Console! </h1>
-                <p> {this.state.forms}</p>
+                <p> {this.state.buttons}</p>
                 <Button
                     action={this.handleButtonPress}
                     type={'primary'}
