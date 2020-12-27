@@ -21,7 +21,6 @@ export const createForm = /* GraphQL */ `
       q10
       user {
         id
-        userID
         forms {
           nextToken
         }
@@ -53,7 +52,6 @@ export const updateForm = /* GraphQL */ `
       q10
       user {
         id
-        userID
         forms {
           nextToken
         }
@@ -85,7 +83,6 @@ export const deleteForm = /* GraphQL */ `
       q10
       user {
         id
-        userID
         forms {
           nextToken
         }
@@ -182,7 +179,6 @@ export const createUsers = /* GraphQL */ `
   ) {
     createUsers(input: $input, condition: $condition) {
       id
-      userID
       forms {
         items {
           id
@@ -214,7 +210,6 @@ export const updateUsers = /* GraphQL */ `
   ) {
     updateUsers(input: $input, condition: $condition) {
       id
-      userID
       forms {
         items {
           id
@@ -246,7 +241,6 @@ export const deleteUsers = /* GraphQL */ `
   ) {
     deleteUsers(input: $input, condition: $condition) {
       id
-      userID
       forms {
         items {
           id

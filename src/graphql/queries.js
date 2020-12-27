@@ -18,7 +18,6 @@ export const getForm = /* GraphQL */ `
       q10
       user {
         id
-        userID
         forms {
           nextToken
         }
@@ -52,7 +51,6 @@ export const listForms = /* GraphQL */ `
         q10
         user {
           id
-          userID
           createdAt
           updatedAt
         }
@@ -120,7 +118,6 @@ export const getUsers = /* GraphQL */ `
   query GetUsers($id: ID!) {
     getUsers(id: $id) {
       id
-      userID
       forms {
         items {
           id
@@ -154,7 +151,6 @@ export const listUserss = /* GraphQL */ `
     listUserss(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        userID
         forms {
           nextToken
         }

@@ -63,7 +63,7 @@ class ConsolePage extends Component {
         console.log(apiData);
         if (apiData.data.getForm == null) {
             const mutData = await client.mutate({ mutation: gql(mutations.createUsers), 
-                variables: { input: { id: this.state.userID, userID: this.state.userID }}});
+                variables: { input: { id: this.state.userID}}});
             console.log('normal retrieval');
         } //else {
         //     this.state.forms = JSON.parse(apiData.data.getForm.forms.items);

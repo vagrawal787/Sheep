@@ -31,6 +31,6 @@ type Response @model {
   r10: String!
 }
 type Users @model {
-  userID: ID!
+  id: ID!
   forms: [Form] @connection(name: "UserFormConnection")
 }

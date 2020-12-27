@@ -18,7 +18,6 @@ export const onCreateForm = /* GraphQL */ `
       q10
       user {
         id
-        userID
         forms {
           nextToken
         }
@@ -47,7 +46,6 @@ export const onUpdateForm = /* GraphQL */ `
       q10
       user {
         id
-        userID
         forms {
           nextToken
         }
@@ -76,7 +74,6 @@ export const onDeleteForm = /* GraphQL */ `
       q10
       user {
         id
-        userID
         forms {
           nextToken
         }
@@ -161,7 +158,6 @@ export const onCreateUsers = /* GraphQL */ `
   subscription OnCreateUsers {
     onCreateUsers {
       id
-      userID
       forms {
         items {
           id
@@ -190,7 +186,6 @@ export const onUpdateUsers = /* GraphQL */ `
   subscription OnUpdateUsers {
     onUpdateUsers {
       id
-      userID
       forms {
         items {
           id
@@ -219,7 +214,6 @@ export const onDeleteUsers = /* GraphQL */ `
   subscription OnDeleteUsers {
     onDeleteUsers {
       id
-      userID
       forms {
         items {
           id
