@@ -57,10 +57,12 @@ class ConsolePage extends Component {
               apiKey: awsconfig.aws_appsync_apiKey,
             },
           });
+          console.log("fetching api data");
           const apiData = await client.query({ query: gql(queries.getUsers), variables: { id: this.state.userID} });
+          console.log("api data fetched");
           if(apiData.data.getForm == null){
               const mutData = await client.mutate({mutation: gql(mutations.createUsers), variables: {input: {id: this.state.userID, userID: this.state.userID}}});
-              console.log('normal retrieval')
+              console.log('normal retrieval');
           } else {
               this.state.forms = JSON.parse(apiData.data.getForm.forms.items)
               console.log(this.state.forms);
