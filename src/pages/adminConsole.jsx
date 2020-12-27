@@ -80,7 +80,7 @@ class ConsolePage extends Component {
             }
             console.log('normal retrieval');
         } else {
-            this.state.forms = JSON.parse(apiData.data.getUsers.forms.items);
+            this.state.forms = apiData.data.getUsers.forms.items;
             console.log(this.state.forms);
         }
         this.setState({ apicall: true });
