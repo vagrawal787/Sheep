@@ -69,7 +69,7 @@ class ConsolePage extends Component {
         //     this.state.forms = JSON.parse(apiData.data.getForm.forms.items);
         //     console.log(this.state.forms);
         // }
-        this.setState({ apicall: true });
+        // this.setState({ apicall: true });
     }
 
     // async getApiData() {
@@ -79,12 +79,11 @@ class ConsolePage extends Component {
         this.setState({ refresh: false });
     }
     render() {
-        if (this.props.refresh == true) {
-            (() => { this.refreshState(); })();
-        }
+        // if (this.props.refresh == true) {
+        //     (() => { this.refreshState(); })();
+        // }
         if (!this.state.call) {
             (async () => { this.getUserID(); })();
-
         }
         // if (!this.state.apicall){
         //     (async () => {this.getApiData();})();
