@@ -27,6 +27,7 @@ class ConsolePage extends Component {
             apicall: false,
             forms: [],
             buttons: [],
+            rendering: false,
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
         this.setMessage = this.setMessage.bind(this);
@@ -104,12 +105,10 @@ class ConsolePage extends Component {
             />
             arr.push(button);
         }
+        this.state.rendering = true;
         this.setState({buttons: arr});
     }
 
-    // async getApiData() {
-
-    // }
     refreshState() {
         this.setState({ refresh: false });
     }
@@ -121,15 +120,15 @@ class ConsolePage extends Component {
             console.log("calling admin api");
             (async () => { this.getUserID(); })();
         }
-        // if (!this.state.apicall){
-        //     (async () => {this.getApiData();})();
-        // }
-        (() => { this.setButtons(); })();
+        if (!this.state.rendering){
+            (() => { this.setButtons(); })();
+        }
         if (this.state.redirect) {
             this.state.redirect = false;
             this.state.refresh = false;
             this.state.call = false;
             this.state.apicall = false;
+            this.state.rednering = false;
             console.log("redirecting from admin");
             return <CreatePage userID={this.state.userID} />
         }
