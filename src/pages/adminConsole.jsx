@@ -22,7 +22,7 @@ class ConsolePage extends Component {
             userID: '',
             message: '',
             call: false,
-            //refresh: this.props.refresh,
+            refresh: this.props.refresh,
             redirect: false,
             apicall: false,
             forms: [],
@@ -79,11 +79,11 @@ class ConsolePage extends Component {
                 console.log(e);
             }
             console.log('normal retrieval');
-        } //else {
-        //     this.state.forms = JSON.parse(apiData.data.getForm.forms.items);
-        //     console.log(this.state.forms);
-        // }
-        // this.setState({ apicall: true });
+        } else {
+            this.state.forms = JSON.parse(apiData.data.getUsers.forms.items);
+            console.log(this.state.forms);
+        }
+        this.setState({ apicall: true });
     }
 
     // async getApiData() {
@@ -93,9 +93,9 @@ class ConsolePage extends Component {
         this.setState({ refresh: false });
     }
     render() {
-        // if (this.props.refresh == true) {
-        //     (() => { this.refreshState(); })();
-        // }
+        if (this.props.refresh == true) {
+            (() => { this.refreshState(); })();
+        }
         if (!this.state.call) {
             console.log("calling admin api");
             (async () => { this.getUserID(); })();
@@ -105,7 +105,7 @@ class ConsolePage extends Component {
         // }
         if (this.state.redirect) {
             this.state.redirect = false;
-            //this.state.refresh = false;
+            this.state.refresh = false;
             this.state.call = false;
             this.state.apicall = false;
             console.log("redirecting from admin");
@@ -116,6 +116,7 @@ class ConsolePage extends Component {
             <div>
                 <AmplifySignOut />
                 <h1> Welcome to Admin Console! </h1>
+                <p> {this.state.forms}</p>
                 <Button
                     action={this.handleButtonPress}
                     type={'primary'}
