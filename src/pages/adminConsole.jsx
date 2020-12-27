@@ -80,7 +80,12 @@ class ConsolePage extends Component {
             }
             console.log('normal retrieval');
         } else {
-            this.state.forms = apiData.data.getUsers.forms.items;
+            var dict = apiData.data.getUsers.forms.items;
+            var arr = [];
+            for (var key in dict){
+                arr.push((dict[key]).id);
+            }
+            this.state.forms = arr;
             console.log(this.state.forms);
         }
         this.setState({ apicall: true });
