@@ -58,7 +58,7 @@ class ConsolePage extends Component {
             },
         });
         console.log("fetching api data");
-        const apiData = '';
+        let apiData = '';
         try {
             apiData = await client.query({
                 query: gql(queries.getUsers),
