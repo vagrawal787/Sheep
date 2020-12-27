@@ -32,6 +32,7 @@ class ConsolePage extends Component {
         this.setMessage = this.setMessage.bind(this);
         this.getUserID = this.getUserID.bind(this);
         this.refreshState = this.refreshState.bind(this);
+        this.setButtons = this.setButtons.bind(this);
     }
 
     handleButtonPress(e) {
