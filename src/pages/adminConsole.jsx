@@ -69,7 +69,7 @@ class ConsolePage extends Component {
         } catch (e) {
             console.log(e);
         }
-        if (apiData == '') {
+        if (apiData == '' || apiData.data.getUsers == null) {
             try {
                 const mutData = await client.mutate({
                     mutation: gql(mutations.createUsers),
