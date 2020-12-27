@@ -60,6 +60,7 @@ class ConsolePage extends Component {
           console.log("fetching api data");
           const apiData = await client.query({ query: gql(queries.getUsers), variables: { id: this.state.userID} });
           console.log("api data fetched");
+          console.log(apiData);
           if(apiData.data.getForm == null){
               const mutData = await client.mutate({mutation: gql(mutations.createUsers), variables: {input: {id: this.state.userID, userID: this.state.userID}}});
               console.log('normal retrieval');
