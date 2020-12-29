@@ -13,6 +13,8 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
 
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
+
 
 class ConsolePage extends Component {
 
@@ -28,8 +30,11 @@ class ConsolePage extends Component {
             forms: [],
             buttons: [],
             rendering: false,
+            redirectToManager: false,
+            formToRedirect: '',
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
+        this.handleManagerPress = this.handleManagerPress.bind(this);
         this.setMessage = this.setMessage.bind(this);
         this.getUserID = this.getUserID.bind(this);
         this.refreshState = this.refreshState.bind(this);
@@ -41,11 +46,22 @@ class ConsolePage extends Component {
         this.setState({ redirect: true });
     }
 
+    handleManagerPress(e) {
+        e.preventDefault();
+        let name = e.target.name;
+        console.log(name);
+        this.state.formToRedirect = name;
+        this.setState({ redirectToManager: true });
+    }
+
 
     setMessage() {
         this.state.message = '';
     }
 
+    /* Retrieves the current userID. 
+    Fetches their forms from the API. 
+    Changes button state so that user can select which of their forms to manage.*/
     async getUserID() {
         const user = await Auth.currentUserInfo();
         console.log(user.username);
@@ -91,7 +107,7 @@ class ConsolePage extends Component {
             this.state.forms = arr;
             console.log(this.state.forms);
         }
-        (() => {this.setButtons();})();
+        (() => { this.setButtons(); })();
         this.setState({ apicall: true });
     }
 
@@ -99,16 +115,16 @@ class ConsolePage extends Component {
         var arr = [];
         for (var p in this.state.forms) {
             var button = <Button
-                action={this.handleButtonPress}
+                action={this.handleManagerPress}
                 type={'primary'}
-                label = {p}
-                title={"form buttons"}
+                label={this.state.forms[p]}
+                title={this.state.forms[p]}
             />
             arr.push(button);
         }
         this.state.rendering = true;
         console.log(arr);
-        this.setState({buttons: arr});
+        this.setState({ buttons: arr });
     }
 
     refreshState() {
@@ -131,8 +147,25 @@ class ConsolePage extends Component {
             this.state.call = false;
             this.state.apicall = false;
             this.state.rendering = false;
+            this.state.redirectToManager = false;
             console.log("redirecting from admin");
-            return <CreatePage userID={this.state.userID} />
+            return <Redirect to={{
+                pathname: "/createForm",
+                state: { userID: this.state.userID }
+            }} />
+        }
+        if (this.state.redirectToManager) {
+            this.state.redirect = false;
+            this.state.refresh = false;
+            this.state.call = false;
+            this.state.apicall = false;
+            this.state.rendering = false;
+            this.state.redirectToManager = false;
+            console.log("redirecting to responses");
+            return <Redirect to={{
+                pathname: "/responseManager",
+                state: { formID: this.state.formToRedirect }
+            }} />
         }
         return (
             <div>

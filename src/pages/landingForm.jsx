@@ -6,14 +6,13 @@ class LandPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: this.props.message,
     }
   }
   render() {
     return (
         <div>
           <LandingFormContainer redirect={false}/>  
-          <p> {this.state.message} </p>
+          <p> </p>
         </div>
     );
   }

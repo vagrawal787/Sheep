@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ConsolePage from '../pages/adminConsole';
 import Button from '../components/Button';
+
+import {BrowserRouter as Redirect} from 'react-router-dom';
 
 class ThankFormCreate extends Component {
 
@@ -19,14 +20,17 @@ class ThankFormCreate extends Component {
     }
 
     render() {
-        if (this.state.redirect){
+        if (this.state.redirect) {
             this.state.redirect = false;
-            <ConsolePage refresh={true}/>
+            return <Redirect to={{
+                pathname: "/adminConsole",
+                state: { refresh: true }
+            }} />
         }
         return (
             <div>
                 <h1>
-                    Thanks for creating a form! Be sure to send this code to your players: {this.props.code}
+                    Thanks for creating a form! Be sure to send this code to your players: {this.props.location.state.code}
                 </h1>
                 <Button
                     action={this.handleButtonPress}

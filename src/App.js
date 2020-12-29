@@ -1,10 +1,8 @@
 
 import './App.css';
-import React, {Component, Fragment} from 'react';
-import LandingFormContainer from './containers/LandingFormContainer';
+import React, {Component, NewTestComp} from 'react';
 
-import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
-import {useHistory} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 import LandPage from "./pages/landingForm.jsx";
 import NotFoundPage from "./pages/404.jsx";
@@ -13,31 +11,28 @@ import ThankPage from "./pages/thankPage.jsx";
 import CreatePage from "./pages/formCreator.jsx";
 import ThankFormCreate from "./pages/thankYouForm.jsx";
 import ConsolePage from "./pages/adminConsole.jsx";
+import ResponseManager from "./pages/responseManager.jsx";
 
 
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
-const formReducer = (state, event) => {
-  return {
-    ...state,
-    [event.name]: event.value
-  }
-}
 
 class App extends Component {
   render() {
     return (
       <Router>
         <Switch>
-          <Route exact path = "/" component = {LandPage}/>
-          <Route exact path = "/404" component = {NotFoundPage}/>
-          <Route exact path = "/userForm" component = {MainPage} />
-          <Route exact path = "/thankYou" component = {ThankPage} />
-          <Route exact path = "/createForm" component = {CreatePage} />
-          <Route exact path = "/formCreated" component = {ThankFormCreate} />
-          <Route exact path = "/adminConsole" component = {ConsolePage} />
+          <Route exact path = "/" component = {LandPage} render={(props) => <NewTestComp {...props}/>}/>
+          <Route exact path = "/404" component = {NotFoundPage} />
+          <Route exact path = "/userForm" component = {MainPage} render={(props) => <NewTestComp {...props}/>} />
+          <Route exact path = "/thankYou" component = {ThankPage} render={(props) => <NewTestComp {...props}/>}/>
+          <Route exact path = "/createForm" component = {CreatePage} render={(props) => <NewTestComp {...props}/>}/>
+          <Route exact path = "/formCreated" component = {ThankFormCreate} render={(props) => <NewTestComp {...props}/>}/>
+          <Route exact path = "/adminConsole" component = {ConsolePage} render={(props) => <NewTestComp {...props}/>}/>
+          <Route exact path = "/responseManager" component = {ResponseManager} render={(props) => <NewTestComp {...props}/>}/>
+        
           <Redirect to ="/404" component = {LandPage}/>
         </Switch>
       </Router> 

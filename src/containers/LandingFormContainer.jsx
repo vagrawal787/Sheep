@@ -1,23 +1,19 @@
-import React, {Component} from 'react';  
+import React, { Component } from 'react';
 
-/* Import Components */ 
-import Input from '../components/Input';  
+/* Import Components */
+import Input from '../components/Input';
 import Button from '../components/Button';
 
-import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
-import {useHistory} from 'react-router-dom';
+import { BrowserRouter as Redirect } from 'react-router-dom';
 
-import MainPage from "../pages/userForm.jsx";
-import ConsolePage from '../pages/adminConsole';
-
-class LandingFormContainer extends Component {  
+class LandingFormContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-        code: '',
-        redirectSubmit: false,
-        redirectAdmin: false,
+      code: '',
+      redirectSubmit: false,
+      redirectAdmin: false,
 
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -26,64 +22,67 @@ class LandingFormContainer extends Component {
   }
 
   /* This lifecycle hook gets executed when the component mounts */
-  
+
   handleInput(e) {
-       let value = e.target.value;
-       this.setState({code: value});
+    let value = e.target.value;
+    this.setState({ code: value });
   }
 
   handleFormSubmit(e) {
     e.preventDefault();
-    this.setState({redirectSubmit: true});
-  }   
+    this.setState({ redirectSubmit: true });
+  }
   handleAdminButton(e) {
     e.preventDefault();
-    this.setState({redirectAdmin: true});
-  }   
+    this.setState({ redirectAdmin: true });
+  }
 
   render() {
-    if (this.state.redirectSubmit){
-        console.log("call mainpage");
-        console.log(this.state.code)
-        this.state.redirectSubmit = false;
-        return <MainPage code={this.state.code} error={false}/>
+    if (this.state.redirectSubmit) {
+      console.log("call mainpage");
+      console.log(this.state.code)
+      this.state.redirectSubmit = false;
+      return <Redirect to={{
+        pathname: "/userForm",
+        state: { code: this.state.code, error: false }
+      }} />
     }
-    if (this.state.redirectAdmin){
+    if (this.state.redirectAdmin) {
       console.log("call admin");
       this.state.redirectAdmin = false;
-      return <ConsolePage/>
-  }
+      return <Redirect to = {{pathname: "/adminConsole"}} />
+    }
     return (
-        <div>
+      <div>
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
-       
-            <Input inputType={'number'}
-                   title= {'Code:'} 
-                   name= {'code'}
-                   value={this.state.code} 
-                   placeholder = {'Enter your code'}
-                   handleChange = {this.handleInput}
-                   
-            /> {/* Code */}
 
-          <Button 
-              action = {this.handleFormSubmit}
-              type = {'primary'} 
-              title = {'Submit'} 
-          /> { /*Submit */ }
-          
-          
+          <Input inputType={'number'}
+            title={'Code:'}
+            name={'code'}
+            value={this.state.code}
+            placeholder={'Enter your code'}
+            handleChange={this.handleInput}
+
+          /> {/* Code */}
+
+          <Button
+            action={this.handleFormSubmit}
+            type={'primary'}
+            title={'Submit'}
+          /> { /*Submit */}
+
+
         </form>
-        <Button 
-              action = {this.handleAdminButton}
-              type = {'primary'} 
-              title = {'Go To Admin'} 
-          /> { /* Admin */ }
+        <Button
+          action={this.handleAdminButton}
+          type={'primary'}
+          title={'Go To Admin'}
+        /> { /* Admin */}
 
         <p> {this.state.message} </p>
-        </div>
+      </div>
 
-  
+
     );
   }
 }

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import Input from '../components/Input';
 import Button from '../components/Button';
-import LandPage from "../pages/landingForm.jsx";
-import ThankPage from '../pages/thankPage';
 
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 
-import { API } from 'aws-amplify';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
 import gql from 'graphql-tag';
@@ -49,13 +46,13 @@ class MainPage extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleError = this.handleError.bind(this);
-    this.setMessage = this.setMessage.bind(this);
+    // this.setMessage = this.setMessage.bind(this);
   }
 
   async findForm() {
     console.log("hi");
 
-    console.log(this.props.code);
+    console.log(this.props.location.state.code);
     const client = new AWSAppSyncClient({
       url: awsconfig.aws_appsync_graphqlEndpoint,
       region: awsconfig.aws_appsync_region,
@@ -65,7 +62,7 @@ class MainPage extends Component {
         apiKey: awsconfig.aws_appsync_apiKey,
       },
     });
-    const apiData = await client.query({ query: gql(queries.getForm), variables: { id: this.props.code } });
+    const apiData = await client.query({ query: gql(queries.getForm), variables: { id: this.props.location.state.code } });
     if (apiData.data.getForm == null) {
       this.state.call = true;
       (() => { this.handleError(); })();
@@ -97,7 +94,7 @@ class MainPage extends Component {
   async handleFormSubmit(e) {
     e.preventDefault();
     const createRes = {
-      form_id: this.props.code,
+      form_id: this.props.location.state.code,
       fname: this.state.fname,
       lname: this.state.lname,
       email: this.state.email,
@@ -121,7 +118,7 @@ class MainPage extends Component {
         apiKey: awsconfig.aws_appsync_apiKey,
       },
     });
-    const newResponse = await client.mutate({mutation: gql(mutations.createResponse), variables: {input: createRes}});
+    const newResponse = await client.mutate({ mutation: gql(mutations.createResponse), variables: { input: createRes } });
     this.setState({ redirect: true });
   }
 
@@ -129,9 +126,9 @@ class MainPage extends Component {
     console.log('error reached');
     this.setState({ error: true });
   }
-  setMessage() {
-    this.props.message = '';
-  }
+  // setMessage() {
+  //   this.props.message = '';
+  // }
 
 
   render() {
@@ -141,17 +138,20 @@ class MainPage extends Component {
     if (this.state.redirect) {
       console.log("call thank you page");
       this.state.redirect = false;
-      return <ThankPage />
+      return <Redirect to={{ pathname: "/thankYou" }} />
     }
     if (this.state.error) {
       console.log("recall landing page");
       this.state.error = false;
-      return <LandPage message={"Oops... the code you entered isn't valid. Try another one :)"} />
+      return <Redirect to={{
+        pathname: "/",
+        state: { message: "Oops... the code you entered isn't valid. Try another one :)" }
+      }} />
     }
-    (() => { this.setMessage(); })();
+    // (() => { this.setMessage(); })();
     return (
       <form className="container-fluid" onSubmit={this.handleFormSubmit}>
-        
+
         <Input inputType={'text'}
           title={'First Name:'}
           name={'fname'}
@@ -169,7 +169,7 @@ class MainPage extends Component {
           handleChange={this.handleInput}
 
         /> {/* Last name */}
-        
+
         <Input inputType={'text'}
           title={'Email:'}
           name={'email'}

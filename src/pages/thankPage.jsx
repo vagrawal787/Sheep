@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import LandPage from '../pages/landingForm';
 import Button from '../components/Button';
 
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
+
 class ThankPage extends Component {
 
   constructor(props) {
@@ -21,7 +23,7 @@ class ThankPage extends Component {
   render() {
     if (this.state.redirect){
       this.state.redirect = false;
-      <LandPage />
+      return <Redirect to = {{pathname: "/" }}/>
   }
     return (
       <div>
@@ -34,7 +36,7 @@ class ThankPage extends Component {
         <Button
           action={this.handleButtonPress}
           type={'primary'}
-          title={'Return to Admin Console'}
+          title={'Return to Home Page'}
         />
       </div>
     );
