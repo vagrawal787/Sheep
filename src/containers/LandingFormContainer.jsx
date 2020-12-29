@@ -38,6 +38,7 @@ class LandingFormContainer extends Component {
   }
 
   render() {
+    
     if (this.state.redirectSubmit) {
       console.log("call mainpage");
       console.log(this.state.code)
@@ -47,11 +48,13 @@ class LandingFormContainer extends Component {
         state: { code: this.state.code, error: false }
       }} />
     }
+
     if (this.state.redirectAdmin) {
       console.log("call admin");
       this.state.redirectAdmin = false;
       return <Redirect to = {{pathname: "/adminConsole"}} />
     }
+
     return (
       <div>
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>
