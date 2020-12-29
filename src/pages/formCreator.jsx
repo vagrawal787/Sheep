@@ -5,7 +5,7 @@ import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
 import gql from 'graphql-tag';
 
-import {BrowserRouter as  Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
 
 import Input from '../components/Input';
 import Button from '../components/Button';

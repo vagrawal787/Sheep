@@ -24,7 +24,6 @@ class ConsolePage extends Component {
             userID: '',
             message: '',
             call: false,
-            refresh: this.props.refresh,
             redirect: false,
             apicall: false,
             forms: [],
@@ -37,7 +36,6 @@ class ConsolePage extends Component {
         this.handleManagerPress = this.handleManagerPress.bind(this);
         this.setMessage = this.setMessage.bind(this);
         this.getUserID = this.getUserID.bind(this);
-        this.refreshState = this.refreshState.bind(this);
         this.setButtons = this.setButtons.bind(this);
     }
 
@@ -108,7 +106,6 @@ class ConsolePage extends Component {
             console.log(this.state.forms);
         }
         (() => { this.setButtons(); })();
-        this.setState({ apicall: true });
     }
 
     setButtons() {
@@ -122,18 +119,11 @@ class ConsolePage extends Component {
             />
             arr.push(button);
         }
-        this.state.rendering = true;
         console.log(arr);
         this.setState({ buttons: arr });
     }
 
-    refreshState() {
-        this.setState({ refresh: false });
-    }
     render() {
-        if (this.props.refresh == true) {
-            (() => { this.refreshState(); })();
-        }
         if (!this.state.call) {
             console.log("calling admin api");
             (async () => { this.getUserID(); })();
@@ -143,10 +133,7 @@ class ConsolePage extends Component {
         // }
         if (this.state.redirect) {
             this.state.redirect = false;
-            this.state.refresh = false;
             this.state.call = false;
-            this.state.apicall = false;
-            this.state.rendering = false;
             this.state.redirectToManager = false;
             console.log("redirecting from admin");
             return <Redirect to={{
@@ -156,10 +143,7 @@ class ConsolePage extends Component {
         }
         if (this.state.redirectToManager) {
             this.state.redirect = false;
-            this.state.refresh = false;
             this.state.call = false;
-            this.state.apicall = false;
-            this.state.rendering = false;
             this.state.redirectToManager = false;
             console.log("redirecting to responses");
             return <Redirect to={{

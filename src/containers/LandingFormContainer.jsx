@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 /* Import Components */
 import Input from '../components/Input';
 import Button from '../components/Button';
-
-import { BrowserRouter as Redirect } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
 
 class LandingFormContainer extends Component {
   constructor(props) {
@@ -38,7 +37,7 @@ class LandingFormContainer extends Component {
   }
 
   render() {
-    
+
     if (this.state.redirectSubmit) {
       console.log("call mainpage");
       console.log(this.state.code)
@@ -54,7 +53,6 @@ class LandingFormContainer extends Component {
       this.state.redirectAdmin = false;
       return <Redirect to = {{pathname: "/adminConsole"}} />
     }
-
     return (
       <div>
         <form className="container-fluid" onSubmit={this.handleFormSubmit}>

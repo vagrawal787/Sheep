@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../components/Button';
 
-import {BrowserRouter as Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
 
 class ThankFormCreate extends Component {
 
