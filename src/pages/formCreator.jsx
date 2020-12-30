@@ -5,7 +5,7 @@ import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
 import gql from 'graphql-tag';
 
-import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -29,6 +29,7 @@ class CreatePage extends Component {
             q9: '',
             q10: '',
             redirect: false,
+            error: '',
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
@@ -42,32 +43,49 @@ class CreatePage extends Component {
 
     async handleFormSubmit(e) {
         e.preventDefault();
-        const createF = {
-            id: this.state.id,
-            formUserId: this.state.userID,
-            userID: this.state.userID,
-            q1: this.state.q1,
-            q2: this.state.q2,
-            q3: this.state.q3,
-            q4: this.state.q4,
-            q5: this.state.q5,
-            q6: this.state.q6,
-            q7: this.state.q7,
-            q8: this.state.q8,
-            q9: this.state.q9,
-            q10: this.state.q10,
+        let nullVal = false;
+        let elements = [this.state.id, this.state.q1,
+        this.state.q2, this.state.q3,
+        this.state.q4, this.state.q5,
+        this.state.q6, this.state.q7,
+        this.state.q8, this.state.q9, this.state.q10];
+        for (var key in elements) {
+            if (elements[key] == '') {
+                nullVal = true;
+                break;
+            }
         }
-        const client = new AWSAppSyncClient({
-            url: awsconfig.aws_appsync_graphqlEndpoint,
-            region: awsconfig.aws_appsync_region,
-            disableOffline: true,
-            auth: {
-                type: AUTH_TYPE.API_KEY,
-                apiKey: awsconfig.aws_appsync_apiKey,
-            },
-        });
-        const newGame = await client.mutate({ mutation: gql(mutations.createForm), variables: { input: createF } });
-        this.setState({ redirect: true });
+        if (nullVal == true) {
+            this.setState({error: 'Uh-oh, make sure you have inputted all questions!'});
+        } else {
+            this.state.error = '';
+            const createF = {
+                id: this.state.id,
+                formUserId: this.state.userID,
+                userID: this.state.userID,
+                q1: this.state.q1,
+                q2: this.state.q2,
+                q3: this.state.q3,
+                q4: this.state.q4,
+                q5: this.state.q5,
+                q6: this.state.q6,
+                q7: this.state.q7,
+                q8: this.state.q8,
+                q9: this.state.q9,
+                q10: this.state.q10,
+            }
+            const client = new AWSAppSyncClient({
+                url: awsconfig.aws_appsync_graphqlEndpoint,
+                region: awsconfig.aws_appsync_region,
+                disableOffline: true,
+                auth: {
+                    type: AUTH_TYPE.API_KEY,
+                    apiKey: awsconfig.aws_appsync_apiKey,
+                },
+            });
+            const newGame = await client.mutate({ mutation: gql(mutations.createForm), variables: { input: createF } });
+            this.setState({ redirect: true });
+        }
     }
 
     render() {
@@ -199,6 +217,7 @@ class CreatePage extends Component {
                     /> { /*Submit */}
 
                 </form>
+                {this.state.error}
             </div>
         );
     }

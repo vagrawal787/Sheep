@@ -13,6 +13,7 @@ class LandingFormContainer extends Component {
       code: '',
       redirectSubmit: false,
       redirectAdmin: false,
+      errorMessage: '',
 
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -29,7 +30,11 @@ class LandingFormContainer extends Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
+    if (this.state.code == '') {
+      this.setState({errorMessage: 'Uh-oh, make sure you have a inputted a code!'});
+    } else {
     this.setState({ redirectSubmit: true });
+    }
   }
   handleAdminButton(e) {
     e.preventDefault();
@@ -80,7 +85,7 @@ class LandingFormContainer extends Component {
           title={'Go To Admin'}
         /> { /* Admin */}
 
-        <p> {this.state.message} </p>
+        <p> {this.state.errorMessage} </p>
       </div>
 
 
