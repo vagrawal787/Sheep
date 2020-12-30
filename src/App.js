@@ -12,6 +12,7 @@ import CreatePage from "./pages/formCreator.jsx";
 import ThankFormCreate from "./pages/thankYouForm.jsx";
 import ConsolePage from "./pages/adminConsole.jsx";
 import ResponseManager from "./pages/responseManager.jsx";
+import EditPage from "./pages/formEditor.jsx";
 
 
 
@@ -34,6 +35,7 @@ class App extends Component {
           <Route exact path = "/formCreated" component = {ThankFormCreate} render={(props) => <NewTestComp {...props}/>}/>
           <Route exact path = "/adminConsole" component = {ConsolePage} render={(props) => <NewTestComp {...props}/>}/>
           <Route exact path = "/responseManager" component = {ResponseManager} render={(props) => <NewTestComp {...props}/>}/>
+          <Route exact path = "/formEditor" component = {EditPage} render={(props) => <NewTestComp {...props}/>}/>
         
           <Redirect to ="/404" component = {LandPage}/>
         </Switch>

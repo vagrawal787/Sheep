@@ -148,7 +148,10 @@ class ConsolePage extends Component {
             console.log("redirecting to responses");
             return <Redirect to={{
                 pathname: "/responseManager",
-                state: { formID: this.state.formToRedirect }
+                state: {
+                    formID: this.state.formToRedirect,
+                    userID: this.state.userID
+                }
             }} />
         }
         return (
