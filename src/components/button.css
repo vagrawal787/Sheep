@@ -1,0 +1,12 @@
+button{
+    font-family: 'Quicksand';
+    font-size: 18px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+button:hover{
+    background-image:none !important;
+    background-color:#BCBCBC !important;
+}

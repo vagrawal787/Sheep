@@ -1,0 +1,10 @@
+input[id="code"]{
+    font-size:24px;
+    font-family: 'Quicksand';
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+}
+ p{
+     font-family: 'Quicksand';
+ }

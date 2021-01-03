@@ -1,0 +1,55 @@
+/* @font-face{
+  font-family: 'Quicksand', sans-serif;
+  src: url(https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap);
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+
+.container{
+  background-image: url('/sheepbackimage.jpg');
+  height: 100vh;
+}
+.child {
+  /* position: absolute;
+  top: 50%;
+  transform: translate(0, -50%); */
+  font-family: 'Quicksand', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+.container-fluid{
+  position: absolute;
+  top: 40%;
+  background-color:rgb(220, 220, 220, 0.9);
+  height: 150px;
+  padding: 25px;
+  border-radius: 8px;
+}
+.adminButton{
+  position: absolute;
+  top:10;
+  right:0;
+  padding: 20px;
+}
+.subButton{
+  position: absolute;
+  margin: 10px;
+  right: 35%;
+  font-family: 'Quicksand', sans-serif;
+}
+p.codeParagraph{
+  font-family: 'Quicksand';
+}
+
+span {
+  transition: 300ms all ease;
+  opacity: 0;
+  will-change: opacity;
+  font-family: 'Quicksand';
+  color: red;
+}
+
+.show {
+  opacity: 1;
+}
