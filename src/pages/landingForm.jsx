@@ -11,8 +11,8 @@ class LandPage extends Component {
   render() {
     return (
         <div>
-          <LandingFormContainer redirect={false}/>  
-          <p> </p>
+          <LandingFormContainer redirect={false}/>
+          <p>  </p>
         </div>
     );
   }

@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+.containerThank{
+    background-image: url('./sheepbackimage.jpg');
+    height: 100vh;
+    padding: 10px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+.content{
+    font-family: 'Quicksand';
+    text-align: center;
+    background-color: rgb(220, 220, 220, 0.9);
+    width: 600px;
+    padding: 40px;
+    border-radius: 30px;
+}

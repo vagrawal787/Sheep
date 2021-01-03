@@ -5,6 +5,13 @@ input[id="code"]{
     border-radius: 4px;
     text-align: center;
 }
+input{
+    font-family: 'Quicksand';
+    border: none;
+    border-radius: 4px;
+    height: 20px;
+    padding: 10px;
+}
  p{
      font-family: 'Quicksand';
  }

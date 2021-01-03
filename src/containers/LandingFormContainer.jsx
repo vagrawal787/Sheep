@@ -49,7 +49,7 @@ class LandingFormContainer extends Component {
     e.preventDefault();
     if (this.state.code == '') {
       this.setState({ errorMessage: 'Uh-oh, make sure you have inputted a code!' });
-      (() => {this.showNotification()})();
+      (() => { this.showNotification() })();
     } else {
       this.setState({ redirectSubmit: true });
     }
@@ -60,7 +60,13 @@ class LandingFormContainer extends Component {
   }
 
   render() {
-
+    try {
+      if (this.props.location.state.show) {
+        (() => { this.showNotification() })();
+      }
+    } catch{
+      console.log('no show');
+    }
     if (this.state.redirectSubmit) {
       console.log("call mainpage");
       console.log(this.state.code)
@@ -80,16 +86,15 @@ class LandingFormContainer extends Component {
       <div className="container">
         <Helmet>
           <link rel="stylesheet" href="landing.css" />
-          <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500@&display=swap" rel="stylesheet"/>
           {/* <style>{'body { background-image: url(${background}); }'}</style> */}
         </Helmet>
         <div className="adminButton">
-            <Button
-              action={this.handleAdminButton}
-              type={'primary'}
-              title={'Go To Admin'}
-            /> { /* Admin */}
-          </div>
+          <Button
+            action={this.handleAdminButton}
+            type={'primary'}
+            title={'Go To Admin'}
+          /> { /* Admin */}
+        </div>
         <div className="landingCont">
           <div className="child">
             <form className="container-fluid" onSubmit={this.handleFormSubmit}>
@@ -112,8 +117,9 @@ class LandingFormContainer extends Component {
               </div>
             </form>
           </div>
-
-         <Notification show = {this.state.show} />
+          <div className='notif'>
+            <Notification show={this.state.show} />
+          </div>
 
         </div>
       </div>
@@ -125,8 +131,8 @@ class LandingFormContainer extends Component {
 
 class Notification extends React.Component {
   render() {
-    return <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have inputted a code! </span>
-  }v
+    return <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have inputted a valid code! </span>
+  } v
 }
 
 export default LandingFormContainer;

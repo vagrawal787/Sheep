@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Helmet } from "react-helmet";
 
 import Input from '../components/Input';
 import Button from '../components/Button';
+import "./CSS/userform.css"
 
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 
@@ -43,11 +45,24 @@ class MainPage extends Component {
       error: false,
       errorMessage: '',
       call: false,
+      show: false,
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleError = this.handleError.bind(this);
+    this.showNotification = this.showNotification.bind(this);
     // this.setMessage = this.setMessage.bind(this);
+  }
+
+  showNotification() {
+    this.setState({
+      show: true,
+    });
+    setTimeout(() => {
+      this.setState({
+        show: false,
+      });
+    }, 2000);
   }
 
   async findForm() {
@@ -69,6 +84,7 @@ class MainPage extends Component {
       (() => { this.handleError(); })();
     }
     else {
+      this.state.call = true;
       this.setState({
         q1: apiData.data.getForm.q1,
         q2: apiData.data.getForm.q2,
@@ -81,7 +97,6 @@ class MainPage extends Component {
         q9: apiData.data.getForm.q9,
         q10: apiData.data.getForm.q10
       });
-      this.state.call = true;
     }
   }
 
@@ -109,7 +124,8 @@ class MainPage extends Component {
       }
     }
     if (nullVal == true) {
-      this.setState({errorMessage: 'Uh-oh, make sure you have an input in all fields!'});
+      // this.setState({errorMessage: 'Uh-oh, make sure you have an input in all fields!'});
+      (() => { this.showNotification() })();
     } else {
       this.state.errorMessage = '';
       const createRes = {
@@ -165,156 +181,165 @@ class MainPage extends Component {
       this.state.error = false;
       return <Redirect to={{
         pathname: "/",
-        state: { message: "Oops... the code you entered isn't valid. Try another one :)" }
+        state: {
+          message: "Oops... the code you entered isn't valid. Try another one :)",
+          show: true,
+        }
       }} />
     }
     // (() => { this.setMessage(); })();
     return (
-      <div>
-        <form className="container-fluid" onSubmit={this.handleFormSubmit}>
+      <div className="container">
+        <Helmet>
+          <link rel="stylesheet" href="userform.css" />
+          <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500@&display=swap" rel="stylesheet" />
+          {/* <style>{'body { background-image: url(${background}); }'}</style> */}
+        </Helmet>
+        <div className='formContainer'>
+          <form className="container-fluid" onSubmit={this.handleFormSubmit}>
 
-          <Input inputType={'text'}
-            title={'First Name:'}
-            name={'fname'}
-            value={this.state.fname}
-            placeholder={'First name'}
-            handleChange={this.handleInput}
+            <Input inputType={'text'}
+              title={'First Name:'}
+              name={'fname'}
+              value={this.state.fname}
+              placeholder={'First name'}
+              handleChange={this.handleInput}
 
-          /> {/* First name */}
+            /> {/* First name */}
 
-          <Input inputType={'text'}
-            title={'Last Name:'}
-            name={'lname'}
-            value={this.state.lname}
-            placeholder={'Last Name'}
-            handleChange={this.handleInput}
+            <Input inputType={'text'}
+              title={'Last Name:'}
+              name={'lname'}
+              value={this.state.lname}
+              placeholder={'Last Name'}
+              handleChange={this.handleInput}
 
-          /> {/* Last name */}
+            /> {/* Last name */}
 
-          <Input inputType={'text'}
-            title={'Email:'}
-            name={'email'}
-            value={this.state.email}
-            placeholder={'Email'}
-            handleChange={this.handleInput}
+            <Input inputType={'text'}
+              title={'Email:'}
+              name={'email'}
+              value={this.state.email}
+              placeholder={'Email'}
+              handleChange={this.handleInput}
 
-          /> {/* email */}
+            /> {/* email */}
 
-          <p>{this.state.q1}</p>
+            <p>{this.state.q1}</p>
 
-          <Input inputType={'text'}
-            title={'Question 1:'}
-            name={'r1'}
-            value={this.state.r1}
-            placeholder={'Response 1'}
-            handleChange={this.handleInput}
+            <Input inputType={'text'}
+              name={'r1'}
+              value={this.state.r1}
+              placeholder={'Response 1'}
+              handleChange={this.handleInput}
 
-          /> {/* Question 1 */}
+            /> {/* Question 1 */}
 
-          <p>{this.state.q2}</p>
+            <p>{this.state.q2}</p>
 
-          <Input inputType={'text'}
-            title={'Question 2:'}
-            name={'r2'}
-            value={this.state.r2}
-            placeholder={'Response 2'}
-            handleChange={this.handleInput}
+            <Input inputType={'text'}
+              name={'r2'}
+              value={this.state.r2}
+              placeholder={'Response 2'}
+              handleChange={this.handleInput}
 
-          /> {/* Question 2 */}
+            /> {/* Question 2 */}
 
-          <p>{this.state.q3}</p>
-          <Input inputType={'text'}
-            title={'Question 3:'}
-            name={'r3'}
-            value={this.state.r3}
-            placeholder={'Response 3'}
-            handleChange={this.handleInput}
+            <p>{this.state.q3}</p>
+            <Input inputType={'text'}
+              name={'r3'}
+              value={this.state.r3}
+              placeholder={'Response 3'}
+              handleChange={this.handleInput}
 
-          /> {/* Question 3 */}
+            /> {/* Question 3 */}
 
-          <p>{this.state.q4}</p>
-          <Input inputType={'text'}
-            title={'Question 4:'}
-            name={'r4'}
-            value={this.state.r4}
-            placeholder={'Response 4'}
-            handleChange={this.handleInput}
+            <p>{this.state.q4}</p>
+            <Input inputType={'text'}
+              name={'r4'}
+              value={this.state.r4}
+              placeholder={'Response 4'}
+              handleChange={this.handleInput}
 
-          /> {/* Question 4 */}
-
-
-          <p>{this.state.q5}</p>
-          <Input inputType={'text'}
-            title={'Question 5:'}
-            name={'r5'}
-            value={this.state.r5}
-            placeholder={'Response 5'}
-            handleChange={this.handleInput}
-
-          /> {/* Question 5 */}
-
-          <p>{this.state.q6}</p>
-          <Input inputType={'text'}
-            title={'Question 6:'}
-            name={'r6'}
-            value={this.state.r6}
-            placeholder={'Response 6'}
-            handleChange={this.handleInput}
-
-          /> {/* Question 6 */}
-
-          <p>{this.state.q7}</p>
-          <Input inputType={'text'}
-            title={'Question 7:'}
-            name={'r7'}
-            value={this.state.r7}
-            placeholder={'Response 7'}
-            handleChange={this.handleInput}
-
-          /> {/* Question 7 */}
-
-          <p>{this.state.q8}</p>
-          <Input inputType={'text'}
-            title={'Question 8:'}
-            name={'r8'}
-            value={this.state.r8}
-            placeholder={'Response 8'}
-            handleChange={this.handleInput}
-
-          /> {/* Question 8 */}
-
-          <p>{this.state.q9}</p>
-          <Input inputType={'text'}
-            title={'Question 9:'}
-            name={'r9'}
-            value={this.state.r9}
-            placeholder={'Response 9'}
-            handleChange={this.handleInput}
-
-          /> {/* Question 9 */}
-
-          <p>{this.state.q10}</p>
-          <Input inputType={'text'}
-            title={'Question 10:'}
-            name={'r10'}
-            value={this.state.r10}
-            placeholder={'Response 10'}
-            handleChange={this.handleInput}
-
-          /> {/* Question 10 */}
-
-          <Button
-            action={this.handleFormSubmit}
-            type={'primary'}
-            title={'Submit'}
-          /> { /*Submit */}
+            /> {/* Question 4 */}
 
 
-        </form>
-        {this.state.errorMessage}
+            <p>{this.state.q5}</p>
+            <Input inputType={'text'}
+              name={'r5'}
+              value={this.state.r5}
+              placeholder={'Response 5'}
+              handleChange={this.handleInput}
+
+            /> {/* Question 5 */}
+
+            <p>{this.state.q6}</p>
+            <Input inputType={'text'}
+              name={'r6'}
+              value={this.state.r6}
+              placeholder={'Response 6'}
+              handleChange={this.handleInput}
+
+            /> {/* Question 6 */}
+
+            <p>{this.state.q7}</p>
+            <Input inputType={'text'}
+              name={'r7'}
+              value={this.state.r7}
+              placeholder={'Response 7'}
+              handleChange={this.handleInput}
+
+            /> {/* Question 7 */}
+
+            <p>{this.state.q8}</p>
+            <Input inputType={'text'}
+              name={'r8'}
+              value={this.state.r8}
+              placeholder={'Response 8'}
+              handleChange={this.handleInput}
+
+            /> {/* Question 8 */}
+
+            <p>{this.state.q9}</p>
+            <Input inputType={'text'}
+              name={'r9'}
+              value={this.state.r9}
+              placeholder={'Response 9'}
+              handleChange={this.handleInput}
+
+            /> {/* Question 9 */}
+
+            <p>{this.state.q10}</p>
+            <Input inputType={'text'}
+              name={'r10'}
+              value={this.state.r10}
+              placeholder={'Response 10'}
+              handleChange={this.handleInput}
+
+            /> {/* Question 10 */}
+
+            <div className="submitButton">
+              <Button
+                action={this.handleFormSubmit}
+                type={'primary'}
+                title={'Submit'}
+              /> { /*Submit */}
+            </div>
+
+            <Notification show={this.state.show} />
+          </form>
+
+
+        </div>
       </div>
     );
   }
+}
+
+class Notification extends React.Component {
+  render() {
+    return <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have an input in all fields! </span>
+  } v
 }
 
 export default MainPage;

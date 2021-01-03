@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+.container{
+    background-image: url('./sheepbackimage.jpg');
+    height: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content:center;
+}
+.container-fluid{
+    font-family: 'Quicksand';
+    text-align: center;
+    background-color: rgb(220, 220, 220, 0.9);
+    width: 600px;
+    padding: 40px;
+    border-radius: 30px;
+}
+.submitButton{
+    padding: 20px;
+}
+span {
+    transition: 300ms all ease;
+    opacity: 0;
+    will-change: opacity;
+    font-family: 'Quicksand';
+    color: red;
+  }
+  
+  .show {
+    opacity: 1;
+  }

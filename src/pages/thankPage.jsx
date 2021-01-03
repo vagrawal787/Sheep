@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LandPage from '../pages/landingForm';
 import Button from '../components/Button';
+import './CSS/thankpage.css'
 
 import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
 
@@ -26,7 +27,8 @@ class ThankPage extends Component {
       return <Redirect to = {{pathname: "/" }}/>
   }
     return (
-      <div>
+      <div className = 'containerThank'>
+        <div className = 'content'>
         <h1>
           Thanks for playing!
             </h1>
@@ -38,6 +40,7 @@ class ThankPage extends Component {
           type={'primary'}
           title={'Return to Home Page'}
         />
+        </div>
       </div>
     );
   }
