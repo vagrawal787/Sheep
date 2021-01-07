@@ -1,0 +1,14 @@
+span {
+    transition: 300ms all ease;
+    opacity: 0;
+    will-change: opacity;
+    font-family: 'Quicksand';
+    color: red;
+  }
+  
+  .show {
+    opacity: 1;
+  }
+  .match {
+    opacity: 1;
+  }

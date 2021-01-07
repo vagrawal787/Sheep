@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Helmet } from "react-helmet";
+import "./CSS/formcreator.css"
 
 import * as mutations from '../graphql/mutations';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
@@ -30,15 +32,41 @@ class CreatePage extends Component {
             q10: '',
             redirect: false,
             error: '',
+            show: false,
+            match: false,
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
+        this.showNotification = this.showNotification.bind(this);
+        this.showNotificationIDMatch = this.showNotificationIDMatch.bind(this);
     }
 
     handleInput(e) {
         let value = e.target.value;
         let name = e.target.name;
         this.setState({ [name]: value });
+    }
+
+    showNotification() {
+        this.setState({
+            show: true,
+        });
+        setTimeout(() => {
+            this.setState({
+                show: false,
+            });
+        }, 2000);
+    }
+    showNotificationIDMatch() {
+        this.setState({
+            match: true,
+        });
+        setTimeout(() => {
+            this.setState({
+                match: false,
+            });
+        }, 2000);
+        console.log("showidmatch");
     }
 
     async handleFormSubmit(e) {
@@ -56,9 +84,8 @@ class CreatePage extends Component {
             }
         }
         if (nullVal == true) {
-            this.setState({error: 'Uh-oh, make sure you have inputted all questions!'});
+            (() => { this.showNotification() })();
         } else {
-            this.state.error = '';
             const createF = {
                 id: this.state.id,
                 formUserId: this.state.userID,
@@ -83,8 +110,14 @@ class CreatePage extends Component {
                     apiKey: awsconfig.aws_appsync_apiKey,
                 },
             });
-            const newGame = await client.mutate({ mutation: gql(mutations.createForm), variables: { input: createF } });
-            this.setState({ redirect: true });
+            try {
+                const newGame = await client.mutate({ mutation: gql(mutations.createForm), variables: { input: createF } });
+                this.setState({ redirect: true });
+            }
+            catch (e) {
+                console.log(e);
+                (() => { this.showNotificationIDMatch() })();
+            }
         }
     }
 
@@ -98,6 +131,10 @@ class CreatePage extends Component {
         }
         return (
             <div>
+                <Helmet>
+                    <link rel="stylesheet" href="formcreator.css" />
+                    {/* <style>{'body { background-image: url(${background}); }'}</style> */}
+                </Helmet>
                 <h1> Create a Game! </h1>
                 <form className="container-fluid" onSubmit={this.handleFormSubmit}>
 
@@ -111,7 +148,7 @@ class CreatePage extends Component {
         />  */}
 
 
-                    <Input inputType={'number'}
+                    <Input inputType={'text'}
                         title={'ID:'}
                         name={'id'}
                         value={this.state.id}
@@ -217,9 +254,23 @@ class CreatePage extends Component {
                     /> { /*Submit */}
 
                 </form>
-                {this.state.error}
+                <div>
+                <Notification show={this.state.show} />
+                <NotificationIDMatch match={this.state.match} />
+                </div>
             </div>
         );
+    }
+}
+class Notification extends React.Component {
+    render() {
+        return <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have an input in all fields! </span>
+    }
+}
+
+class NotificationIDMatch extends React.Component {
+    render() {
+        return <span className={this.props.match ? 'match' : ''}> Uh-oh, that ID is taken! Please try another one. </span>
     }
 }
 

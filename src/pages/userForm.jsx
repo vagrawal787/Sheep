@@ -129,7 +129,7 @@ class MainPage extends Component {
     } else {
       this.state.errorMessage = '';
       const createRes = {
-        form_id: this.props.location.state.code,
+        formID: this.props.location.state.code,
         fname: this.state.fname,
         lname: this.state.lname,
         email: this.state.email,
@@ -341,7 +341,7 @@ class MainPage extends Component {
 class Notification extends React.Component {
   render() {
     return <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have an input in all fields! </span>
-  } v
+  }
 }
 
 export default MainPage;
