@@ -94,16 +94,16 @@ export const deleteForm = /* GraphQL */ `
     }
   }
 `;
-export const createResponse = /* GraphQL */ `
-  mutation CreateResponse(
-    $input: CreateResponseInput!
-    $condition: ModelResponseConditionInput
+export const createResponses = /* GraphQL */ `
+  mutation CreateResponses(
+    $input: CreateResponsesInput!
+    $condition: ModelResponsesConditionInput
   ) {
-    createResponse(input: $input, condition: $condition) {
+    createResponses(input: $input, condition: $condition) {
       id
       fname
       lname
-      form_id
+      formID
       email
       r1
       r2
@@ -120,16 +120,16 @@ export const createResponse = /* GraphQL */ `
     }
   }
 `;
-export const updateResponse = /* GraphQL */ `
-  mutation UpdateResponse(
-    $input: UpdateResponseInput!
-    $condition: ModelResponseConditionInput
+export const updateResponses = /* GraphQL */ `
+  mutation UpdateResponses(
+    $input: UpdateResponsesInput!
+    $condition: ModelResponsesConditionInput
   ) {
-    updateResponse(input: $input, condition: $condition) {
+    updateResponses(input: $input, condition: $condition) {
       id
       fname
       lname
-      form_id
+      formID
       email
       r1
       r2
@@ -146,16 +146,16 @@ export const updateResponse = /* GraphQL */ `
     }
   }
 `;
-export const deleteResponse = /* GraphQL */ `
-  mutation DeleteResponse(
-    $input: DeleteResponseInput!
-    $condition: ModelResponseConditionInput
+export const deleteResponses = /* GraphQL */ `
+  mutation DeleteResponses(
+    $input: DeleteResponsesInput!
+    $condition: ModelResponsesConditionInput
   ) {
-    deleteResponse(input: $input, condition: $condition) {
+    deleteResponses(input: $input, condition: $condition) {
       id
       fname
       lname
-      form_id
+      formID
       email
       r1
       r2
@@ -265,17 +265,17 @@ export const deleteUsers = /* GraphQL */ `
     }
   }
 `;
-export const createResponseClean = /* GraphQL */ `
-  mutation CreateResponseClean(
-    $input: CreateResponseCleanInput!
-    $condition: ModelResponseCleanConditionInput
+export const createResponseCleaned = /* GraphQL */ `
+  mutation CreateResponseCleaned(
+    $input: CreateResponseCleanedInput!
+    $condition: ModelResponseCleanedConditionInput
   ) {
-    createResponseClean(input: $input, condition: $condition) {
-      id
+    createResponseCleaned(input: $input, condition: $condition) {
+      formID
+      email
       fname
       lname
-      email
-      formID
+      id
       r1
       r2
       r3
@@ -291,17 +291,17 @@ export const createResponseClean = /* GraphQL */ `
     }
   }
 `;
-export const updateResponseClean = /* GraphQL */ `
-  mutation UpdateResponseClean(
-    $input: UpdateResponseCleanInput!
-    $condition: ModelResponseCleanConditionInput
+export const updateResponseCleaned = /* GraphQL */ `
+  mutation UpdateResponseCleaned(
+    $input: UpdateResponseCleanedInput!
+    $condition: ModelResponseCleanedConditionInput
   ) {
-    updateResponseClean(input: $input, condition: $condition) {
-      id
+    updateResponseCleaned(input: $input, condition: $condition) {
+      formID
+      email
       fname
       lname
-      email
-      formID
+      id
       r1
       r2
       r3
@@ -317,17 +317,17 @@ export const updateResponseClean = /* GraphQL */ `
     }
   }
 `;
-export const deleteResponseClean = /* GraphQL */ `
-  mutation DeleteResponseClean(
-    $input: DeleteResponseCleanInput!
-    $condition: ModelResponseCleanConditionInput
+export const deleteResponseCleaned = /* GraphQL */ `
+  mutation DeleteResponseCleaned(
+    $input: DeleteResponseCleanedInput!
+    $condition: ModelResponseCleanedConditionInput
   ) {
-    deleteResponseClean(input: $input, condition: $condition) {
-      id
+    deleteResponseCleaned(input: $input, condition: $condition) {
+      formID
+      email
       fname
       lname
-      email
-      formID
+      id
       r1
       r2
       r3
@@ -338,6 +338,48 @@ export const deleteResponseClean = /* GraphQL */ `
       r8
       r9
       r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createWordScore = /* GraphQL */ `
+  mutation CreateWordScore(
+    $input: CreateWordScoreInput!
+    $condition: ModelWordScoreConditionInput
+  ) {
+    createWordScore(input: $input, condition: $condition) {
+      formID
+      round
+      scores
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateWordScore = /* GraphQL */ `
+  mutation UpdateWordScore(
+    $input: UpdateWordScoreInput!
+    $condition: ModelWordScoreConditionInput
+  ) {
+    updateWordScore(input: $input, condition: $condition) {
+      formID
+      round
+      scores
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteWordScore = /* GraphQL */ `
+  mutation DeleteWordScore(
+    $input: DeleteWordScoreInput!
+    $condition: ModelWordScoreConditionInput
+  ) {
+    deleteWordScore(input: $input, condition: $condition) {
+      formID
+      round
+      scores
       createdAt
       updatedAt
     }

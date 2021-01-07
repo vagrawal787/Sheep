@@ -61,13 +61,13 @@ export const listForms = /* GraphQL */ `
     }
   }
 `;
-export const getResponse = /* GraphQL */ `
-  query GetResponse($id: ID!) {
-    getResponse(id: $id) {
+export const getResponses = /* GraphQL */ `
+  query GetResponses($formID: ID!, $email: String!) {
+    getResponses(formID: $formID, email: $email) {
       id
       fname
       lname
-      form_id
+      formID
       email
       r1
       r2
@@ -84,18 +84,28 @@ export const getResponse = /* GraphQL */ `
     }
   }
 `;
-export const listResponses = /* GraphQL */ `
-  query ListResponses(
-    $filter: ModelResponseFilterInput
+export const listResponsess = /* GraphQL */ `
+  query ListResponsess(
+    $formID: ID
+    $email: ModelStringKeyConditionInput
+    $filter: ModelResponsesFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listResponses(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listResponsess(
+      formID: $formID
+      email: $email
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         fname
         lname
-        form_id
+        formID
         email
         r1
         r2
@@ -161,14 +171,14 @@ export const listUserss = /* GraphQL */ `
     }
   }
 `;
-export const getResponseClean = /* GraphQL */ `
-  query GetResponseClean($id: ID!) {
-    getResponseClean(id: $id) {
-      id
+export const getResponseCleaned = /* GraphQL */ `
+  query GetResponseCleaned($formID: String!, $email: String!) {
+    getResponseCleaned(formID: $formID, email: $email) {
+      formID
+      email
       fname
       lname
-      email
-      formID
+      id
       r1
       r2
       r3
@@ -184,19 +194,29 @@ export const getResponseClean = /* GraphQL */ `
     }
   }
 `;
-export const listResponseCleans = /* GraphQL */ `
-  query ListResponseCleans(
-    $filter: ModelResponseCleanFilterInput
+export const listResponseCleaneds = /* GraphQL */ `
+  query ListResponseCleaneds(
+    $formID: String
+    $email: ModelStringKeyConditionInput
+    $filter: ModelResponseCleanedFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listResponseCleans(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listResponseCleaneds(
+      formID: $formID
+      email: $email
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
+        formID
+        email
         fname
         lname
-        email
-        formID
+        id
         r1
         r2
         r3
@@ -207,6 +227,45 @@ export const listResponseCleans = /* GraphQL */ `
         r8
         r9
         r10
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getWordScore = /* GraphQL */ `
+  query GetWordScore($formID: String!, $round: String!) {
+    getWordScore(formID: $formID, round: $round) {
+      formID
+      round
+      scores
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listWordScores = /* GraphQL */ `
+  query ListWordScores(
+    $formID: String
+    $round: ModelStringKeyConditionInput
+    $filter: ModelWordScoreFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listWordScores(
+      formID: $formID
+      round: $round
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        formID
+        round
+        scores
         createdAt
         updatedAt
       }

@@ -85,13 +85,13 @@ export const onDeleteForm = /* GraphQL */ `
     }
   }
 `;
-export const onCreateResponse = /* GraphQL */ `
-  subscription OnCreateResponse {
-    onCreateResponse {
+export const onCreateResponses = /* GraphQL */ `
+  subscription OnCreateResponses {
+    onCreateResponses {
       id
       fname
       lname
-      form_id
+      formID
       email
       r1
       r2
@@ -108,13 +108,13 @@ export const onCreateResponse = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateResponse = /* GraphQL */ `
-  subscription OnUpdateResponse {
-    onUpdateResponse {
+export const onUpdateResponses = /* GraphQL */ `
+  subscription OnUpdateResponses {
+    onUpdateResponses {
       id
       fname
       lname
-      form_id
+      formID
       email
       r1
       r2
@@ -131,13 +131,13 @@ export const onUpdateResponse = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteResponse = /* GraphQL */ `
-  subscription OnDeleteResponse {
-    onDeleteResponse {
+export const onDeleteResponses = /* GraphQL */ `
+  subscription OnDeleteResponses {
+    onDeleteResponses {
       id
       fname
       lname
-      form_id
+      formID
       email
       r1
       r2
@@ -238,14 +238,14 @@ export const onDeleteUsers = /* GraphQL */ `
     }
   }
 `;
-export const onCreateResponseClean = /* GraphQL */ `
-  subscription OnCreateResponseClean {
-    onCreateResponseClean {
-      id
+export const onCreateResponseCleaned = /* GraphQL */ `
+  subscription OnCreateResponseCleaned {
+    onCreateResponseCleaned {
+      formID
+      email
       fname
       lname
-      email
-      formID
+      id
       r1
       r2
       r3
@@ -261,14 +261,14 @@ export const onCreateResponseClean = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateResponseClean = /* GraphQL */ `
-  subscription OnUpdateResponseClean {
-    onUpdateResponseClean {
-      id
+export const onUpdateResponseCleaned = /* GraphQL */ `
+  subscription OnUpdateResponseCleaned {
+    onUpdateResponseCleaned {
+      formID
+      email
       fname
       lname
-      email
-      formID
+      id
       r1
       r2
       r3
@@ -284,14 +284,14 @@ export const onUpdateResponseClean = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteResponseClean = /* GraphQL */ `
-  subscription OnDeleteResponseClean {
-    onDeleteResponseClean {
-      id
+export const onDeleteResponseCleaned = /* GraphQL */ `
+  subscription OnDeleteResponseCleaned {
+    onDeleteResponseCleaned {
+      formID
+      email
       fname
       lname
-      email
-      formID
+      id
       r1
       r2
       r3
@@ -302,6 +302,39 @@ export const onDeleteResponseClean = /* GraphQL */ `
       r8
       r9
       r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateWordScore = /* GraphQL */ `
+  subscription OnCreateWordScore {
+    onCreateWordScore {
+      formID
+      round
+      scores
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateWordScore = /* GraphQL */ `
+  subscription OnUpdateWordScore {
+    onUpdateWordScore {
+      formID
+      round
+      scores
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteWordScore = /* GraphQL */ `
+  subscription OnDeleteWordScore {
+    onDeleteWordScore {
+      formID
+      round
+      scores
       createdAt
       updatedAt
     }

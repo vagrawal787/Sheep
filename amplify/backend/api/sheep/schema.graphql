@@ -13,11 +13,11 @@ type Form @model{
   q10: String!
   user: Users @connection(name: "UserFormConnection")
 }
-type Response @model {
+type Responses @model @key(fields: ["formID", "email"]){
   id: ID!
   fname: String!
   lname: String!
-  form_id: ID!
+  formID: ID!
   email: String!
   r1: String!
   r2: String!
@@ -34,12 +34,12 @@ type Users @model {
   id: ID!
   forms: [Form] @connection(name: "UserFormConnection")
 }
-type ResponseClean @model {
-  id: ID!
+type ResponseCleaned @model @key(fields: ["formID", "email"]){
+  formID: String!
+  email: String!
   fname: String!
   lname: String!
-  email: String!
-  formID: String!
+  id: ID!
   r1: String!
   r2: String!
   r3: String!
@@ -50,4 +50,9 @@ type ResponseClean @model {
   r8: String!
   r9: String!
   r10: String!
+}
+type WordScore @model @key(fields: ["formID", "round"]){
+  formID: String!
+  round: String!
+  scores: String!
 }
