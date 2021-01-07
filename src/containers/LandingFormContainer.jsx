@@ -8,6 +8,12 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
+import awsconfig from '../aws-exports';
+import gql from 'graphql-tag';
+
+import * as queries from '../graphql/queries';
+
 class LandingFormContainer extends Component {
   constructor(props) {
     super(props);
@@ -45,13 +51,27 @@ class LandingFormContainer extends Component {
     }, 2000);
   }
 
-  handleFormSubmit(e) {
+  async handleFormSubmit(e) {
     e.preventDefault();
-    if (this.state.code == '') {
-      this.setState({ errorMessage: 'Uh-oh, make sure you have inputted a code!' });
-      (() => { this.showNotification() })();
-    } else {
-      this.setState({ redirectSubmit: true });
+    const client = new AWSAppSyncClient({
+      url: awsconfig.aws_appsync_graphqlEndpoint,
+      region: awsconfig.aws_appsync_region,
+      disableOffline: true,
+      auth: {
+        type: AUTH_TYPE.API_KEY,
+        apiKey: awsconfig.aws_appsync_apiKey,
+      },
+    });
+    try {
+      const apiData = await client.query({ query: gql(queries.getForm), variables: { id: this.state.code } });
+      if (apiData.data.getForm == null) {
+        (() => { this.showNotification() })();
+      } else {
+        this.setState({redirectSubmit: true});
+      }
+    } catch (e) {
+      console.log(e);
+      (() => {this.showNotification()})();
     }
   }
   handleAdminButton(e) {

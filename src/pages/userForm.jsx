@@ -192,7 +192,6 @@ class MainPage extends Component {
       <div className="container">
         <Helmet>
           <link rel="stylesheet" href="userform.css" />
-          <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500@&display=swap" rel="stylesheet" />
           {/* <style>{'body { background-image: url(${background}); }'}</style> */}
         </Helmet>
         <div className='formContainer'>
@@ -201,6 +200,7 @@ class MainPage extends Component {
             <Input inputType={'text'}
               title={'First Name:'}
               name={'fname'}
+              style={{margin: 10}}
               value={this.state.fname}
               placeholder={'First name'}
               handleChange={this.handleInput}
@@ -210,6 +210,7 @@ class MainPage extends Component {
             <Input inputType={'text'}
               title={'Last Name:'}
               name={'lname'}
+              style={{margin: 10}}
               value={this.state.lname}
               placeholder={'Last Name'}
               handleChange={this.handleInput}
@@ -219,6 +220,7 @@ class MainPage extends Component {
             <Input inputType={'text'}
               title={'Email:'}
               name={'email'}
+              style={{margin: 10}}
               value={this.state.email}
               placeholder={'Email'}
               handleChange={this.handleInput}
