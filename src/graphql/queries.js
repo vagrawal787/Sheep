@@ -161,3 +161,56 @@ export const listUserss = /* GraphQL */ `
     }
   }
 `;
+export const getResponseClean = /* GraphQL */ `
+  query GetResponseClean($id: ID!) {
+    getResponseClean(id: $id) {
+      id
+      fname
+      lname
+      email
+      formID
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listResponseCleans = /* GraphQL */ `
+  query ListResponseCleans(
+    $filter: ModelResponseCleanFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listResponseCleans(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        fname
+        lname
+        email
+        formID
+        r1
+        r2
+        r3
+        r4
+        r5
+        r6
+        r7
+        r8
+        r9
+        r10
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

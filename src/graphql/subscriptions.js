@@ -238,3 +238,72 @@ export const onDeleteUsers = /* GraphQL */ `
     }
   }
 `;
+export const onCreateResponseClean = /* GraphQL */ `
+  subscription OnCreateResponseClean {
+    onCreateResponseClean {
+      id
+      fname
+      lname
+      email
+      formID
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateResponseClean = /* GraphQL */ `
+  subscription OnUpdateResponseClean {
+    onUpdateResponseClean {
+      id
+      fname
+      lname
+      email
+      formID
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteResponseClean = /* GraphQL */ `
+  subscription OnDeleteResponseClean {
+    onDeleteResponseClean {
+      id
+      fname
+      lname
+      email
+      formID
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;

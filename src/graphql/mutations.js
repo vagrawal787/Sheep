@@ -265,3 +265,81 @@ export const deleteUsers = /* GraphQL */ `
     }
   }
 `;
+export const createResponseClean = /* GraphQL */ `
+  mutation CreateResponseClean(
+    $input: CreateResponseCleanInput!
+    $condition: ModelResponseCleanConditionInput
+  ) {
+    createResponseClean(input: $input, condition: $condition) {
+      id
+      fname
+      lname
+      email
+      formID
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateResponseClean = /* GraphQL */ `
+  mutation UpdateResponseClean(
+    $input: UpdateResponseCleanInput!
+    $condition: ModelResponseCleanConditionInput
+  ) {
+    updateResponseClean(input: $input, condition: $condition) {
+      id
+      fname
+      lname
+      email
+      formID
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteResponseClean = /* GraphQL */ `
+  mutation DeleteResponseClean(
+    $input: DeleteResponseCleanInput!
+    $condition: ModelResponseCleanConditionInput
+  ) {
+    deleteResponseClean(input: $input, condition: $condition) {
+      id
+      fname
+      lname
+      email
+      formID
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      createdAt
+      updatedAt
+    }
+  }
+`;
