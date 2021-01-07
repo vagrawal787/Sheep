@@ -120,7 +120,7 @@ class LandingFormContainer extends Component {
             <form className="container-fluid" onSubmit={this.handleFormSubmit}>
 
               <p className="codeParagraph"> Game Code: </p>
-              <Input inputType={'number'}
+              <Input inputType={'text'}
                 name={'code'}
                 value={this.state.code}
                 placeholder={'Enter your code'}

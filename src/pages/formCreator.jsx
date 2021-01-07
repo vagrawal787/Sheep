@@ -133,7 +133,6 @@ class CreatePage extends Component {
             <div>
                 <Helmet>
                     <link rel="stylesheet" href="formcreator.css" />
-                    {/* <style>{'body { background-image: url(${background}); }'}</style> */}
                 </Helmet>
                 <h1> Create a Game! </h1>
                 <form className="container-fluid" onSubmit={this.handleFormSubmit}>
