@@ -11,6 +11,7 @@ type Form @model{
   q8: String!
   q9: String!
   q10: String!
+  active: Boolean!
   user: Users @connection(name: "UserFormConnection")
 }
 type Responses @model @key(fields: ["formID", "email"]){
@@ -35,7 +36,7 @@ type Users @model {
   forms: [Form] @connection(name: "UserFormConnection")
 }
 type ResponseCleaned @model @key(fields: ["formID", "email"]){
-  formID: String!
+  formID: ID!
   email: String!
   fname: String!
   lname: String!
@@ -52,7 +53,41 @@ type ResponseCleaned @model @key(fields: ["formID", "email"]){
   r10: String!
 }
 type WordScore @model @key(fields: ["formID", "round"]){
-  formID: String!
+  formID: ID!
   round: String!
   scores: String!
+  user_scores: String!
+}
+type UserScore @model @key(fields: ["formID", "email"]){
+  formID: ID!
+  email: String!
+  fname: String
+  lname: String
+  r1: String!
+  r2: String!
+  r3: String!
+  r4: String!
+  r5: String!
+  r6: String!
+  r7: String!
+  r8: String!
+  r9: String!
+  r10: String!
+  r1_sum: String!
+  r2_sum: String!
+  r3_sum: String!
+  r4_sum: String!
+  r5_sum: String!
+  r6_sum: String!
+  r7_sum: String!
+  r8_sum: String!
+  r9_sum: String!
+  r10_sum: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  formResponseList: FormResponseList @connection(name: "FormResponseListConnection")
+}
+type FormResponseList @model{
+  id: ID!
+  forms: [UserScore] @connection(name: "FormResponseListConnection")
 }

@@ -1,0 +1,41 @@
+#title {
+    text-align: center;
+    font-family: arial, sans-serif;
+  }
+  
+  #responses {
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+  }
+  
+  #responses td, #responses th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #responses tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #responses tr:hover {background-color: #ddd;}
+  
+  #responses th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #72e1f7;
+    color: black;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  .modal_content {
+    background-color: white;
+    position: absolute;
+  }

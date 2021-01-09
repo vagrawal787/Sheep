@@ -90,6 +90,7 @@ class CreatePage extends Component {
                 id: this.state.id,
                 formUserId: this.state.userID,
                 userID: this.state.userID,
+                active: true,
                 q1: this.state.q1,
                 q2: this.state.q2,
                 q3: this.state.q3,
@@ -254,8 +255,8 @@ class CreatePage extends Component {
 
                 </form>
                 <div>
-                <Notification show={this.state.show} />
-                <NotificationIDMatch match={this.state.match} />
+                    <Notification show={this.state.show} />
+                    <Notification match={this.state.match} />
                 </div>
             </div>
         );
@@ -263,13 +264,12 @@ class CreatePage extends Component {
 }
 class Notification extends React.Component {
     render() {
-        return <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have an input in all fields! </span>
-    }
-}
-
-class NotificationIDMatch extends React.Component {
-    render() {
-        return <span className={this.props.match ? 'match' : ''}> Uh-oh, that ID is taken! Please try another one. </span>
+        return (
+            <div>
+                <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have an input in all fields! </span>
+                <span className={this.props.match ? 'match' : ''}> Uh-oh, that ID is taken! Please try another one. </span>
+            </div>
+        )
     }
 }
 

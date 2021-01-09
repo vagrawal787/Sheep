@@ -16,6 +16,7 @@ export const getForm = /* GraphQL */ `
       q8
       q9
       q10
+      active
       user {
         id
         forms {
@@ -49,6 +50,7 @@ export const listForms = /* GraphQL */ `
         q8
         q9
         q10
+        active
         user {
           id
           createdAt
@@ -142,6 +144,7 @@ export const getUsers = /* GraphQL */ `
           q8
           q9
           q10
+          active
           createdAt
           updatedAt
         }
@@ -172,7 +175,7 @@ export const listUserss = /* GraphQL */ `
   }
 `;
 export const getResponseCleaned = /* GraphQL */ `
-  query GetResponseCleaned($formID: String!, $email: String!) {
+  query GetResponseCleaned($formID: ID!, $email: String!) {
     getResponseCleaned(formID: $formID, email: $email) {
       formID
       email
@@ -196,7 +199,7 @@ export const getResponseCleaned = /* GraphQL */ `
 `;
 export const listResponseCleaneds = /* GraphQL */ `
   query ListResponseCleaneds(
-    $formID: String
+    $formID: ID
     $email: ModelStringKeyConditionInput
     $filter: ModelResponseCleanedFilterInput
     $limit: Int
@@ -235,11 +238,12 @@ export const listResponseCleaneds = /* GraphQL */ `
   }
 `;
 export const getWordScore = /* GraphQL */ `
-  query GetWordScore($formID: String!, $round: String!) {
+  query GetWordScore($formID: ID!, $round: String!) {
     getWordScore(formID: $formID, round: $round) {
       formID
       round
       scores
+      user_scores
       createdAt
       updatedAt
     }
@@ -247,7 +251,7 @@ export const getWordScore = /* GraphQL */ `
 `;
 export const listWordScores = /* GraphQL */ `
   query ListWordScores(
-    $formID: String
+    $formID: ID
     $round: ModelStringKeyConditionInput
     $filter: ModelWordScoreFilterInput
     $limit: Int
@@ -266,6 +270,164 @@ export const listWordScores = /* GraphQL */ `
         formID
         round
         scores
+        user_scores
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getUserScore = /* GraphQL */ `
+  query GetUserScore($formID: ID!, $email: String!) {
+    getUserScore(formID: $formID, email: $email) {
+      formID
+      email
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      r1_sum
+      r2_sum
+      r3_sum
+      r4_sum
+      r5_sum
+      r6_sum
+      r7_sum
+      r8_sum
+      r9_sum
+      r10_sum
+      createdAt
+      updatedAt
+      formResponseList {
+        id
+        forms {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const listUserScores = /* GraphQL */ `
+  query ListUserScores(
+    $formID: ID
+    $email: ModelStringKeyConditionInput
+    $filter: ModelUserScoreFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listUserScores(
+      formID: $formID
+      email: $email
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        formID
+        email
+        fname
+        lname
+        r1
+        r2
+        r3
+        r4
+        r5
+        r6
+        r7
+        r8
+        r9
+        r10
+        r1_sum
+        r2_sum
+        r3_sum
+        r4_sum
+        r5_sum
+        r6_sum
+        r7_sum
+        r8_sum
+        r9_sum
+        r10_sum
+        createdAt
+        updatedAt
+        formResponseList {
+          id
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getFormResponseList = /* GraphQL */ `
+  query GetFormResponseList($id: ID!) {
+    getFormResponseList(id: $id) {
+      id
+      forms {
+        items {
+          formID
+          email
+          fname
+          lname
+          r1
+          r2
+          r3
+          r4
+          r5
+          r6
+          r7
+          r8
+          r9
+          r10
+          r1_sum
+          r2_sum
+          r3_sum
+          r4_sum
+          r5_sum
+          r6_sum
+          r7_sum
+          r8_sum
+          r9_sum
+          r10_sum
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listFormResponseLists = /* GraphQL */ `
+  query ListFormResponseLists(
+    $filter: ModelFormResponseListFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFormResponseLists(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        forms {
+          nextToken
+        }
         createdAt
         updatedAt
       }

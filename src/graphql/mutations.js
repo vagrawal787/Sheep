@@ -19,6 +19,7 @@ export const createForm = /* GraphQL */ `
       q8
       q9
       q10
+      active
       user {
         id
         forms {
@@ -50,6 +51,7 @@ export const updateForm = /* GraphQL */ `
       q8
       q9
       q10
+      active
       user {
         id
         forms {
@@ -81,6 +83,7 @@ export const deleteForm = /* GraphQL */ `
       q8
       q9
       q10
+      active
       user {
         id
         forms {
@@ -193,6 +196,7 @@ export const createUsers = /* GraphQL */ `
           q8
           q9
           q10
+          active
           createdAt
           updatedAt
         }
@@ -224,6 +228,7 @@ export const updateUsers = /* GraphQL */ `
           q8
           q9
           q10
+          active
           createdAt
           updatedAt
         }
@@ -255,6 +260,7 @@ export const deleteUsers = /* GraphQL */ `
           q8
           q9
           q10
+          active
           createdAt
           updatedAt
         }
@@ -352,6 +358,7 @@ export const createWordScore = /* GraphQL */ `
       formID
       round
       scores
+      user_scores
       createdAt
       updatedAt
     }
@@ -366,6 +373,7 @@ export const updateWordScore = /* GraphQL */ `
       formID
       round
       scores
+      user_scores
       createdAt
       updatedAt
     }
@@ -380,6 +388,265 @@ export const deleteWordScore = /* GraphQL */ `
       formID
       round
       scores
+      user_scores
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createUserScore = /* GraphQL */ `
+  mutation CreateUserScore(
+    $input: CreateUserScoreInput!
+    $condition: ModelUserScoreConditionInput
+  ) {
+    createUserScore(input: $input, condition: $condition) {
+      formID
+      email
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      r1_sum
+      r2_sum
+      r3_sum
+      r4_sum
+      r5_sum
+      r6_sum
+      r7_sum
+      r8_sum
+      r9_sum
+      r10_sum
+      createdAt
+      updatedAt
+      formResponseList {
+        id
+        forms {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const updateUserScore = /* GraphQL */ `
+  mutation UpdateUserScore(
+    $input: UpdateUserScoreInput!
+    $condition: ModelUserScoreConditionInput
+  ) {
+    updateUserScore(input: $input, condition: $condition) {
+      formID
+      email
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      r1_sum
+      r2_sum
+      r3_sum
+      r4_sum
+      r5_sum
+      r6_sum
+      r7_sum
+      r8_sum
+      r9_sum
+      r10_sum
+      createdAt
+      updatedAt
+      formResponseList {
+        id
+        forms {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const deleteUserScore = /* GraphQL */ `
+  mutation DeleteUserScore(
+    $input: DeleteUserScoreInput!
+    $condition: ModelUserScoreConditionInput
+  ) {
+    deleteUserScore(input: $input, condition: $condition) {
+      formID
+      email
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      r1_sum
+      r2_sum
+      r3_sum
+      r4_sum
+      r5_sum
+      r6_sum
+      r7_sum
+      r8_sum
+      r9_sum
+      r10_sum
+      createdAt
+      updatedAt
+      formResponseList {
+        id
+        forms {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const createFormResponseList = /* GraphQL */ `
+  mutation CreateFormResponseList(
+    $input: CreateFormResponseListInput!
+    $condition: ModelFormResponseListConditionInput
+  ) {
+    createFormResponseList(input: $input, condition: $condition) {
+      id
+      forms {
+        items {
+          formID
+          email
+          fname
+          lname
+          r1
+          r2
+          r3
+          r4
+          r5
+          r6
+          r7
+          r8
+          r9
+          r10
+          r1_sum
+          r2_sum
+          r3_sum
+          r4_sum
+          r5_sum
+          r6_sum
+          r7_sum
+          r8_sum
+          r9_sum
+          r10_sum
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateFormResponseList = /* GraphQL */ `
+  mutation UpdateFormResponseList(
+    $input: UpdateFormResponseListInput!
+    $condition: ModelFormResponseListConditionInput
+  ) {
+    updateFormResponseList(input: $input, condition: $condition) {
+      id
+      forms {
+        items {
+          formID
+          email
+          fname
+          lname
+          r1
+          r2
+          r3
+          r4
+          r5
+          r6
+          r7
+          r8
+          r9
+          r10
+          r1_sum
+          r2_sum
+          r3_sum
+          r4_sum
+          r5_sum
+          r6_sum
+          r7_sum
+          r8_sum
+          r9_sum
+          r10_sum
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteFormResponseList = /* GraphQL */ `
+  mutation DeleteFormResponseList(
+    $input: DeleteFormResponseListInput!
+    $condition: ModelFormResponseListConditionInput
+  ) {
+    deleteFormResponseList(input: $input, condition: $condition) {
+      id
+      forms {
+        items {
+          formID
+          email
+          fname
+          lname
+          r1
+          r2
+          r3
+          r4
+          r5
+          r6
+          r7
+          r8
+          r9
+          r10
+          r1_sum
+          r2_sum
+          r3_sum
+          r4_sum
+          r5_sum
+          r6_sum
+          r7_sum
+          r8_sum
+          r9_sum
+          r10_sum
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }

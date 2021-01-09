@@ -16,6 +16,7 @@ export const onCreateForm = /* GraphQL */ `
       q8
       q9
       q10
+      active
       user {
         id
         forms {
@@ -44,6 +45,7 @@ export const onUpdateForm = /* GraphQL */ `
       q8
       q9
       q10
+      active
       user {
         id
         forms {
@@ -72,6 +74,7 @@ export const onDeleteForm = /* GraphQL */ `
       q8
       q9
       q10
+      active
       user {
         id
         forms {
@@ -172,6 +175,7 @@ export const onCreateUsers = /* GraphQL */ `
           q8
           q9
           q10
+          active
           createdAt
           updatedAt
         }
@@ -200,6 +204,7 @@ export const onUpdateUsers = /* GraphQL */ `
           q8
           q9
           q10
+          active
           createdAt
           updatedAt
         }
@@ -228,6 +233,7 @@ export const onDeleteUsers = /* GraphQL */ `
           q8
           q9
           q10
+          active
           createdAt
           updatedAt
         }
@@ -313,6 +319,7 @@ export const onCreateWordScore = /* GraphQL */ `
       formID
       round
       scores
+      user_scores
       createdAt
       updatedAt
     }
@@ -324,6 +331,7 @@ export const onUpdateWordScore = /* GraphQL */ `
       formID
       round
       scores
+      user_scores
       createdAt
       updatedAt
     }
@@ -335,6 +343,247 @@ export const onDeleteWordScore = /* GraphQL */ `
       formID
       round
       scores
+      user_scores
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateUserScore = /* GraphQL */ `
+  subscription OnCreateUserScore {
+    onCreateUserScore {
+      formID
+      email
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      r1_sum
+      r2_sum
+      r3_sum
+      r4_sum
+      r5_sum
+      r6_sum
+      r7_sum
+      r8_sum
+      r9_sum
+      r10_sum
+      createdAt
+      updatedAt
+      formResponseList {
+        id
+        forms {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onUpdateUserScore = /* GraphQL */ `
+  subscription OnUpdateUserScore {
+    onUpdateUserScore {
+      formID
+      email
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      r1_sum
+      r2_sum
+      r3_sum
+      r4_sum
+      r5_sum
+      r6_sum
+      r7_sum
+      r8_sum
+      r9_sum
+      r10_sum
+      createdAt
+      updatedAt
+      formResponseList {
+        id
+        forms {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onDeleteUserScore = /* GraphQL */ `
+  subscription OnDeleteUserScore {
+    onDeleteUserScore {
+      formID
+      email
+      fname
+      lname
+      r1
+      r2
+      r3
+      r4
+      r5
+      r6
+      r7
+      r8
+      r9
+      r10
+      r1_sum
+      r2_sum
+      r3_sum
+      r4_sum
+      r5_sum
+      r6_sum
+      r7_sum
+      r8_sum
+      r9_sum
+      r10_sum
+      createdAt
+      updatedAt
+      formResponseList {
+        id
+        forms {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onCreateFormResponseList = /* GraphQL */ `
+  subscription OnCreateFormResponseList {
+    onCreateFormResponseList {
+      id
+      forms {
+        items {
+          formID
+          email
+          fname
+          lname
+          r1
+          r2
+          r3
+          r4
+          r5
+          r6
+          r7
+          r8
+          r9
+          r10
+          r1_sum
+          r2_sum
+          r3_sum
+          r4_sum
+          r5_sum
+          r6_sum
+          r7_sum
+          r8_sum
+          r9_sum
+          r10_sum
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateFormResponseList = /* GraphQL */ `
+  subscription OnUpdateFormResponseList {
+    onUpdateFormResponseList {
+      id
+      forms {
+        items {
+          formID
+          email
+          fname
+          lname
+          r1
+          r2
+          r3
+          r4
+          r5
+          r6
+          r7
+          r8
+          r9
+          r10
+          r1_sum
+          r2_sum
+          r3_sum
+          r4_sum
+          r5_sum
+          r6_sum
+          r7_sum
+          r8_sum
+          r9_sum
+          r10_sum
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteFormResponseList = /* GraphQL */ `
+  subscription OnDeleteFormResponseList {
+    onDeleteFormResponseList {
+      id
+      forms {
+        items {
+          formID
+          email
+          fname
+          lname
+          r1
+          r2
+          r3
+          r4
+          r5
+          r6
+          r7
+          r8
+          r9
+          r10
+          r1_sum
+          r2_sum
+          r3_sum
+          r4_sum
+          r5_sum
+          r6_sum
+          r7_sum
+          r8_sum
+          r9_sum
+          r10_sum
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
