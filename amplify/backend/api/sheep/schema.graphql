@@ -40,7 +40,6 @@ type ResponseCleaned @model @key(fields: ["formID", "email"]){
   email: String!
   fname: String!
   lname: String!
-  id: ID!
   r1: String!
   r2: String!
   r3: String!
@@ -51,6 +50,8 @@ type ResponseCleaned @model @key(fields: ["formID", "email"]){
   r8: String!
   r9: String!
   r10: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 type WordScore @model @key(fields: ["formID", "round"]){
   formID: ID!

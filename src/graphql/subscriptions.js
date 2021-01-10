@@ -251,7 +251,6 @@ export const onCreateResponseCleaned = /* GraphQL */ `
       email
       fname
       lname
-      id
       r1
       r2
       r3
@@ -274,7 +273,6 @@ export const onUpdateResponseCleaned = /* GraphQL */ `
       email
       fname
       lname
-      id
       r1
       r2
       r3
@@ -297,7 +295,6 @@ export const onDeleteResponseCleaned = /* GraphQL */ `
       email
       fname
       lname
-      id
       r1
       r2
       r3

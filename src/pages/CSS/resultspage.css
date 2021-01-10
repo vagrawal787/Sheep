@@ -3,7 +3,7 @@
     margin: 0 auto;
     display: flex;
     height: 300px;
-    padding: 10px;
+    padding: 20px;
   }
   
   .podium-number {
@@ -41,8 +41,10 @@
   #second-step {
     height: 35%;
     right: 25%;
+    background-color:silver;
   }
   
   #third-step {
     height: 30%;
+    background-color:brown;
   }

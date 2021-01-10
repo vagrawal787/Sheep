@@ -81,10 +81,11 @@ class ResponseManager extends Component {
         return (
             <div>
                 <h1>
-                    Responses for form: {this.props.location.state.formID} {this.props.location.state.status}
+                    Responses for form: {this.props.location.state.formID}
                 </h1>
                 {!this.state.open ? <h3 className = "closed"> Form has been closed.</h3>: <h3 className = "open"> Form is open for responses. </h3>}
                 <Table id={this.state.id} />
+                <ResponsesTable id = {this.state.id}/>
                 <Button
                     action={this.handleEditFormButton}
                     type={'primary'}
@@ -229,6 +230,125 @@ class Table extends Component {
                     <td>{r8_sum}</td>
                     <td>{r9_sum}</td>
                     <td>{r10_sum}</td>
+                </tr>
+            )
+        })
+    }
+
+    render() {
+        if (!this.state.call) {
+            (async () => { this.createGroups(); })();
+        }
+        return (
+            <div>
+                <h1 id='title'>React Dynamic Table</h1>
+                <table id='responses'>
+                    <tbody>
+                    <tr>{this.renderTableHeader()}</tr>
+                        {this.renderTableData()}
+                    </tbody>
+                </table>
+            </div>)
+    }
+
+
+}
+
+class ResponsesTable extends Component {
+    constructor(props) {
+        super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
+        this.state = { //state is by default an object
+            id: this.props.id,
+            responses: [{email: 'blah'}],
+            call: false,
+            header: [],
+        }
+        this.createGroups = this.createGroups.bind(this);
+        this.renderTableData = this.renderTableData.bind(this);
+        this.renderTableHeader = this.renderTableHeader.bind(this);
+        this.handleSort = this.handleSort.bind(this);
+        this.compareByKey = this.compareByKey.bind(this);
+    }
+    async createGroups() {
+        const client = new AWSAppSyncClient({
+            url: awsconfig.aws_appsync_graphqlEndpoint,
+            region: awsconfig.aws_appsync_region,
+            disableOffline: true,
+            auth: {
+                type: AUTH_TYPE.API_KEY,
+                apiKey: awsconfig.aws_appsync_apiKey,
+            },
+        });
+        let apiData = '';
+        try {
+            apiData = await client.query({query: gql(queries.listResponseCleaneds), inputs:{filter: { formID: {eq: this.state.id} }}});
+            console.log(apiData);
+            console.log("i got da wordz");
+            this.setState({
+                responses: apiData.data.listResponseCleaneds.items,
+                call: true,
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    handleSort(key){
+        this.setState({switchSort: !this.state.switchSort});
+        let copyResponses = [...this.state.responses];
+        copyResponses.sort(this.compareByKey(key));
+        this.setState({responses: copyResponses});
+    }
+
+    compareByKey(key){
+        if(this.state.switchSort){
+            return function(a,b){
+                if (a[key] < b[key]) return -1; // check for value if the second value is bigger then first return -1
+                if (a[key] > b[key]) return 1;  //check for value if the second value is bigger then first return 1
+                return 0;
+            };
+        }else{
+            return function(a,b){
+                if (a[key] > b[key]) return -1; 
+                if (a[key] < b[key]) return 1; 
+                return 0;
+            };
+        }
+    }
+
+    renderTableHeader() {
+        let header = Object.keys((this.state.responses)[0]);
+        header.splice(0,1);
+        header.pop();
+
+ 
+        return header.map((key, index) => {
+            return <th key={index}><Button
+            action={()=>this.handleSort(key)}
+            type={'primary'}
+            title={key.toUpperCase()}
+        /> { /*Submit */}</th>
+        });
+    }
+
+    renderTableData() {
+        return this.state.responses.map((response, index) => {
+            const { formID, email, fname, lname, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10,} = response //destructuring
+            return (
+                <tr key={formID}>
+                    <td>{email}</td>
+                    <td>{fname}</td>
+                    <td>{lname}</td>
+                    <td>{r1}</td>
+                    <td>{r2}</td>
+                    <td>{r3}</td>
+                    <td>{r4}</td>
+                    <td>{r5}</td>
+                    <td>{r6}</td>
+                    <td>{r7}</td>
+                    <td>{r8}</td>
+                    <td>{r9}</td>
+                    <td>{r10}</td>
                 </tr>
             )
         })

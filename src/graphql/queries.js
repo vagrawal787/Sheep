@@ -181,7 +181,6 @@ export const getResponseCleaned = /* GraphQL */ `
       email
       fname
       lname
-      id
       r1
       r2
       r3
@@ -219,7 +218,6 @@ export const listResponseCleaneds = /* GraphQL */ `
         email
         fname
         lname
-        id
         r1
         r2
         r3
