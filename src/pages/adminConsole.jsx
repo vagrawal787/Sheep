@@ -27,10 +27,12 @@ class ConsolePage extends Component {
             redirect: false,
             apicall: false,
             forms: [],
+            status: [],
             buttons: [],
             rendering: false,
             redirectToManager: false,
             formToRedirect: '',
+            statusToRedirect: false,
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
         this.handleManagerPress = this.handleManagerPress.bind(this);
@@ -47,8 +49,11 @@ class ConsolePage extends Component {
     handleManagerPress(e) {
         e.preventDefault();
         let name = e.target.name;
+        let status = e.target.value;
         console.log(name);
+        console.log('status:'+ status);
         this.state.formToRedirect = name;
+        this.state.statusToRedirect = (status == 'true');
         this.setState({ redirectToManager: true });
     }
 
@@ -99,10 +104,14 @@ class ConsolePage extends Component {
         } else {
             var dict = apiData.data.getUsers.forms.items;
             var arr = [];
+            var statusArr = [];
             for (var key in dict) {
                 arr.push((dict[key]).id);
+                statusArr.push((dict[key]).active);
+                console.log((dict[key]).active);
             }
             this.state.forms = arr;
+            this.state.status = statusArr;
             console.log(this.state.forms);
         }
         (() => { this.setButtons(); })();
@@ -113,6 +122,7 @@ class ConsolePage extends Component {
         for (var p in this.state.forms) {
             var button = <Button
                 action={this.handleManagerPress}
+                value= {this.state.status[p]}
                 type={'primary'}
                 label={this.state.forms[p]}
                 title={this.state.forms[p]}
@@ -150,7 +160,8 @@ class ConsolePage extends Component {
                 pathname: "/responseManager",
                 state: {
                     formID: this.state.formToRedirect,
-                    userID: this.state.userID
+                    userID: this.state.userID,
+                    status: this.state.statusToRedirect
                 }
             }} />
         }

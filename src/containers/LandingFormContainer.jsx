@@ -22,6 +22,7 @@ class LandingFormContainer extends Component {
       code: '',
       redirectSubmit: false,
       redirectAdmin: false,
+      redirectResults: false,
       errorMessage: '',
       show: false,
 
@@ -64,14 +65,17 @@ class LandingFormContainer extends Component {
     });
     try {
       const apiData = await client.query({ query: gql(queries.getForm), variables: { id: this.state.code } });
+      const open = apiData.data.getForm.active;
       if (apiData.data.getForm == null) {
         (() => { this.showNotification() })();
+      } else if (open) {
+        this.setState({ redirectSubmit: true });
       } else {
-        this.setState({redirectSubmit: true});
+        this.setState({ redirectResults: true });
       }
     } catch (e) {
       console.log(e);
-      (() => {this.showNotification()})();
+      (() => { this.showNotification() })();
     }
   }
   handleAdminButton(e) {
@@ -101,6 +105,15 @@ class LandingFormContainer extends Component {
       console.log("call admin");
       this.state.redirectAdmin = false;
       return <Redirect to={{ pathname: "/adminConsole" }} />
+    }
+
+    if (this.state.redirectResults) {
+      console.log("call results");
+      this.state.redirectResults = false;
+      return <Redirect to={{
+        pathname: "/resultsPage",
+        state: { code: this.state.code }
+      }} />
     }
     return (
       <div className="container">

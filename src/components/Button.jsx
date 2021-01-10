@@ -6,6 +6,7 @@ const Button = (props) => {
 	return (
 		<button
 			name={props.label}
+			value= {props.value}
 			style={props.style}
 			className={props.type == 'primary' ? 'btn btn-primary' : 'btn btn-secondary'}
 			onClick={props.action} >

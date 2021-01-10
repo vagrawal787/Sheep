@@ -17,11 +17,12 @@ class ResponseManager extends Component {
         this.state = {
             id: this.props.location.state.formID,
             redirectToEdit: false,
-            seen: false,
+            open: this.props.location.state.status,
             redirectToAdmin : false,
         }
         this.handleEditFormButton = this.handleEditFormButton.bind(this);
         this.redirectToAdmin = this.redirectToAdmin.bind(this);
+        this.toggleClose = this.toggleClose.bind(this);
     }
 
     handleEditFormButton(e) {
@@ -44,16 +45,16 @@ class ResponseManager extends Component {
         try {
             mutData = await client.mutate({
                 mutation: gql(mutations.updateForm),
-                variables: { id: this.state.id, active: false }
+                variables: { input: {id: this.state.id, active: false} }
             });
         } catch (e) {
             console.log(e);
         }
-        (() => {this.togglePop();})();
+        (() => {this.toggleClose();})();
     }
 
-    togglePop(){
-        this.setState({seen: !this.state.seen});
+    toggleClose(){
+        this.setState({open: false});
     }
 
     redirectToAdmin(){
@@ -80,8 +81,9 @@ class ResponseManager extends Component {
         return (
             <div>
                 <h1>
-                    Responses for form: {this.props.location.state.formID}
+                    Responses for form: {this.props.location.state.formID} {this.props.location.state.status}
                 </h1>
+                {!this.state.open ? <h3 className = "closed"> Form has been closed.</h3>: <h3 className = "open"> Form is open for responses. </h3>}
                 <Table id={this.state.id} />
                 <Button
                     action={this.handleEditFormButton}
@@ -98,7 +100,7 @@ class ResponseManager extends Component {
                     type={'primary'}
                     title={'Go back to Console'}
                 /> { /*Submit */}
-                {this.state.seen ? <PopUp toggle={this.togglePop} /> : null}
+                {/* {this.state.seen ? <PopUp toggle={this.togglePop} /> : null} */}
             </div>
         );
     }
@@ -251,32 +253,32 @@ class Table extends Component {
 
 }
 
-class PopUp extends Component {
-    constructor(props) {
-        super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
-        this.state = { //state is by default an object
-            id: this.props.id,
-            responses: [{email: 'blah'}],
-            call: false,
-            header: [],
-        }
-        this.handleClick = this.handleClick.bind(this);
-    }
+// class PopUp extends Component {
+//     constructor(props) {
+//         super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
+//         this.state = { //state is by default an object
+//             id: this.props.id,
+//             responses: [{email: 'blah'}],
+//             call: false,
+//             header: [],
+//         }
+//         this.handleClick = this.handleClick.bind(this);
+//     }
 
-    handleClick(){
-        this.props.toggle();
-    }
+//     handleClick(){
+//         this.props.toggle();
+//     }
 
-    render() {
-        return (
-         <div className="modal">
-           <div className="modal_content">
-           <span className="close" onClick={this.handleClick}>&times;</span>
-           <p>The responses for this form have been closed.</p>
-          </div>
-         </div>
-        );
-       }
-}
+//     render() {
+//         return (
+//          <div className="modal">
+//            <div className="modal_content">
+//            <span className="close" onClick={this.handleClick}>&times;</span>
+//            <p>The responses for this form have been closed.</p>
+//           </div>
+//          </div>
+//         );
+//        }
+// }
 
 export default ResponseManager;
