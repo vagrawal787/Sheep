@@ -23,6 +23,7 @@ class ResponseManager extends Component {
         this.handleEditFormButton = this.handleEditFormButton.bind(this);
         this.redirectToAdmin = this.redirectToAdmin.bind(this);
         this.toggleClose = this.toggleClose.bind(this);
+        this.toggleOpen = this.toggleOpen.bind(this);
     }
 
     handleEditFormButton(e) {
@@ -53,8 +54,35 @@ class ResponseManager extends Component {
         (() => {this.toggleClose();})();
     }
 
+    async handleOpenForm(e){
+        e.preventDefault();
+        const client = new AWSAppSyncClient({
+            url: awsconfig.aws_appsync_graphqlEndpoint,
+            region: awsconfig.aws_appsync_region,
+            disableOffline: true,
+            auth: {
+                type: AUTH_TYPE.API_KEY,
+                apiKey: awsconfig.aws_appsync_apiKey,
+            },
+        });
+        let mutData = '';
+        try {
+            mutData = await client.mutate({
+                mutation: gql(mutations.updateForm),
+                variables: { input: {id: this.state.id, active: true} }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+        (() => {this.toggleOpen();})();
+    }
+
     toggleClose(){
         this.setState({open: false});
+    }
+
+    toggleOpen(){
+        this.setState({open: true});
     }
 
     redirectToAdmin(){
@@ -95,6 +123,11 @@ class ResponseManager extends Component {
                     action={(e)=>this.handleCloseForm(e)}
                     type={'primary'}
                     title={'Close Form'}
+                /> { /*Submit */}
+                <Button
+                    action={(e)=>this.handleOpenForm(e)}
+                    type={'primary'}
+                    title={'Open Form'}
                 /> { /*Submit */}
                 <Button
                     action={this.redirectToAdmin}
@@ -201,7 +234,6 @@ class Table extends Component {
         /> { /*Submit */}</th>
         });
     }
-
     renderTableData() {
         return this.state.responses.map((response, index) => {
             const { formID, email, fname, lname, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r1_sum, r2_sum, r3_sum, r4_sum, r5_sum, r6_sum, r7_sum, r8_sum, r9_sum, r10_sum } = response //destructuring

@@ -1,4 +1,5 @@
 
+ @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap'); 
   #podium-box {
     margin: 0 auto;
     display: flex;
@@ -7,9 +8,8 @@
   }
   
   .podium-number {
-    font-family: DaggerSquare;
     font-weight: bold;
-    font-size: 4em;
+    font-size: 1em;
     color: white;
   }
   
@@ -17,7 +17,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-
+    font-size: 2em;
   }
   
   .step-container>div:first-child {
@@ -34,17 +34,87 @@
   }
   
   #first-step {
-    height: 50%;
+    height: 100%;
     background-color:gold;
+    border-radius: 8px;
   }
   
   #second-step {
-    height: 35%;
+    height: 75%;
     right: 25%;
     background-color:silver;
+    border-radius: 8px;
   }
   
   #third-step {
-    height: 30%;
+    height: 50%;
     background-color:brown;
+    border-radius: 8px;
   }
+.points{
+  position: absolute;
+  right: 15%;
+}
+.response{
+  position:absolute;
+  right:50%;
+}
+.result-container{
+  padding: 10px;
+  background-color: rgb(223, 223, 223);
+  text-align: center;
+  height: 25px;
+  margin: 10px;
+  border-radius: 10px;
+}
+.resultsPage{
+  font-family: 'Quicksand', sans-serif;
+  padding: 50px;
+  text-align: center;
+  background-image: url('./sheepbackimage.jpg');
+  height: 150vh;
+}
+.question{
+  position:absolute;
+  right: 85%;
+}
+#final-result{
+  display:none;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(255, 255, 184);
+  height : 70%;
+  border-radius: 8px;
+}
+.totPoints{
+  border-radius: 50%;
+  margin: 0 auto;
+  width: 150px;
+  height: 150px;
+  padding: 8px;
+  font-size: 100px;
+  background-color: #fff;
+  border: 10px solid rgb(26, 182, 230);
+  color: #666;
+  text-align: center;
+}
+.userName{
+  padding: 20px;
+  font-size: 40px;
+}
+
+#numPoints{
+  margin: -5px;
+  font-size: 15px;
+}
+
+.result-container2{
+  padding: 10px;
+  font-size: 30px;
+  background-color: rgba(37, 198, 247, 0.475);
+  text-align: center;
+  height: 40px;
+  margin: 40px;
+  border-radius: 10px;
+}
