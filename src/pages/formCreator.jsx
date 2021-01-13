@@ -91,6 +91,7 @@ class CreatePage extends Component {
                 formUserId: this.state.userID,
                 userID: this.state.userID,
                 active: true,
+                results: false,
                 q1: this.state.q1,
                 q2: this.state.q2,
                 q3: this.state.q3,

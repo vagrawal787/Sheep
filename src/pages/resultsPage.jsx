@@ -26,6 +26,7 @@ class ResultsPage extends Component {
             responses: [{ email: '' }],
             formData: { q1: '' },
             userResponses: { r1: '' },
+            results: false,
             show: false,
         }
         this.handleSort = this.handleSort.bind(this);
@@ -82,6 +83,7 @@ class ResultsPage extends Component {
             copyResponses.sort(this.compareByKey('r10_sum'));
             this.setState({
                 formData: formData.data.getForm,
+                results: formData.data.getForm.results,
                 responses: responses,
                 winners: copyResponses.slice(0, 3),
             });
@@ -262,54 +264,60 @@ class ResultsPage extends Component {
         if (!this.state.call) {
             (async () => { this.fetchWinners(); })();
         }
-        return (
-            <div className="resultsPage">
-                <div id="podium-box" className="row">
-                    <div className="col-md-4 step-container m-0 p-0">
-                        <div>
-                            {this.state.winners[1].fname} {this.state.winners[1].lname}
-                        </div>
-                        <div id="second-step" className="bg-blue step centerBoth podium-number">
-                            {this.state.winners[1].r10_sum} points
+        if (this.state.results) {
+            return (
+                <div className="resultsPage">
+                    <div className = "resultspage-container">
+                    <div id="podium-box" className="row">
+                        <div className="col-md-4 step-container m-0 p-0">
+                            <div>
+                                {this.state.winners[1].fname} {this.state.winners[1].lname}
+                            </div>
+                            <div id="second-step" className="bg-blue step centerBoth podium-number">
+                                {this.state.winners[1].r10_sum} points
                      </div>
-                    </div>
-                    <div className="col-md-4 step-container m-0 p-0">
-                        <div>
-                            {this.state.winners[0].fname} {this.state.winners[0].lname}
                         </div>
-                        <div id="first-step" className="bg-blue step centerBoth podium-number">
-                            {this.state.winners[0].r10_sum} points
+                        <div className="col-md-4 step-container m-0 p-0">
+                            <div>
+                                {this.state.winners[0].fname} {this.state.winners[0].lname}
+                            </div>
+                            <div id="first-step" className="bg-blue step centerBoth podium-number">
+                                {this.state.winners[0].r10_sum} points
                     </div>
-                    </div>
-                    <div className="col-md-4 step-container m-0 p-0">
-                        <div>
-                            {this.state.winners[2].fname} {this.state.winners[2].lname}
                         </div>
-                        <div id="third-step" className="bg-blue step centerBoth podium-number">
-                            {this.state.winners[2].r10_sum} points
+                        <div className="col-md-4 step-container m-0 p-0">
+                            <div>
+                                {this.state.winners[2].fname} {this.state.winners[2].lname}
+                            </div>
+                            <div id="third-step" className="bg-blue step centerBoth podium-number">
+                                {this.state.winners[2].r10_sum} points
                     </div>
+                        </div>
                     </div>
-                </div>
-                <div className="nameButton">
-                    <Input inputType={'text'}
-                        title={'Your email:'}
-                        name={'email'}
-                        style={{ margin: 10 }}
-                        value={this.state.email}
-                        placeholder={'Email'}
-                        handleChange={this.handleInput}
+                    <div className="nameButton">
+                        <Input inputType={'text'}
+                            title={'Your email:'}
+                            name={'email'}
+                            style={{ margin: 10 }}
+                            value={this.state.email}
+                            placeholder={'Email'}
+                            handleChange={this.handleInput}
 
-                    /> {/* First name */}
-                    <Button
-                        action={this.handleSubmitEmail}
-                        type={'primary'}
-                        title={'Submit'}
-                    /> { /*Submit */}
+                        /> {/* First name */}
+                        <Button
+                            action={this.handleSubmitEmail}
+                            type={'primary'}
+                            title={'Submit'}
+                        /> { /*Submit */}
+                    </div>
+                    <Notification show={this.state.show} />
+                    {this.showUserResults()}
+                    </div>
                 </div>
-                <Notification show={this.state.show} />
-                {this.showUserResults()}
-            </div>
-        );
+            );
+        } else {
+            return <p> The results for this form are not available yet. Please check back later!</p>
+        }
     }
 }
 

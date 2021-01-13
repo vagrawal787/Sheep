@@ -17,6 +17,7 @@ export const onCreateForm = /* GraphQL */ `
       q9
       q10
       active
+      results
       user {
         id
         forms {
@@ -46,6 +47,7 @@ export const onUpdateForm = /* GraphQL */ `
       q9
       q10
       active
+      results
       user {
         id
         forms {
@@ -75,6 +77,7 @@ export const onDeleteForm = /* GraphQL */ `
       q9
       q10
       active
+      results
       user {
         id
         forms {
@@ -176,6 +179,7 @@ export const onCreateUsers = /* GraphQL */ `
           q9
           q10
           active
+          results
           createdAt
           updatedAt
         }
@@ -205,6 +209,7 @@ export const onUpdateUsers = /* GraphQL */ `
           q9
           q10
           active
+          results
           createdAt
           updatedAt
         }
@@ -234,6 +239,7 @@ export const onDeleteUsers = /* GraphQL */ `
           q9
           q10
           active
+          results
           createdAt
           updatedAt
         }
@@ -581,6 +587,39 @@ export const onDeleteFormResponseList = /* GraphQL */ `
         }
         nextToken
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateCloseResponses = /* GraphQL */ `
+  subscription OnCreateCloseResponses {
+    onCreateCloseResponses {
+      formID
+      round
+      words
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCloseResponses = /* GraphQL */ `
+  subscription OnUpdateCloseResponses {
+    onUpdateCloseResponses {
+      formID
+      round
+      words
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCloseResponses = /* GraphQL */ `
+  subscription OnDeleteCloseResponses {
+    onDeleteCloseResponses {
+      formID
+      round
+      words
       createdAt
       updatedAt
     }

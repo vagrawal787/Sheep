@@ -39,3 +39,7 @@
     background-color: white;
     position: absolute;
   }
+  .responseContainer{
+    text-align: center;
+    height: auto;
+  }

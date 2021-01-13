@@ -29,16 +29,19 @@ class ConsolePage extends Component {
             forms: [],
             status: [],
             buttons: [],
+            sent: [],
             rendering: false,
             redirectToManager: false,
             formToRedirect: '',
             statusToRedirect: false,
+            sentToRedirect: false,
+            redirectToHome: false,
         }
         this.handleButtonPress = this.handleButtonPress.bind(this);
         this.handleManagerPress = this.handleManagerPress.bind(this);
-        this.setMessage = this.setMessage.bind(this);
         this.getUserID = this.getUserID.bind(this);
         this.setButtons = this.setButtons.bind(this);
+        this.redirectToHome = this.redirectToHome.bind(this);
     }
 
     handleButtonPress(e) {
@@ -50,21 +53,14 @@ class ConsolePage extends Component {
         e.preventDefault();
         let name = e.target.name;
         let status = e.target.value;
-        console.log(name);
-        console.log('status:'+ status);
         this.state.formToRedirect = name;
         this.state.statusToRedirect = (status == 'true');
         this.setState({ redirectToManager: true });
     }
 
-
-    setMessage() {
-        this.state.message = '';
-    }
-
     /* Retrieves the current userID. 
     Fetches their forms from the API. 
-    Changes button state so that user can select which of their forms to manage.*/
+    Calls function to change button state so that user can select which of their forms to manage.*/
     async getUserID() {
         const user = await Auth.currentUserInfo();
         console.log(user.username);
@@ -105,16 +101,28 @@ class ConsolePage extends Component {
             var dict = apiData.data.getUsers.forms.items;
             var arr = [];
             var statusArr = [];
+            var sentArr = [];
             for (var key in dict) {
                 arr.push((dict[key]).id);
                 statusArr.push((dict[key]).active);
-                console.log((dict[key]).active);
+                sentArr.push((dict[key]).results);
             }
             this.state.forms = arr;
             this.state.status = statusArr;
+            this.state.sent = sentArr;
             console.log(this.state.forms);
         }
         (() => { this.setButtons(); })();
+    }
+
+    redirectToHome(e) {
+        e.preventDefault();
+        this.setState({
+            redirect: false,
+            call: false,
+            redirectToManager: false,
+            redirectToHome: true,
+        });
     }
 
     setButtons() {
@@ -122,7 +130,7 @@ class ConsolePage extends Component {
         for (var p in this.state.forms) {
             var button = <Button
                 action={this.handleManagerPress}
-                value= {this.state.status[p]}
+                value={this.state.status[p]}
                 type={'primary'}
                 label={this.state.forms[p]}
                 title={this.state.forms[p]}
@@ -151,6 +159,12 @@ class ConsolePage extends Component {
                 state: { userID: this.state.userID }
             }} />
         }
+        if (this.state.redirectToHome) {
+            this.state.redirectToHome = false;
+            return <Redirect to={{
+                pathname: "/",
+            }} />
+        }
         if (this.state.redirectToManager) {
             this.state.redirect = false;
             this.state.call = false;
@@ -161,7 +175,7 @@ class ConsolePage extends Component {
                 state: {
                     formID: this.state.formToRedirect,
                     userID: this.state.userID,
-                    status: this.state.statusToRedirect
+                    status: this.state.statusToRedirect,
                 }
             }} />
         }
@@ -174,6 +188,11 @@ class ConsolePage extends Component {
                     action={this.handleButtonPress}
                     type={'primary'}
                     title={'Create Game'}
+                />
+                <Button
+                    action={this.redirectToHome}
+                    type={'primary'}
+                    title={'Go back to Home Page'}
                 />
             </div>
         );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../components/Button';
 import "./CSS/responsemanager.css"
+import Loader from 'react-loader-spinner'
 
 import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
@@ -18,20 +19,42 @@ class ResponseManager extends Component {
             id: this.props.location.state.formID,
             redirectToEdit: false,
             open: this.props.location.state.status,
-            redirectToAdmin : false,
+            redirectToAdmin: false,
+            redirectToMatching: false,
+            sent: false,
+            loading: false,
         }
         this.handleEditFormButton = this.handleEditFormButton.bind(this);
+        this.handleMatchingPageButton = this.handleMatchingPageButton.bind(this);
         this.redirectToAdmin = this.redirectToAdmin.bind(this);
         this.toggleClose = this.toggleClose.bind(this);
         this.toggleOpen = this.toggleOpen.bind(this);
+        this.sendResults = this.sendResults.bind(this);
+        this.toggleSent = this.toggleSent.bind(this);
     }
 
     handleEditFormButton(e) {
         e.preventDefault();
         this.setState({ redirectToEdit: true });
     }
+    async handleMatchingPageButton(e) {
+        e.preventDefault();
+        this.setState({loading: true});
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({ "formID": this.state.id.toString()});
+        var requestOptions = {
+            method: 'PUT', 
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
+        this.setState({loading: false});
+        this.setState({ redirectToMatching: true });
+    }
 
-    async handleCloseForm(e){
+    async handleCloseForm(e) {
         e.preventDefault();
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
@@ -46,15 +69,15 @@ class ResponseManager extends Component {
         try {
             mutData = await client.mutate({
                 mutation: gql(mutations.updateForm),
-                variables: { input: {id: this.state.id, active: false} }
+                variables: { input: { id: this.state.id, active: false } }
             });
         } catch (e) {
             console.log(e);
         }
-        (() => {this.toggleClose();})();
+        (() => { this.toggleClose(); })();
     }
 
-    async handleOpenForm(e){
+    async handleOpenForm(e) {
         e.preventDefault();
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
@@ -69,27 +92,61 @@ class ResponseManager extends Component {
         try {
             mutData = await client.mutate({
                 mutation: gql(mutations.updateForm),
-                variables: { input: {id: this.state.id, active: true} }
+                variables: { input: { id: this.state.id, active: true } }
             });
         } catch (e) {
             console.log(e);
         }
-        (() => {this.toggleOpen();})();
+        (() => { this.toggleOpen(); })();
     }
 
-    toggleClose(){
-        this.setState({open: false});
+    async sendResults(e) {
+        e.preventDefault();
+        const client = new AWSAppSyncClient({
+            url: awsconfig.aws_appsync_graphqlEndpoint,
+            region: awsconfig.aws_appsync_region,
+            disableOffline: true,
+            auth: {
+                type: AUTH_TYPE.API_KEY,
+                apiKey: awsconfig.aws_appsync_apiKey,
+            },
+        });
+        let mutData = '';
+        try {
+            mutData = await client.mutate({
+                mutation: gql(mutations.updateForm),
+                variables: { input: { id: this.state.id, results: true } }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+        (() => { this.toggleSent(); })();
     }
 
-    toggleOpen(){
-        this.setState({open: true});
+    toggleSent() {
+        this.setState({ sent: true });
     }
 
-    redirectToAdmin(){
-        this.setState({redirectToAdmin: true});
+    toggleClose() {
+        this.setState({ open: false });
+    }
+
+    toggleOpen() {
+        this.setState({ open: true });
+    }
+
+    redirectToAdmin() {
+        this.setState({ redirectToAdmin: true });
     }
 
     render() {
+        if (this.state.redirectToMatching) {
+            this.state.redirectToMatching = false;
+            return <Redirect to={{
+                pathname: "/matchingPage",
+                state: { formID: this.state.id }
+            }} />
+        }
         if (this.state.redirectToEdit) {
             this.state.redirectToEdit = false;
             return <Redirect to={{
@@ -102,30 +159,31 @@ class ResponseManager extends Component {
         }
         if (this.state.redirectToAdmin) {
             this.state.redirectToAdmin = false;
-            return <Redirect to ={{
-                pathname:"/adminConsole"
+            return <Redirect to={{
+                pathname: "/adminConsole"
             }} />
         }
         return (
-            <div>
+            <div className="responseContainer">
                 <h1>
                     Responses for form: {this.props.location.state.formID}
                 </h1>
-                {!this.state.open ? <h3 className = "closed"> Form has been closed.</h3>: <h3 className = "open"> Form is open for responses. </h3>}
+                {!this.state.open ? <h3 className="closed"> Form has been closed.</h3> : <h3 className="open"> Form is open for responses. </h3>}
+                {this.state.sent ? <h3 className="sent"> Form results have been sent. </h3> : null}
                 <Table id={this.state.id} />
-                <ResponsesTable id = {this.state.id}/>
+                <ResponsesTable id={this.state.id} />
                 <Button
                     action={this.handleEditFormButton}
                     type={'primary'}
                     title={'Edit Form'}
                 /> { /*Submit */}
                 <Button
-                    action={(e)=>this.handleCloseForm(e)}
+                    action={(e) => this.handleCloseForm(e)}
                     type={'primary'}
                     title={'Close Form'}
                 /> { /*Submit */}
                 <Button
-                    action={(e)=>this.handleOpenForm(e)}
+                    action={(e) => this.handleOpenForm(e)}
                     type={'primary'}
                     title={'Open Form'}
                 /> { /*Submit */}
@@ -134,7 +192,18 @@ class ResponseManager extends Component {
                     type={'primary'}
                     title={'Go back to Console'}
                 /> { /*Submit */}
-                {/* {this.state.seen ? <PopUp toggle={this.togglePop} /> : null} */}
+                <Button
+                    action={(e) => this.sendResults(e)}
+                    type={'primary'}
+                    title={'Send results'}
+                /> { /*Submit */}
+                <Button
+                    action={this.handleMatchingPageButton}
+                    type={'primary'}
+                    title={'Resolve Word Conflicts'}
+                /> { /*Submit */}
+                {this.state.loading && <Loader type="ThreeDots" color ="#2BAD60" height = "50" width = "50"/>}
+
             </div>
         );
     }
@@ -145,7 +214,7 @@ class Table extends Component {
         super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
         this.state = { //state is by default an object
             id: this.props.id,
-            responses: [{email: 'blah'}],
+            responses: [{ email: 'blah' }],
             call: false,
             header: [],
         }
@@ -154,8 +223,19 @@ class Table extends Component {
         this.renderTableHeader = this.renderTableHeader.bind(this);
         this.handleSort = this.handleSort.bind(this);
         this.compareByKey = this.compareByKey.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
     }
     async createGroups() {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({ "formID": this.state.id.toString()});
+        var requestOptions = {
+            method: 'DELETE', 
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
@@ -197,41 +277,47 @@ class Table extends Component {
         }
     }
 
-    handleSort(key){
-        this.setState({switchSort: !this.state.switchSort});
+    handleSort(key) {
+        this.setState({ switchSort: !this.state.switchSort });
         let copyResponses = [...this.state.responses];
         copyResponses.sort(this.compareByKey(key));
-        this.setState({responses: copyResponses});
+        this.setState({ responses: copyResponses });
     }
 
-    compareByKey(key){
-        if(this.state.switchSort){
-            return function(a,b){
+    compareByKey(key) {
+        if (this.state.switchSort) {
+            return function (a, b) {
                 if (a[key] < b[key]) return -1; // check for value if the second value is bigger then first return -1
                 if (a[key] > b[key]) return 1;  //check for value if the second value is bigger then first return 1
                 return 0;
             };
-        }else{
-            return function(a,b){
-                if (a[key] > b[key]) return -1; 
-                if (a[key] < b[key]) return 1; 
+        } else {
+            return function (a, b) {
+                if (a[key] > b[key]) return -1;
+                if (a[key] < b[key]) return 1;
                 return 0;
             };
         }
     }
 
+    handleUpdate(e) {
+        e.preventDefault();
+        this.setState({call: false});
+        this.forceUpdate();
+    }
+
     renderTableHeader() {
         let header = Object.keys((this.state.responses)[0]);
-        header.splice(0,1);
+        header.splice(0, 1);
         header.pop();
 
- 
+
         return header.map((key, index) => {
             return <th key={index}><Button
-            action={()=>this.handleSort(key)}
-            type={'primary'}
-            title={key.toUpperCase()}
-        /> { /*Submit */}</th>
+                action={() => this.handleSort(key)}
+                type={'primary'}
+                title={key.toUpperCase()}
+            /> { /*Submit */}</th>
         });
     }
     renderTableData() {
@@ -276,10 +362,15 @@ class Table extends Component {
                 <h1 id='title'>React Dynamic Table</h1>
                 <table id='responses'>
                     <tbody>
-                    <tr>{this.renderTableHeader()}</tr>
+                        <tr>{this.renderTableHeader()}</tr>
                         {this.renderTableData()}
                     </tbody>
                 </table>
+                <Button
+                    action={this.handleUpdate}
+                    type={'primary'}
+                    title={'Update'}
+                /> { /*Submit */}
             </div>)
     }
 
@@ -291,17 +382,31 @@ class ResponsesTable extends Component {
         super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
         this.state = { //state is by default an object
             id: this.props.id,
-            responses: [{email: 'blah'}],
+            responses: [{ email: 'blah' }],
             call: false,
             header: [],
+            reset: false,
         }
         this.createGroups = this.createGroups.bind(this);
         this.renderTableData = this.renderTableData.bind(this);
         this.renderTableHeader = this.renderTableHeader.bind(this);
         this.handleSort = this.handleSort.bind(this);
         this.compareByKey = this.compareByKey.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
+        this.resetPage = this.resetPage.bind(this);
     }
     async createGroups() {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({ "formID": this.state.id.toString()});
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
+        console.log("update done");
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
@@ -313,7 +418,7 @@ class ResponsesTable extends Component {
         });
         let apiData = '';
         try {
-            apiData = await client.query({query: gql(queries.listResponseCleaneds), inputs:{filter: { formID: {eq: this.state.id} }}});
+            apiData = await client.query({ query: gql(queries.listResponseCleaneds), inputs: { filter: { formID: { eq: this.state.id } } } });
             console.log(apiData);
             console.log("i got da wordz");
             this.setState({
@@ -325,24 +430,34 @@ class ResponsesTable extends Component {
         }
     }
 
-    handleSort(key){
-        this.setState({switchSort: !this.state.switchSort});
-        let copyResponses = [...this.state.responses];
-        copyResponses.sort(this.compareByKey(key));
-        this.setState({responses: copyResponses});
+    resetPage(){
+        window.location.reload(false);
     }
 
-    compareByKey(key){
-        if(this.state.switchSort){
-            return function(a,b){
-                if (a[key] < b[key]) return -1; // check for value if the second value is bigger then first return -1
-                if (a[key] > b[key]) return 1;  //check for value if the second value is bigger then first return 1
+    handleUpdate(e) {
+        e.preventDefault();
+        this.setState({call: false});
+        this.forceUpdate();
+    }
+
+    handleSort(key) {
+        this.setState({ switchSort: !this.state.switchSort });
+        let copyResponses = [...this.state.responses];
+        copyResponses.sort(this.compareByKey(key));
+        this.setState({ responses: copyResponses });
+    }
+
+    compareByKey(key) {
+        if (this.state.switchSort) {
+            return function (a, b) {
+                if (a[key].toLowerCase() < b[key].toLowerCase()) return -1; // check for value if the second value is bigger then first return -1
+                if (a[key].toLowerCase() > b[key].toLowerCase()) return 1;  //check for value if the second value is bigger then first return 1
                 return 0;
             };
-        }else{
-            return function(a,b){
-                if (a[key] > b[key]) return -1; 
-                if (a[key] < b[key]) return 1; 
+        } else {
+            return function (a, b) {
+                if (a[key].toLowerCase() > b[key].toLowerCase()) return -1;
+                if (a[key].toLowerCase() < b[key].toLowerCase()) return 1;
                 return 0;
             };
         }
@@ -350,22 +465,22 @@ class ResponsesTable extends Component {
 
     renderTableHeader() {
         let header = Object.keys((this.state.responses)[0]);
-        header.splice(0,1);
+        header.splice(0, 1);
         header.pop();
 
- 
+
         return header.map((key, index) => {
             return <th key={index}><Button
-            action={()=>this.handleSort(key)}
-            type={'primary'}
-            title={key.toUpperCase()}
-        /> { /*Submit */}</th>
+                action={() => this.handleSort(key)}
+                type={'primary'}
+                title={key.toUpperCase()}
+            /> { /*Submit */}</th>
         });
     }
 
     renderTableData() {
         return this.state.responses.map((response, index) => {
-            const { formID, email, fname, lname, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10,} = response //destructuring
+            const { formID, email, fname, lname, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, } = response //destructuring
             return (
                 <tr key={formID}>
                     <td>{email}</td>
@@ -390,47 +505,25 @@ class ResponsesTable extends Component {
         if (!this.state.call) {
             (async () => { this.createGroups(); })();
         }
+        this.state.reset = false;
         return (
             <div>
                 <h1 id='title'>React Dynamic Table</h1>
                 <table id='responses'>
                     <tbody>
-                    <tr>{this.renderTableHeader()}</tr>
+                        <tr>{this.renderTableHeader()}</tr>
                         {this.renderTableData()}
                     </tbody>
                 </table>
+                <Button
+                    action={this.handleUpdate}
+                    type={'primary'}
+                    title={'Update'}
+                /> { /*Submit */}
             </div>)
     }
 
 
 }
-
-// class PopUp extends Component {
-//     constructor(props) {
-//         super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
-//         this.state = { //state is by default an object
-//             id: this.props.id,
-//             responses: [{email: 'blah'}],
-//             call: false,
-//             header: [],
-//         }
-//         this.handleClick = this.handleClick.bind(this);
-//     }
-
-//     handleClick(){
-//         this.props.toggle();
-//     }
-
-//     render() {
-//         return (
-//          <div className="modal">
-//            <div className="modal_content">
-//            <span className="close" onClick={this.handleClick}>&times;</span>
-//            <p>The responses for this form have been closed.</p>
-//           </div>
-//          </div>
-//         );
-//        }
-// }
 
 export default ResponseManager;

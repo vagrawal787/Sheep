@@ -17,6 +17,7 @@ export const getForm = /* GraphQL */ `
       q9
       q10
       active
+      results
       user {
         id
         forms {
@@ -51,6 +52,7 @@ export const listForms = /* GraphQL */ `
         q9
         q10
         active
+        results
         user {
           id
           createdAt
@@ -145,6 +147,7 @@ export const getUsers = /* GraphQL */ `
           q9
           q10
           active
+          results
           createdAt
           updatedAt
         }
@@ -426,6 +429,45 @@ export const listFormResponseLists = /* GraphQL */ `
         forms {
           nextToken
         }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getCloseResponses = /* GraphQL */ `
+  query GetCloseResponses($formID: ID!, $round: String!) {
+    getCloseResponses(formID: $formID, round: $round) {
+      formID
+      round
+      words
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listCloseResponsess = /* GraphQL */ `
+  query ListCloseResponsess(
+    $formID: ID
+    $round: ModelStringKeyConditionInput
+    $filter: ModelCloseResponsesFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listCloseResponsess(
+      formID: $formID
+      round: $round
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        formID
+        round
+        words
         createdAt
         updatedAt
       }

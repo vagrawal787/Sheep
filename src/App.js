@@ -14,6 +14,7 @@ import ConsolePage from "./pages/adminConsole.jsx";
 import ResponseManager from "./pages/responseManager.jsx";
 import EditPage from "./pages/formEditor.jsx";
 import ResultsPage from "./pages/resultsPage.jsx";
+import MatchingPage from "./pages/matchingPage.jsx";
 
 
 
@@ -37,6 +38,7 @@ class App extends Component {
           <Route exact path = "/responseManager" component = {ResponseManager} render={(props) => <NewTestComp {...props}/>}/>
           <Route exact path = "/formEditor" component = {EditPage} render={(props) => <NewTestComp {...props}/>}/>
           <Route exact path = "/resultsPage" component = {ResultsPage} render={(props) => <NewTestComp {...props}/>}/>
+          <Route exact path = "/matchingPage" component = {MatchingPage} render={(props) => <NewTestComp {...props}/>}/>
         
           <Redirect to ="/404" component = {LandPage}/>
         </Switch>

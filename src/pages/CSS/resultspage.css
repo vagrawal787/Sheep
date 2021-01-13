@@ -68,11 +68,23 @@
   border-radius: 10px;
 }
 .resultsPage{
+  position: relative;
   font-family: 'Quicksand', sans-serif;
   padding: 50px;
   text-align: center;
   background-image: url('./sheepbackimage.jpg');
   height: 150vh;
+}
+.resultsPage::before{
+  position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0,0,0,0.25);
+}
+.resultspage-container{
+  position:relative;
 }
 .question{
   position:absolute;

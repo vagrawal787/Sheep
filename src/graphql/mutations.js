@@ -20,6 +20,7 @@ export const createForm = /* GraphQL */ `
       q9
       q10
       active
+      results
       user {
         id
         forms {
@@ -52,6 +53,7 @@ export const updateForm = /* GraphQL */ `
       q9
       q10
       active
+      results
       user {
         id
         forms {
@@ -84,6 +86,7 @@ export const deleteForm = /* GraphQL */ `
       q9
       q10
       active
+      results
       user {
         id
         forms {
@@ -197,6 +200,7 @@ export const createUsers = /* GraphQL */ `
           q9
           q10
           active
+          results
           createdAt
           updatedAt
         }
@@ -229,6 +233,7 @@ export const updateUsers = /* GraphQL */ `
           q9
           q10
           active
+          results
           createdAt
           updatedAt
         }
@@ -261,6 +266,7 @@ export const deleteUsers = /* GraphQL */ `
           q9
           q10
           active
+          results
           createdAt
           updatedAt
         }
@@ -644,6 +650,48 @@ export const deleteFormResponseList = /* GraphQL */ `
         }
         nextToken
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createCloseResponses = /* GraphQL */ `
+  mutation CreateCloseResponses(
+    $input: CreateCloseResponsesInput!
+    $condition: ModelCloseResponsesConditionInput
+  ) {
+    createCloseResponses(input: $input, condition: $condition) {
+      formID
+      round
+      words
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateCloseResponses = /* GraphQL */ `
+  mutation UpdateCloseResponses(
+    $input: UpdateCloseResponsesInput!
+    $condition: ModelCloseResponsesConditionInput
+  ) {
+    updateCloseResponses(input: $input, condition: $condition) {
+      formID
+      round
+      words
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteCloseResponses = /* GraphQL */ `
+  mutation DeleteCloseResponses(
+    $input: DeleteCloseResponsesInput!
+    $condition: ModelCloseResponsesConditionInput
+  ) {
+    deleteCloseResponses(input: $input, condition: $condition) {
+      formID
+      round
+      words
       createdAt
       updatedAt
     }

@@ -12,6 +12,7 @@ type Form @model{
   q9: String!
   q10: String!
   active: Boolean!
+  results: Boolean!
   user: Users @connection(name: "UserFormConnection")
 }
 type Responses @model @key(fields: ["formID", "email"]){
@@ -91,4 +92,11 @@ type UserScore @model @key(fields: ["formID", "email"]){
 type FormResponseList @model{
   id: ID!
   forms: [UserScore] @connection(name: "FormResponseListConnection")
+}
+type CloseResponses @model @key(fields: ["formID", "round"]){
+  formID: ID!
+  round: String!
+  words: [String!]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
