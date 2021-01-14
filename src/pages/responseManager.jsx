@@ -144,7 +144,10 @@ class ResponseManager extends Component {
             this.state.redirectToMatching = false;
             return <Redirect to={{
                 pathname: "/matchingPage",
-                state: { formID: this.state.id }
+                state: { formID: this.state.id,
+                userID: this.props.location.state.userID,
+                status: this.state.open
+             }
             }} />
         }
         if (this.state.redirectToEdit) {
@@ -153,7 +156,7 @@ class ResponseManager extends Component {
                 pathname: "/formEditor",
                 state: {
                     formID: this.state.id,
-                    userID: this.props.location.state.userID
+                    userID: this.props.location.state.userID,
                 }
             }} />
         }
@@ -200,7 +203,7 @@ class ResponseManager extends Component {
                 <Button
                     action={this.handleMatchingPageButton}
                     type={'primary'}
-                    title={'Resolve Word Conflicts'}
+                    title={'Resolve Word Conflicts' }
                 /> { /*Submit */}
                 {this.state.loading && <Loader type="ThreeDots" color ="#2BAD60" height = "50" width = "50"/>}
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
+import Loader from 'react-loader-spinner'
 
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
@@ -20,12 +21,15 @@ class MatchingPage extends React.Component {
             returnWords: [],
             call: false,
             checks: [],
+            loading: false,
+            redirectToResponse: false,
         }
         this.getObjects = this.getObjects.bind(this);
         this.setCheckboxes = this.setCheckboxes.bind(this);
         this.handleStep1Submit = this.handleStep1Submit.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.generateRoundButtons = this.generateRoundButtons.bind(this);
+        this.redirectToResponses = this.redirectToResponses.bind(this);
     }
 
     async getObjects() {
@@ -81,51 +85,61 @@ class MatchingPage extends React.Component {
 
     async handleStep1Submit(e) {
         e.preventDefault();
-        // var myHeaders = new Headers();
-        // myHeaders.append("Content-Type", "application/json");
-        // var raw = JSON.stringify({
-        //     "formID": this.state.id,
-        //     "round": this.state.currentRound,
-        //     "words": this.state.returnWords,
-        //     "replaceWord": this.state.input        
-        // });
-        // var requestOptions = {
-        //     method: 'PUT',
-        //     headers: myHeaders,
-        //     body: raw,
-        //     redirect: 'follow'
-        // };
-        // fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
+        this.setState({ loading: true });
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+            "formID": this.state.id.toString(),
+            "round": this.state.currentRound,
+            "words": ('"[' + this.state.returnWords + ']"'),
+            "replaceWord": this.state.input
+        });
+        var requestOptions = {
+            method: 'PATCH',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
+        this.setState({ loading: false });
+        this.setState({ call: false });
     }
 
     handleInput(e) {
         let value = e.target.value;
-        this.setState({ code: value });
+        this.setState({ input: value });
     }
 
-    switchRound(e){
-        this.setState({currentRound: e.target.value,
-        call: false})
+    switchRound(e) {
+        this.setState({
+            currentRound: e.target.value,
+            call: false
+        })
     }
 
-    generateRoundButtons(){
+    generateRoundButtons() {
         var arr = [];
-        for (var i = 1; i <= 10; i ++){
+        for (var i = 1; i <= 10; i++) {
             arr.push(<Button
                 action={(e) => this.switchRound(e)}
-                value = {('r' + i)}
+                disabled = {this.state.loading}
+                value={('r' + i)}
                 type={'primary'}
                 title={'Round ' + i}
-            /> )
+            />)
         }
         return arr;
+    }
+    redirectToResponses(e){
+        e.preventDefault();
+        this.setState({redirectToResponse: true});
     }
 
     setCheckboxes() {
         let arr = [];
         let header = Object.keys((this.state.words));
         header.map((key, index) => {
-            arr.push(<div><input type='checkbox' id={key} name={this.state.words[key]} onClick={(e) => this.handleCheck(e)} />
+            arr.push(<div><input type='checkbox' id={this.state.words[key]} name={this.state.words[key]} onClick={(e) => this.handleCheck(e)} />
                 <label for={this.state.words[key]}> {this.state.words[key]} </label></div>);
         })
         this.setState({ checks: arr });
@@ -134,25 +148,44 @@ class MatchingPage extends React.Component {
         if (!this.state.call) {
             (async () => { this.getObjects(); })();
         }
+        if(this.state.redirectToResponse){
+            this.state.call = false;
+            this.state.redirectToResponse = false;
+            return <Redirect to={{
+                pathname: "/responseManager",
+                state: {
+                    formID: this.state.id,
+                    userID: this.props.location.state.userID,
+                    status: this.props.location.state.status,
+                }
+            }} />
+        }
 
         return (
             <div>
                 {this.generateRoundButtons()}
                 {this.state.currentRound}
                 {this.state.checks}
-                <p> this is the matching page</p>
                 <Input inputType={'text'}
                     name={'input'}
-                    value={this.state.code}
+                    value={this.state.input}
                     placeholder={'Word to Replace'}
                     handleChange={this.handleInput}
 
-                /> {/* Code */}
+                /> 
                 <Button
                     action={(e) => this.handleStep1Submit(e)}
                     type={'primary'}
                     title={'Submit'}
                 /> { /*Submit */}
+                <Button
+                    action={this.redirectToResponses}
+                    disabled = {this.state.loading}
+                    type={'primary'}
+                    title={'Go back to Responses'}
+                />
+
+                {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
             </div>
         )
     }
