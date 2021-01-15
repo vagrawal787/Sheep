@@ -421,9 +421,10 @@ class ResponsesTable extends Component {
         });
         let apiData = '';
         try {
-            apiData = await client.query({ query: gql(queries.listResponseCleaneds), inputs: { filter: { formID: { eq: this.state.id } } } });
+            apiData = await client.query({ query: gql(queries.listResponseCleaneds), variables: {filter: { formID: { eq: this.state.id.toString()} }} });
             console.log(apiData);
             console.log("i got da wordz");
+            console.log(this.state.id);
             this.setState({
                 responses: apiData.data.listResponseCleaneds.items,
                 call: true,

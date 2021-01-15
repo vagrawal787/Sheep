@@ -101,6 +101,16 @@ class MatchingPage extends React.Component {
             redirect: 'follow'
         };
         await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
+        var myHeaders2 = new Headers();
+        myHeaders2.append("Content-Type", "application/json");
+        var raw2 = JSON.stringify({ "formID": this.state.id.toString()});
+        var requestOptions2 = {
+            method: 'PUT', 
+            headers: myHeaders2,
+            body: raw2,
+            redirect: 'follow'
+        };
+        await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions2).catch(error => console.log('error', error));
         this.setState({ loading: false });
         this.setState({ call: false });
     }
