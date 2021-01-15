@@ -278,4 +278,4 @@ class Notification extends React.Component {
 
 export default CreatePage;
 
-//this is the createpage tag
+//this is the createpage tag part 2 because it wont work
