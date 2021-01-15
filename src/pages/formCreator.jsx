@@ -43,7 +43,9 @@ class CreatePage extends Component {
 
     handleInput(e) {
         let value = e.target.value;
+        let valueWidth = value.length;
         let name = e.target.name;
+        document.getElementById(name).style.width = (valueWidth.toString() + "vmin");
         this.setState({ [name]: value });
     }
 
@@ -275,3 +277,5 @@ class Notification extends React.Component {
 }
 
 export default CreatePage;
+
+//this is the createpage tag

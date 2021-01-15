@@ -37,6 +37,7 @@ class LandingFormContainer extends Component {
 
   handleInput(e) {
     let value = e.target.value;
+    let valueWidth = value.length;
     this.setState({ code: value });
   }
 
