@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-ro
 
 import Input from '../components/Input';
 import Button from '../components/Button';
+import Textarea from '../components/Textarea';
 
 
 class CreatePage extends Component {
@@ -34,11 +35,14 @@ class CreatePage extends Component {
             error: '',
             show: false,
             match: false,
+            numResponses: 10
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.showNotification = this.showNotification.bind(this);
         this.showNotificationIDMatch = this.showNotificationIDMatch.bind(this);
+        this.renderTextareas = this.renderTextareas.bind(this);
+        this.handleTextArea = this.handleTextArea.bind(this);
     }
 
     handleInput(e) {
@@ -125,6 +129,24 @@ class CreatePage extends Component {
         }
     }
 
+    handleTextArea(field) {
+        this.setState({ [field]: document.getElementById(field).value });
+    }
+
+    renderTextareas() {
+        let arr = [];
+        for (var i = 1; i <= this.state.numResponses; i++) {
+            let question = 'q' + i;
+            arr.push(<Textarea
+                id={question}
+                value={this.state[question]}
+                name = {'Question ' + i}
+                placeholder={'Question ' + i}
+                handleChange={() => this.handleTextArea(question)} />)
+        }
+        return arr;
+    }
+
     render() {
         if (this.state.redirect) {
             this.state.redirect = false;
@@ -151,23 +173,25 @@ class CreatePage extends Component {
         />  */}
 
 
-                    <Input inputType={'text'}
+                 <Input inputType={'text'}
                         title={'ID:'}
                         name={'id'}
                         value={this.state.id}
                         placeholder={'ID'}
                         handleChange={this.handleInput}
 
-                    /> {/* id */}
+                    /> 
 
-                    <Input inputType={'text'}
+                {this.renderTextareas()}
+
+                 {/*   <Input inputType={'text'}
                         title={'Question 1:'}
                         name={'q1'}
                         value={this.state.q1}
                         placeholder={'Question 1'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 1 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 2:'}
@@ -176,7 +200,7 @@ class CreatePage extends Component {
                         placeholder={'Question 2'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 2 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 3:'}
@@ -185,7 +209,7 @@ class CreatePage extends Component {
                         placeholder={'Question 3'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 3 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 4:'}
@@ -194,7 +218,7 @@ class CreatePage extends Component {
                         placeholder={'Question 4'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 4 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 5:'}
@@ -203,7 +227,7 @@ class CreatePage extends Component {
                         placeholder={'Question 5'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 5 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 6:'}
@@ -212,7 +236,7 @@ class CreatePage extends Component {
                         placeholder={'Question 6'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 6 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 7:'}
@@ -221,7 +245,7 @@ class CreatePage extends Component {
                         placeholder={'Question 7'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 7 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 8:'}
@@ -230,7 +254,7 @@ class CreatePage extends Component {
                         placeholder={'Question 8'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 8 */}
+                    />
 
                     <Input inputType={'text'}
                         title={'Question 9:'}
@@ -239,7 +263,7 @@ class CreatePage extends Component {
                         placeholder={'Question 9'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 9 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 10:'}
@@ -248,7 +272,7 @@ class CreatePage extends Component {
                         placeholder={'Question 10'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 10 */}
+                    />  */}
 
                     <Button
                         action={this.handleFormSubmit}

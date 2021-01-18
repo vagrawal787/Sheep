@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-ro
 
 import Input from '../components/Input';
 import Button from '../components/Button';
+import Textarea from '../components/Textarea';
 
 
 class EditPage extends Component {
@@ -32,9 +33,12 @@ class EditPage extends Component {
             redirect: false,
             error: '',
             callQuery: false,
+            numResponses: 10
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
+        this.renderTextareas = this.renderTextareas.bind(this);
+        this.handleTextArea = this.handleTextArea.bind(this);
     }
 
     handleInput(e) {
@@ -45,35 +49,54 @@ class EditPage extends Component {
 
     async findForm() {
         const client = new AWSAppSyncClient({
-          url: awsconfig.aws_appsync_graphqlEndpoint,
-          region: awsconfig.aws_appsync_region,
-          disableOffline: true,
-          auth: {
-            type: AUTH_TYPE.API_KEY,
-            apiKey: awsconfig.aws_appsync_apiKey,
-          },
+            url: awsconfig.aws_appsync_graphqlEndpoint,
+            region: awsconfig.aws_appsync_region,
+            disableOffline: true,
+            auth: {
+                type: AUTH_TYPE.API_KEY,
+                apiKey: awsconfig.aws_appsync_apiKey,
+            },
         });
         const apiData = await client.query({ query: gql(queries.getForm), variables: { id: this.props.location.state.formID } });
         if (apiData.data.getForm == null) {
-          this.state.callQuery = true;
-          (() => { this.handleError(); })();
+            this.state.callQuery = true;
+            (() => { this.handleError(); })();
         }
         else {
-          this.setState({
-            q1: apiData.data.getForm.q1,
-            q2: apiData.data.getForm.q2,
-            q3: apiData.data.getForm.q3,
-            q4: apiData.data.getForm.q4,
-            q5: apiData.data.getForm.q5,
-            q6: apiData.data.getForm.q6,
-            q7: apiData.data.getForm.q7,
-            q8: apiData.data.getForm.q8,
-            q9: apiData.data.getForm.q9,
-            q10: apiData.data.getForm.q10
-          });
-          this.state.callQuery = true;
+            this.setState({
+                q1: apiData.data.getForm.q1,
+                q2: apiData.data.getForm.q2,
+                q3: apiData.data.getForm.q3,
+                q4: apiData.data.getForm.q4,
+                q5: apiData.data.getForm.q5,
+                q6: apiData.data.getForm.q6,
+                q7: apiData.data.getForm.q7,
+                q8: apiData.data.getForm.q8,
+                q9: apiData.data.getForm.q9,
+                q10: apiData.data.getForm.q10,
+                callQuery: true
+            });
         }
-      }
+    }
+
+    handleTextArea(field) {
+        this.setState({ [field]: document.getElementById(field).value });
+    }
+
+    renderTextareas() {
+        let arr = [];
+        for (var i = 1; i <= this.state.numResponses; i++) {
+            console.log("iteration" + i);
+            let question = 'q' + i;
+            arr.push(<Textarea
+                id={question}
+                value={this.state[question]}
+                name={'Question ' + i}
+                placeholder={'Question ' + i}
+                handleChange={() => this.handleTextArea(question)} />)
+        }
+        return arr;
+    }
 
     async handleFormSubmit(e) {
         e.preventDefault();
@@ -90,7 +113,7 @@ class EditPage extends Component {
             }
         }
         if (nullVal == true) {
-            this.setState({error: 'Uh-oh, make sure you have inputted all questions!'});
+            this.setState({ error: 'Uh-oh, make sure you have inputted all questions!' });
         } else {
             this.state.error = '';
             const createF = {
@@ -146,15 +169,16 @@ class EditPage extends Component {
           handleChange={this.handleInput}
 
         />  */}
+                    {this.renderTextareas()}
 
-                    <Input inputType={'text'}
+                    {/* <Input inputType={'text'}
                         title={'Question 1:'}
                         name={'q1'}
                         value={this.state.q1}
                         placeholder={'Question 1'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 1 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 2:'}
@@ -163,7 +187,7 @@ class EditPage extends Component {
                         placeholder={'Question 2'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 2 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 3:'}
@@ -172,7 +196,7 @@ class EditPage extends Component {
                         placeholder={'Question 3'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 3 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 4:'}
@@ -181,7 +205,7 @@ class EditPage extends Component {
                         placeholder={'Question 4'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 4 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 5:'}
@@ -190,7 +214,7 @@ class EditPage extends Component {
                         placeholder={'Question 5'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 5 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 6:'}
@@ -199,7 +223,7 @@ class EditPage extends Component {
                         placeholder={'Question 6'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 6 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 7:'}
@@ -208,7 +232,7 @@ class EditPage extends Component {
                         placeholder={'Question 7'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 7 */}
+                    />
 
                     <Input inputType={'text'}
                         title={'Question 8:'}
@@ -217,7 +241,7 @@ class EditPage extends Component {
                         placeholder={'Question 8'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 8 */}
+                    /> 
 
                     <Input inputType={'text'}
                         title={'Question 9:'}
@@ -226,7 +250,7 @@ class EditPage extends Component {
                         placeholder={'Question 9'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 9 */}
+                    />
 
                     <Input inputType={'text'}
                         title={'Question 10:'}
@@ -235,7 +259,7 @@ class EditPage extends Component {
                         placeholder={'Question 10'}
                         handleChange={this.handleInput}
 
-                    /> {/* Question 10 */}
+                    />  */}
 
                     <Button
                         action={this.handleFormSubmit}

@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 
 import Input from '../components/Input';
 import Button from '../components/Button';
+import Textarea from '../components/Textarea';
 import "./CSS/userform.css"
 
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
@@ -46,21 +47,25 @@ class MainPage extends Component {
       errorMessage: '',
       call: false,
       show: false,
+      matchingEmail: false,
+      numResponses: 10,
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleError = this.handleError.bind(this);
     this.showNotification = this.showNotification.bind(this);
+    this.handleTextArea = this.handleTextArea.bind(this);
+    this.renderTextareas = this.renderTextareas.bind(this);
     // this.setMessage = this.setMessage.bind(this);
   }
 
-  showNotification() {
+  showNotification(name) {
     this.setState({
-      show: true,
+      [name]: true,
     });
     setTimeout(() => {
       this.setState({
-        show: false,
+        [name]: false,
       });
     }, 2000);
   }
@@ -105,6 +110,19 @@ class MainPage extends Component {
     let value = e.target.value;
     let name = e.target.name;
     this.setState({ [name]: value });
+    if (e.target.name == 'email') {
+      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (!re.test(this.state.email)) {
+        this.setState({ invalidateEmail: true });
+      } else {
+        this.setState({ invalidateEmail: false });
+      }
+    }
+  }
+
+  handleTextArea(field) {
+    this.setState({ [field]: document.getElementById(field).value });
   }
 
   async handleFormSubmit(e) {
@@ -125,7 +143,8 @@ class MainPage extends Component {
     }
     if (nullVal == true) {
       // this.setState({errorMessage: 'Uh-oh, make sure you have an input in all fields!'});
-      (() => { this.showNotification() })();
+      let show = 'show';
+      (() => { this.showNotification(show) })();
     } else {
       this.state.errorMessage = '';
       const createRes = {
@@ -153,8 +172,13 @@ class MainPage extends Component {
           apiKey: awsconfig.aws_appsync_apiKey,
         },
       });
-      const newResponse = await client.mutate({ mutation: gql(mutations.createResponses), variables: { input: createRes } });
-      this.setState({ redirect: true });
+      try {
+        const newResponse = await client.mutate({ mutation: gql(mutations.createResponses), variables: { input: createRes } });
+        this.setState({ redirect: true });
+      } catch (e) {
+        let match = 'matchingEmail';
+        (() => { this.showNotification(match) })();
+      }
     }
   }
 
@@ -165,6 +189,21 @@ class MainPage extends Component {
   // setMessage() {
   //   this.props.message = '';
   // }
+
+  renderTextareas(){
+    let arr = [];
+    for (var i = 1; i <= this.state.numResponses; i++){
+      let response = 'r' + i;
+      let question = 'q' + i;
+      arr.push(<p>{this.state[question]}</p>);
+      arr.push(<Textarea 
+        id={response}
+        value={this.state[response]}
+        placeholder={'Response ' + i}
+        handleChange={() => this.handleTextArea(response)}/>)
+    }
+    return arr;
+  }
 
 
   render() {
@@ -200,61 +239,65 @@ class MainPage extends Component {
             <Input inputType={'text'}
               title={'First Name:'}
               name={'fname'}
-              style={{margin: 10}}
+              style={{ margin: 10 }}
               value={this.state.fname}
-              placeholder={'First name'}
+              placeholder={'First Name'}
               handleChange={this.handleInput}
 
-            /> {/* First name */}
+            /> {/* Last name */}
 
             <Input inputType={'text'}
               title={'Last Name:'}
               name={'lname'}
-              style={{margin: 10}}
+              style={{ margin: 10 }}
               value={this.state.lname}
               placeholder={'Last Name'}
               handleChange={this.handleInput}
 
             /> {/* Last name */}
 
-            <Input inputType={'text'}
+            <Input inputType={'email'}
               title={'Email:'}
               name={'email'}
-              style={{margin: 10}}
+              style={{ margin: 10 }}
               value={this.state.email}
               placeholder={'Email'}
               handleChange={this.handleInput}
 
             /> {/* email */}
 
-            <p>{this.state.q1}</p>
+            {this.state.invalidateEmail && <p className="emailError"> Please enter a valid email! </p>}
 
-            <Input inputType={'text'}
-              name={'r1'}
+            {this.renderTextareas()}
+
+            {/* <p>{this.state.q1}</p>
+
+            <Textarea 
+              id={'r1'}
               value={this.state.r1}
               placeholder={'Response 1'}
-              handleChange={this.handleInput}
+              handleChange={() => this.handleTextArea('r1')}
 
-            /> {/* Question 1 */}
+            /> 
 
             <p>{this.state.q2}</p>
 
-            <Input inputType={'text'}
-              name={'r2'}
-              value={this.state.r2}
+            <Textarea 
+              id={'r2'}
+              value={this.state.r1}
               placeholder={'Response 2'}
-              handleChange={this.handleInput}
+              handleChange={() => this.handleTextArea('r2')}
 
-            /> {/* Question 2 */}
+            /> 
 
             <p>{this.state.q3}</p>
-            <Input inputType={'text'}
-              name={'r3'}
-              value={this.state.r3}
+            <Textarea 
+              id={'r3'}
+              value={this.state.r1}
               placeholder={'Response 3'}
-              handleChange={this.handleInput}
+              handleChange={() => this.handleTextArea('r3')}
 
-            /> {/* Question 3 */}
+            /> 
 
             <p>{this.state.q4}</p>
             <Input inputType={'text'}
@@ -263,7 +306,7 @@ class MainPage extends Component {
               placeholder={'Response 4'}
               handleChange={this.handleInput}
 
-            /> {/* Question 4 */}
+            /> 
 
 
             <p>{this.state.q5}</p>
@@ -273,7 +316,7 @@ class MainPage extends Component {
               placeholder={'Response 5'}
               handleChange={this.handleInput}
 
-            /> {/* Question 5 */}
+            /> 
 
             <p>{this.state.q6}</p>
             <Input inputType={'text'}
@@ -282,7 +325,7 @@ class MainPage extends Component {
               placeholder={'Response 6'}
               handleChange={this.handleInput}
 
-            /> {/* Question 6 */}
+            /> 
 
             <p>{this.state.q7}</p>
             <Input inputType={'text'}
@@ -291,7 +334,7 @@ class MainPage extends Component {
               placeholder={'Response 7'}
               handleChange={this.handleInput}
 
-            /> {/* Question 7 */}
+            /> 
 
             <p>{this.state.q8}</p>
             <Input inputType={'text'}
@@ -300,7 +343,7 @@ class MainPage extends Component {
               placeholder={'Response 8'}
               handleChange={this.handleInput}
 
-            /> {/* Question 8 */}
+            />
 
             <p>{this.state.q9}</p>
             <Input inputType={'text'}
@@ -309,7 +352,7 @@ class MainPage extends Component {
               placeholder={'Response 9'}
               handleChange={this.handleInput}
 
-            /> {/* Question 9 */}
+            /> 
 
             <p>{this.state.q10}</p>
             <Input inputType={'text'}
@@ -318,17 +361,19 @@ class MainPage extends Component {
               placeholder={'Response 10'}
               handleChange={this.handleInput}
 
-            /> {/* Question 10 */}
+            />  */}
 
             <div className="submitButton">
               <Button
                 action={this.handleFormSubmit}
+                disabled={this.state.invalidateEmail}
                 type={'primary'}
                 title={'Submit'}
               /> { /*Submit */}
             </div>
 
             <Notification show={this.state.show} />
+            <Notification match={this.state.matchingEmail} />
           </form>
 
 
@@ -340,7 +385,12 @@ class MainPage extends Component {
 
 class Notification extends React.Component {
   render() {
-    return <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have an input in all fields! </span>
+    return (
+      <div className="notifications">
+        <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have an input in all fields! </span>
+        <span className={this.props.match ? 'match' : ''}> The email you entered has already been used! </span>
+      </div>
+    )
   }
 }
 

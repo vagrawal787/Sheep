@@ -39,18 +39,18 @@ class ResponseManager extends Component {
     }
     async handleMatchingPageButton(e) {
         e.preventDefault();
-        this.setState({loading: true});
+        this.setState({ loading: true });
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        var raw = JSON.stringify({ "formID": this.state.id.toString()});
+        var raw = JSON.stringify({ "formID": this.state.id.toString() });
         var requestOptions = {
-            method: 'PUT', 
+            method: 'PUT',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
         await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
-        this.setState({loading: false});
+        this.setState({ loading: false });
         this.setState({ redirectToMatching: true });
     }
 
@@ -144,10 +144,11 @@ class ResponseManager extends Component {
             this.state.redirectToMatching = false;
             return <Redirect to={{
                 pathname: "/matchingPage",
-                state: { formID: this.state.id,
-                userID: this.props.location.state.userID,
-                status: this.state.open
-             }
+                state: {
+                    formID: this.state.id,
+                    userID: this.props.location.state.userID,
+                    status: this.state.open
+                }
             }} />
         }
         if (this.state.redirectToEdit) {
@@ -203,9 +204,9 @@ class ResponseManager extends Component {
                 <Button
                     action={this.handleMatchingPageButton}
                     type={'primary'}
-                    title={'Resolve Word Conflicts' }
+                    title={'Resolve Word Conflicts'}
                 /> { /*Submit */}
-                {this.state.loading && <Loader type="ThreeDots" color ="#2BAD60" height = "50" width = "50"/>}
+                {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
 
             </div>
         );
@@ -220,6 +221,7 @@ class Table extends Component {
             responses: [{ email: 'blah' }],
             call: false,
             header: [],
+            loading: false,
         }
         this.createGroups = this.createGroups.bind(this);
         this.renderTableData = this.renderTableData.bind(this);
@@ -229,16 +231,19 @@ class Table extends Component {
         this.handleUpdate = this.handleUpdate.bind(this);
     }
     async createGroups() {
+        this.setState({call: true});
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        var raw = JSON.stringify({ "formID": this.state.id.toString()});
+        var raw = JSON.stringify({ "formID": this.state.id.toString() });
         var requestOptions = {
-            method: 'DELETE', 
+            method: 'DELETE',
             headers: myHeaders,
             body: raw,
-            redirect: 'follow'
+            redirect: 'follow',
+            noResponses: false,
         };
-        fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
+        this.setState({loading: true});
+        await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
@@ -248,6 +253,7 @@ class Table extends Component {
                 apiKey: awsconfig.aws_appsync_apiKey,
             },
         });
+        this.setState({loading: false});
         let apiData = '';
         try {
             apiData = await client.query({
@@ -270,9 +276,14 @@ class Table extends Component {
             } catch (e) {
                 console.log(e);
             }
-        } else {
+        } else if (apiData.data.getFormResponseList.forms.items.length == 0) {
+            this.setState({ noResponses: true });
+            this.state.call = true
+        }
+        else {
             this.setState({
                 responses: apiData.data.getFormResponseList.forms.items,
+                call: true
             });
             // const headResult = (async() => { this.renderTableHeader(); })();
             // this.setState({ header: headResult });
@@ -305,13 +316,15 @@ class Table extends Component {
 
     handleUpdate(e) {
         e.preventDefault();
-        this.setState({call: false});
+        this.setState({ call: false });
         this.forceUpdate();
     }
 
     renderTableHeader() {
         let header = Object.keys((this.state.responses)[0]);
         header.splice(0, 1);
+        header.pop();
+        header.pop();
         header.pop();
 
 
@@ -360,21 +373,26 @@ class Table extends Component {
         if (!this.state.call) {
             (async () => { this.createGroups(); })();
         }
-        return (
-            <div>
-                <h1 id='title'>React Dynamic Table</h1>
-                <table id='responses'>
-                    <tbody>
-                        <tr>{this.renderTableHeader()}</tr>
-                        {this.renderTableData()}
-                    </tbody>
-                </table>
-                <Button
-                    action={this.handleUpdate}
-                    type={'primary'}
-                    title={'Update'}
-                /> { /*Submit */}
-            </div>)
+        if (this.state.noResponses) {
+            return null
+        } else {
+            return (
+                <div>
+                    <h1 id='title'>React Dynamic Table</h1>
+                    {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
+                    <table id='responses'>
+                        <tbody>
+                            <tr>{this.renderTableHeader()}</tr>
+                            {this.renderTableData()}
+                        </tbody>
+                    </table>
+                    <Button
+                        action={this.handleUpdate}
+                        type={'primary'}
+                        title={'Update'}
+                    /> { /*Submit */}
+                </div>)
+        }
     }
 
 
@@ -389,6 +407,7 @@ class ResponsesTable extends Component {
             call: false,
             header: [],
             reset: false,
+            noResponses: false,
         }
         this.createGroups = this.createGroups.bind(this);
         this.renderTableData = this.renderTableData.bind(this);
@@ -399,17 +418,18 @@ class ResponsesTable extends Component {
         this.resetPage = this.resetPage.bind(this);
     }
     async createGroups() {
+        this.setState({call: true});
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        var raw = JSON.stringify({ "formID": this.state.id.toString()});
+        var raw = JSON.stringify({ "formID": this.state.id.toString() });
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
+        this.setState({loading: true});
         fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
-        console.log("update done");
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
@@ -419,28 +439,39 @@ class ResponsesTable extends Component {
                 apiKey: awsconfig.aws_appsync_apiKey,
             },
         });
+        this.setState({loading: false});
         let apiData = '';
         try {
-            apiData = await client.query({ query: gql(queries.listResponseCleaneds), variables: {filter: { formID: { eq: this.state.id.toString()} }} });
-            console.log(apiData);
-            console.log("i got da wordz");
-            console.log(this.state.id);
+            apiData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } } } });
+        } catch (e) {
+            console.log(e);
+        }
+        console.log(apiData);
+        if (apiData == '' || apiData.data.listResponseCleaneds == null) {
+            this.setState({
+                noResponses: true,
+                call: true
+            });
+        } else if (apiData.data.listResponseCleaneds.items.length == 0) {
+            this.setState({
+                noResponses: true,
+                call: true
+            });
+        } else {
             this.setState({
                 responses: apiData.data.listResponseCleaneds.items,
                 call: true,
             });
-        } catch (e) {
-            console.log(e);
         }
     }
 
-    resetPage(){
+    resetPage() {
         window.location.reload(false);
     }
 
     handleUpdate(e) {
         e.preventDefault();
-        this.setState({call: false});
+        this.setState({ call: false });
         this.forceUpdate();
     }
 
@@ -470,6 +501,8 @@ class ResponsesTable extends Component {
     renderTableHeader() {
         let header = Object.keys((this.state.responses)[0]);
         header.splice(0, 1);
+        header.pop();
+        header.pop();
         header.pop();
 
 
@@ -510,21 +543,29 @@ class ResponsesTable extends Component {
             (async () => { this.createGroups(); })();
         }
         this.state.reset = false;
-        return (
-            <div>
-                <h1 id='title'>React Dynamic Table</h1>
-                <table id='responses'>
-                    <tbody>
-                        <tr>{this.renderTableHeader()}</tr>
-                        {this.renderTableData()}
-                    </tbody>
-                </table>
-                <Button
-                    action={this.handleUpdate}
-                    type={'primary'}
-                    title={'Update'}
-                /> { /*Submit */}
-            </div>)
+        if (this.state.noResponses) {
+            return <h3> This form has no responses yet! Check back in a bit. </h3>
+        } else {
+            return (
+                <div>
+                    <div>
+                        <h1 id='title'>React Dynamic Table</h1>
+                        {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
+                        <table id='responses'>
+                            <tbody>
+                                <tr>{this.renderTableHeader()}</tr>
+                                {this.renderTableData()}
+                            </tbody>
+                        </table>
+                        <Button
+                            action={this.handleUpdate}
+                            type={'primary'}
+                            title={'Update'}
+                        /> { /*Submit */}
+                    </div>
+                </div>
+            )
+        }
     }
 
 
