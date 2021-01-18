@@ -25,6 +25,7 @@
   height: 150px;
   padding: 25px;
   border-radius: 8px;
+  
 }
 .adminButton{
   position: absolute;
@@ -36,8 +37,11 @@
 .subButton{
   position: absolute;
   padding: 15px;
-  right: 43%;
   font-family: 'Quicksand', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 45%;
 }
 p.codeParagraph{
   font-family: 'Quicksand';
@@ -58,4 +62,12 @@ span {
   position:absolute;
   top: 77%;
   right: 33%;
+}
+.credit{
+  font-family: 'Quicksand', sans-serif;
+  font-size: 5px;
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
+  padding: 2px;
 }
