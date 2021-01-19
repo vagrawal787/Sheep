@@ -50,6 +50,7 @@ class MainPage extends Component {
       matchingEmail: false,
       numResponses: 10,
       redirectHome: false,
+      instructions: false,
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
@@ -58,6 +59,7 @@ class MainPage extends Component {
     this.handleTextArea = this.handleTextArea.bind(this);
     this.renderTextareas = this.renderTextareas.bind(this);
     this.handleBackButton = this.handleBackButton.bind(this);
+    this.handleInstructions = this.handleInstructions.bind(this);
     // this.setMessage = this.setMessage.bind(this);
   }
 
@@ -75,7 +77,6 @@ class MainPage extends Component {
   async findForm() {
     console.log("hi");
 
-    console.log(this.props.location.state.code);
     const client = new AWSAppSyncClient({
       url: awsconfig.aws_appsync_graphqlEndpoint,
       region: awsconfig.aws_appsync_region,
@@ -104,6 +105,16 @@ class MainPage extends Component {
         q9: apiData.data.getForm.q9,
         q10: apiData.data.getForm.q10
       });
+    }
+  }
+
+  handleInstructions(e) {
+    e.preventDefault();
+    this.setState({ instructions: !this.state.instructions });
+    if (!this.state.instructions) {
+      document.getElementById('container-fluid').style.opacity = "0";
+    } else {
+      document.getElementById('container-fluid').style.opacity = '1';
     }
   }
 
@@ -184,37 +195,34 @@ class MainPage extends Component {
     }
   }
 
-  handleBackButton(e){
+  handleBackButton(e) {
     e.preventDefault();
-    this.setState({redirectHome: true});
+    this.setState({ redirectHome: true });
   }
 
   handleError() {
     console.log('error reached');
     this.setState({ error: true });
   }
-  // setMessage() {
-  //   this.props.message = '';
-  // }
 
-  renderTextareas(){
+  renderTextareas() {
     let arr = [];
-    for (var i = 1; i <= this.state.numResponses; i++){
+    for (var i = 1; i <= this.state.numResponses; i++) {
       let response = 'r' + i;
       let question = 'q' + i;
       arr.push(<p>{this.state[question]}</p>);
-      arr.push(<Textarea 
+      arr.push(<Textarea
         id={response}
         value={this.state[response]}
         placeholder={'Response ' + i}
-        handleChange={() => this.handleTextArea(response)}/>)
+        handleChange={() => this.handleTextArea(response)} />)
     }
     return arr;
   }
 
 
   render() {
-    if(this.state.redirectHome){
+    if (this.state.redirectHome) {
       this.state.redirectHome = false;
       return <Redirect to={{ pathname: "/" }} />
     }
@@ -240,19 +248,27 @@ class MainPage extends Component {
     // (() => { this.setMessage(); })();
     return (
       <div className="container">
+
+        {this.state.instructions && <Instructions toggle={this.handleInstructions} />}
         <Helmet>
           <link rel="stylesheet" href="userform.css" />
           {/* <style>{'body { background-image: url(${background}); }'}</style> */}
         </Helmet>
-        <div className = "backButton">
-              <Button
-                action={this.handleBackButton}
-                type={'primary'}
-                title={'Back To Home'}
-              /> { /*Submit */}
+        <div className="backButton">
+          <Button
+            action={this.handleBackButton}
+            type={'primary'}
+            title={'Back To Home'}
+          /> { /*Submit */}
         </div>
-        <div className='formContainer'>
+        <div className='formContainer' id="container-fluid">
           <form className="container-fluid" onSubmit={this.handleFormSubmit}>
+
+            <Button
+              action={this.handleInstructions}
+              type={'primary'}
+              title={'Instructions'}
+            /> { /*Submit */}
 
             <Input inputType={'text'}
               title={'First Name:'}
@@ -407,6 +423,54 @@ class Notification extends React.Component {
       <div className="notifications">
         <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have an input in all fields! </span>
         <span className={this.props.match ? 'match' : ''}> The email you entered has already been used! </span>
+      </div>
+    )
+  }
+}
+
+class Instructions extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleClose = this.handleClose.bind(this);
+  }
+
+  handleClose(e) {
+    e.preventDefault();
+    this.props.toggle(e);
+  }
+  render() {
+    return (
+      <div className="popup">
+        <div className="popup-content">
+          <div className="words">
+            <h3> Welcome to Sheep! </h3>
+            <p> Your score per category will be the number of responses that were the same as yours. You don’t need to pick the correct answer, a clever answer, or a unique answer — you should pick the most common answer, aka the Sheep answer. (Like Family Feud.) </p>
+            <p> For example, in a 30-player game: </p>
+            <div className="example">
+              <p> Category: A television manufacturer</p>
+
+              <p>Responses:</p>
+              <p>Samsung - 15</p>
+              <p>Sony - 10</p>
+              <p>LG - 5</p>
+            </div>
+            <p>If you put Sony, you would receive 10 points for this round.</p>
+            <ul>
+              <li>Common answers will be grouped at my discretion (e.g., "child" and "kid").</li>
+              <li>Please don't submit multiple responses to the same question (e.g., "Pop/Rock/Rap"). If you do, I will just pick the first thing you submitted as your answer ("Pop").</li>
+              <li>You can use any reference or technology to help pick your responses.</li>
+              <li>You cannot speak with anyone else about your answers until the scores are revealed. I'll disqualify any players suspected of collusion.</li>
+            </ul>
+            <p>Last reminder, you're trying to get the SHEEP answer, not the right answer!</p>
+            <p>Good luck!</p>
+            <Button
+              action={this.handleClose}
+              type={'primary'}
+              title={'Close'}
+            />
+          </div>
+        </div>
       </div>
     )
   }

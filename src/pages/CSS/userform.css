@@ -56,3 +56,35 @@ span {
     top: 0%;
     left: 0%;
 }
+.popup{
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content:center;
+    top: 0%;
+    font-family: 'Quicksand';
+    text-align: center;
+    width: 60%;
+    height: 95%;
+    padding: 40px;
+    z-index: 1;
+    border-radius: 30px;
+}
+.popup-content{
+    top: 0%;
+    font-family: 'Quicksand';
+    text-align: center;
+    background-color: rgb(220, 220, 220);
+    width: 90%;
+    height: 80%;
+    font-size: 1.66vh;
+    border-radius: 30px;
+}
+.words{
+    padding: 20px;
+}
+.example{
+    background-color: rgb(52, 190, 249, 0.5);
+    border-radius: 30px;
+    padding: 1px;
+}
