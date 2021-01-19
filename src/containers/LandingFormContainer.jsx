@@ -133,6 +133,7 @@ class LandingFormContainer extends Component {
         <div className = "adminPassword">
           {this.state.redirectAdmin && <Password />}
         </div>
+        <p className = "disclaimer"> Note: Please don't use the browser controls (refresh/back)! We're working on a bug :) </p>
         {/* <button className="hidden1" onClick={() => this.setState({hidden1: true})}></button>
         <button className="hidden2" disabled= {!this.state.hidden1} onClick={() => this.setState({hidden2: true})}></button> */}
         <div className="landingCont">
