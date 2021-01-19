@@ -49,6 +49,7 @@ class MainPage extends Component {
       show: false,
       matchingEmail: false,
       numResponses: 10,
+      redirectHome: false,
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
@@ -56,6 +57,7 @@ class MainPage extends Component {
     this.showNotification = this.showNotification.bind(this);
     this.handleTextArea = this.handleTextArea.bind(this);
     this.renderTextareas = this.renderTextareas.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
     // this.setMessage = this.setMessage.bind(this);
   }
 
@@ -182,6 +184,11 @@ class MainPage extends Component {
     }
   }
 
+  handleBackButton(e){
+    e.preventDefault();
+    this.setState({redirectHome: true});
+  }
+
   handleError() {
     console.log('error reached');
     this.setState({ error: true });
@@ -207,6 +214,10 @@ class MainPage extends Component {
 
 
   render() {
+    if(this.state.redirectHome){
+      this.state.redirectHome = false;
+      return <Redirect to={{ pathname: "/" }} />
+    }
     if (!this.state.call) {
       (async () => { await this.findForm(); })();
     }
@@ -233,6 +244,13 @@ class MainPage extends Component {
           <link rel="stylesheet" href="userform.css" />
           {/* <style>{'body { background-image: url(${background}); }'}</style> */}
         </Helmet>
+        <div className = "backButton">
+              <Button
+                action={this.handleBackButton}
+                type={'primary'}
+                title={'Back To Home'}
+              /> { /*Submit */}
+        </div>
         <div className='formContainer'>
           <form className="container-fluid" onSubmit={this.handleFormSubmit}>
 

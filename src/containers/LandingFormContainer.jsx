@@ -25,7 +25,8 @@ class LandingFormContainer extends Component {
       redirectResults: false,
       errorMessage: '',
       show: false,
-
+      hidden1: false,
+      hidden2: false,
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
@@ -102,11 +103,11 @@ class LandingFormContainer extends Component {
       }} />
     }
 
-    if (this.state.redirectAdmin) {
-      console.log("call admin");
-      this.state.redirectAdmin = false;
-      return <Redirect to={{ pathname: "/adminConsole" }} />
-    }
+    // if (this.state.redirectAdmin) {
+    //   console.log("call admin");
+    //   this.state.redirectAdmin = false;
+    //   return <Redirect to={{ pathname: "/adminConsole" }} />
+    // }
 
     if (this.state.redirectResults) {
       console.log("call results");
@@ -129,6 +130,11 @@ class LandingFormContainer extends Component {
             title={'Go To Admin'}
           /> { /* Admin */}
         </div>
+        <div className = "adminPassword">
+          {this.state.redirectAdmin && <Password />}
+        </div>
+        {/* <button className="hidden1" onClick={() => this.setState({hidden1: true})}></button>
+        <button className="hidden2" disabled= {!this.state.hidden1} onClick={() => this.setState({hidden2: true})}></button> */}
         <div className="landingCont">
           <div className="child">
             <form className="container-fluid" onSubmit={this.handleFormSubmit}>
@@ -154,7 +160,7 @@ class LandingFormContainer extends Component {
           <div className='notif'>
             <Notification show={this.state.show} />
           </div>
-          <div className ="credit">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+          <div className="credit">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
         </div>
       </div>
@@ -167,7 +173,41 @@ class LandingFormContainer extends Component {
 class Notification extends React.Component {
   render() {
     return <span className={this.props.show ? 'show' : ''}> Uh-oh, make sure you have inputted a valid code! </span>
-  } v
+  }
+}
+
+class Password extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      password: '',
+      redirect: false
+    }
+    this.inputHandler = this.inputHandler.bind(this);
+  }
+
+
+  inputHandler(e) {
+    let value = e.target.value;
+    this.setState({ password: value });
+    if (this.state.password == 'bamboozle') {
+      this.setState({ redirect: true });
+    }
+  }
+  render() {
+    if (this.state.redirect) {
+      console.log("call admin");
+      this.state.redirectAdmin = false;
+      return <Redirect to={{ pathname: "/adminConsole" }} />
+    }
+    return (<Input inputType={'text'}
+      name={'password'}
+      value={this.state.password}
+      placeholder={'Enter the password'}
+      handleChange={this.inputHandler}
+    />
+    )
+  }
 }
 
 export default LandingFormContainer;
