@@ -113,6 +113,7 @@ class MatchingPage extends React.Component {
         await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions2).catch(error => console.log('error', error));
         this.setState({ loading: false });
         this.setState({ call: false });
+        this.setState({ input: '' });
     }
 
     handleInput(e) {
