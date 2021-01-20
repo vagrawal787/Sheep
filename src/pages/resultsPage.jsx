@@ -163,6 +163,7 @@ class ResultsPage extends Component {
             }
         }
     }
+
     
     createDivs(question, response, points) {
         const user = this.state.responses[this.state.userIndex];
