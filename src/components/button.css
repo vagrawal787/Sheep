@@ -5,6 +5,10 @@ button{
     border: none;
     cursor: pointer;
     border-radius: 6px;
+    margin-top:5px;
+    margin-left:5px;
+    margin-bottom:5px;
+    margin-right:5px;
 }
 button:hover{
     background-image:none !important;

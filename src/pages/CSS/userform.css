@@ -90,3 +90,8 @@ span {
     border-radius: 30px;
     padding: 1px;
 }
+
+ul {
+    text-align: center;
+    list-style: inside;
+  }

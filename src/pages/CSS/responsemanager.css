@@ -43,3 +43,29 @@
     text-align: center;
     height: auto;
   }
+  .popupForm{
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content:center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Quicksand';
+    text-align: center;
+    width: 60%;
+    height: 60%;
+    padding: 40px;
+    z-index: 1;
+    border-radius: 30px;
+}
+.popup-contentForm{
+    top: 0%;
+    font-family: 'Quicksand';
+    text-align: center;
+    background-color: rgb(220, 220, 220);
+    width: 90%;
+    height: 80%;
+    font-size: 1.66vh;
+    border-radius: 30px;
+}

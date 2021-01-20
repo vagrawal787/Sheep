@@ -23,6 +23,17 @@ class ResponseManager extends Component {
             redirectToMatching: false,
             sent: false,
             loading: false,
+            q1: "",
+            q2: "",
+            q3: "",
+            q4: "",
+            q5: "",
+            q6: "",
+            q7: "",
+            q8: "",
+            q9: "",
+            q10: "",
+            call: false
         }
         this.handleEditFormButton = this.handleEditFormButton.bind(this);
         this.handleMatchingPageButton = this.handleMatchingPageButton.bind(this);
@@ -31,6 +42,7 @@ class ResponseManager extends Component {
         this.toggleOpen = this.toggleOpen.bind(this);
         this.sendResults = this.sendResults.bind(this);
         this.toggleSent = this.toggleSent.bind(this);
+        this.findForm = this.findForm.bind(this);
     }
 
     handleEditFormButton(e) {
@@ -123,6 +135,40 @@ class ResponseManager extends Component {
         (() => { this.toggleSent(); })();
     }
 
+    async findForm() {    
+        console.log("hi");
+        const client = new AWSAppSyncClient({
+          url: awsconfig.aws_appsync_graphqlEndpoint,
+          region: awsconfig.aws_appsync_region,
+          disableOffline: true,
+          auth: {
+            type: AUTH_TYPE.API_KEY,
+            apiKey: awsconfig.aws_appsync_apiKey,
+          },
+        });
+        const apiData = await client.query({ query: gql(queries.getForm), variables: { id: this.state.id } });
+        if (apiData.data.getForm == null) {
+          this.state.call = true;
+          (() => { this.handleError(); })();
+        }
+        else {
+          this.state.call = true;
+          this.setState({
+            q1: apiData.data.getForm.q1,
+            q2: apiData.data.getForm.q2,
+            q3: apiData.data.getForm.q3,
+            q4: apiData.data.getForm.q4,
+            q5: apiData.data.getForm.q5,
+            q6: apiData.data.getForm.q6,
+            q7: apiData.data.getForm.q7,
+            q8: apiData.data.getForm.q8,
+            q9: apiData.data.getForm.q9,
+            q10: apiData.data.getForm.q10
+          });
+          console.log(this.state.q2);
+        }
+      }
+
     toggleSent() {
         this.setState({ sent: true });
     }
@@ -167,6 +213,9 @@ class ResponseManager extends Component {
                 pathname: "/adminConsole"
             }} />
         }
+        if (!this.state.call) {
+            (async () => { await this.findForm() })();
+        }
         return (
             <div className="responseContainer">
                 <h1>
@@ -175,7 +224,7 @@ class ResponseManager extends Component {
                 {!this.state.open ? <h3 className="closed"> Form has been closed.</h3> : <h3 className="open"> Form is open for responses. </h3>}
                 {this.state.sent ? <h3 className="sent"> Form results have been sent. </h3> : null}
                 <Table id={this.state.id} />
-                <ResponsesTable id={this.state.id} />
+                <ResponsesTable id={this.state.id} var = {this.state}/>
                 <Button
                     action={this.handleEditFormButton}
                     type={'primary'}
@@ -408,6 +457,7 @@ class ResponsesTable extends Component {
             header: [],
             reset: false,
             noResponses: false,
+            formquestions: false
         }
         this.createGroups = this.createGroups.bind(this);
         this.renderTableData = this.renderTableData.bind(this);
@@ -416,6 +466,7 @@ class ResponsesTable extends Component {
         this.compareByKey = this.compareByKey.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.resetPage = this.resetPage.bind(this);
+        this.handleFormQuestions = this.handleFormQuestions.bind(this);
     }
     async createGroups() {
         this.setState({call: true});
@@ -538,6 +589,16 @@ class ResponsesTable extends Component {
         })
     }
 
+    handleFormQuestions(e) {
+        e.preventDefault();
+        this.setState({ formquestions: !this.state.formquestions });
+        // if (!this.state.formquestions) {
+        //   document.getElementById('container-fluid').style.opacity = "0";
+        // } else {
+        //   document.getElementById('container-fluid').style.opacity = '1';
+        // }
+      }
+
     render() {
         if (!this.state.call) {
             (async () => { this.createGroups(); })();
@@ -551,6 +612,12 @@ class ResponsesTable extends Component {
                     <div>
                         <h1 id='title'>Responses Cleaned</h1>
                         {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
+                        <Button
+                            action={this.handleFormQuestions}
+                            type={'primary'}
+                            title={'Form Questions'}
+                        /> { /*Submit */}
+                        {this.state.formquestions && <FormQuestions toggle={this.handleFormQuestions} var = {this.props.var} />}
                         <table id='responses'>
                             <tbody>
                                 <tr>{this.renderTableHeader()}</tr>
@@ -570,5 +637,43 @@ class ResponsesTable extends Component {
 
 
 }
+
+class FormQuestions extends React.Component {
+
+    constructor(props) {
+      super(props);
+      this.handleClose = this.handleClose.bind(this);
+    }
+  
+    handleClose(e) {
+      e.preventDefault();
+      this.props.toggle(e);
+    }
+    render() {
+      return (
+        <div className="popupForm">
+          <div className="popup-contentForm">
+            <div className="words">
+              <p> Q1: {this.props.var.q1} </p>
+              <p> Q2: {this.props.var.q2} </p>
+              <p> Q3: {this.props.var.q3} </p>
+              <p> Q4: {this.props.var.q4} </p>
+              <p> Q5: {this.props.var.q5} </p>
+              <p> Q6: {this.props.var.q6} </p>
+              <p> Q7: {this.props.var.q7} </p>
+              <p> Q8: {this.props.var.q8} </p>
+              <p> Q9: {this.props.var.q9} </p>
+              <p> Q10: {this.props.var.q10} </p>
+              <Button
+                action={this.handleClose}
+                type={'primary'}
+                title={'Close'}
+              />
+            </div>
+          </div>
+        </div>
+      )
+    }
+  }
 
 export default ResponseManager;
