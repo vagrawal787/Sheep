@@ -48,7 +48,7 @@
   
   #third-step {
     height: 50%;
-    background-color:brown;
+    background-color:burlywood;
     border-radius: 8px;
   }
 .points{
@@ -59,6 +59,16 @@
   position:absolute;
   right:50%;
 }
+
+.black-container{
+  margin: auto;
+  text-align: center;
+  border-radius: 8px;
+  width:500px;
+  height:100px;
+  background-color: rgb(166, 175, 226);
+}
+
 .result-container{
   padding: 10px;
   background-color: rgb(223, 223, 223);

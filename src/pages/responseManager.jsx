@@ -350,14 +350,14 @@ class Table extends Component {
     compareByKey(key) {
         if (this.state.switchSort) {
             return function (a, b) {
-                if (a[key] < b[key]) return -1; // check for value if the second value is bigger then first return -1
-                if (a[key] > b[key]) return 1;  //check for value if the second value is bigger then first return 1
+                if (Number(a[key]) < Number(b[key])) return -1; // check for value if the second value is bigger then first return -1
+                if (Number(a[key]) > Number(b[key])) return 1;  //check for value if the second value is bigger then first return 1
                 return 0;
             };
         } else {
             return function (a, b) {
-                if (a[key] > b[key]) return -1;
-                if (a[key] < b[key]) return 1;
+                if (Number(a[key]) > Number(b[key])) return -1;
+                if (Number(a[key]) < Number(b[key])) return 1;
                 return 0;
             };
         }

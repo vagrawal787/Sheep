@@ -109,8 +109,8 @@ class ResultsPage extends Component {
 
     compareByKey(key) {
         return function (a, b) {
-            if (a[key] < b[key]) return -1; // check for value if the second value is bigger then first return -1
-            if (a[key] > b[key]) return 1;  //check for value if the second value is bigger then first return 1
+            if (Number(a[key]) > Number(b[key])) return -1; // check for value if the second value is bigger then first return -1
+            if (Number(a[key]) < Number(b[key])) return 1;  //check for value if the second value is bigger then first return 1
             return 0;
         }
     }
@@ -164,7 +164,7 @@ class ResultsPage extends Component {
         }
     }
 
-    
+
     createDivs(question, response, points) {
         const user = this.state.responses[this.state.userIndex];
         const userResponses = this.state.userResponses;
@@ -296,6 +296,9 @@ class ResultsPage extends Component {
                     </div>
                         </div>
                     </div>
+                    
+                <div className="black-container">
+
                     <div className="nameButton">
                         <Input inputType={'text'}
                             title={'Your email:'}
@@ -312,6 +315,7 @@ class ResultsPage extends Component {
                             title={'Submit'}
                         /> { /*Submit */}
                     </div>
+                </div>
                     <Notification show={this.state.show} />
                     {this.showUserResults()}
                     </div>
