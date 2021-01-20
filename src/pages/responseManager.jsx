@@ -549,7 +549,7 @@ class ResponsesTable extends Component {
             return (
                 <div>
                     <div>
-                        <h1 id='title'>React Dynamic Table</h1>
+                        <h1 id='title'>Responses Cleaned</h1>
                         {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
                         <table id='responses'>
                             <tbody>
