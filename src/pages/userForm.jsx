@@ -7,6 +7,7 @@ import Textarea from '../components/Textarea';
 import "./CSS/userform.css"
 
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
