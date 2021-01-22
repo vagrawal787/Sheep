@@ -79,7 +79,7 @@ span {
     background-color: rgb(220, 220, 220);
     width: 90%;
     height: 80%;
-    font-size: 1.66vh;
+    font-size: 1.66vmin;
     border-radius: 30px;
 }
 .words{

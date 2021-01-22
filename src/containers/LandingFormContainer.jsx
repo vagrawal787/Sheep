@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
@@ -211,4 +212,4 @@ class Password extends React.Component {
   }
 }
 
-export default LandingFormContainer;
+export default withRouter(LandingFormContainer);

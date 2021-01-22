@@ -7,6 +7,7 @@ import Textarea from '../components/Textarea';
 import "./CSS/userform.css"
 
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
@@ -61,6 +62,17 @@ class MainPage extends Component {
     this.handleBackButton = this.handleBackButton.bind(this);
     this.handleInstructions = this.handleInstructions.bind(this);
     // this.setMessage = this.setMessage.bind(this);
+  }
+
+  componentDidUpdate(){
+    console.log(this.props.history);
+    window.onpopstate = this.backButtonEvent;
+  }
+
+  backButtonEvent(e){
+    e.preventDefault();
+    console.log("backbuttonpressed");
+    this.goBack();
   }
 
   showNotification(name) {
@@ -476,4 +488,4 @@ class Instructions extends React.Component {
   }
 }
 
-export default MainPage;
+export default withRouter(MainPage);
