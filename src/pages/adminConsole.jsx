@@ -112,8 +112,25 @@ class ConsolePage extends Component {
             this.state.sent = sentArr;
             console.log(this.state.forms);
         }
+        let responseData = '';
+        try {
+            for (var p in this.state.forms){
+                responseData = await client.query({
+                    query: gql(queries.getFormResponseList),
+                    variables: { id: this.state.forms[p] }
+                });
+
+            }
+
+            console.log("api data fetched");
+            console.log(apiData);
+        } catch (e) {
+            console.log(e);
+        }
+
         (() => { this.setButtons(); })();
     }
+    
 
     redirectToHome(e) {
         e.preventDefault();
@@ -139,6 +156,22 @@ class ConsolePage extends Component {
         }
         console.log(arr);
         this.setState({ buttons: arr });
+    }
+
+    createDivs() {
+        var arr = [];
+        for (var p in this.state.forms) {
+            var returnDiv =
+            <div className = "formSummary">
+                var button = <Button
+                action={this.handleManagerPress}
+                value={this.state.status[p]}
+                type={'primary'}
+                label={this.state.forms[p]}
+                title={this.state.forms[p]}
+            />
+            </div>
+        }
     }
 
     render() {
