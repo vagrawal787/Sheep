@@ -53,10 +53,12 @@
   }
 .points{
   position: absolute;
-  right: 15%;
+  text-align: center;
+  right: 15%
 }
 .response{
   position:absolute;
+  text-align: center;
   right:50%;
 }
 
@@ -98,7 +100,7 @@
 }
 .question{
   position:absolute;
-  right: 85%;
+  text-align: center;
 }
 #final-result{
   display:none;
