@@ -135,39 +135,39 @@ class ResponseManager extends Component {
         (() => { this.toggleSent(); })();
     }
 
-    async findForm() {    
+    async findForm() {
         console.log("hi");
         const client = new AWSAppSyncClient({
-          url: awsconfig.aws_appsync_graphqlEndpoint,
-          region: awsconfig.aws_appsync_region,
-          disableOffline: true,
-          auth: {
-            type: AUTH_TYPE.API_KEY,
-            apiKey: awsconfig.aws_appsync_apiKey,
-          },
+            url: awsconfig.aws_appsync_graphqlEndpoint,
+            region: awsconfig.aws_appsync_region,
+            disableOffline: true,
+            auth: {
+                type: AUTH_TYPE.API_KEY,
+                apiKey: awsconfig.aws_appsync_apiKey,
+            },
         });
         const apiData = await client.query({ query: gql(queries.getForm), variables: { id: this.state.id } });
         if (apiData.data.getForm == null) {
-          this.state.call = true;
-          (() => { this.handleError(); })();
+            this.state.call = true;
+            (() => { this.handleError(); })();
         }
         else {
-          this.state.call = true;
-          this.setState({
-            q1: apiData.data.getForm.q1,
-            q2: apiData.data.getForm.q2,
-            q3: apiData.data.getForm.q3,
-            q4: apiData.data.getForm.q4,
-            q5: apiData.data.getForm.q5,
-            q6: apiData.data.getForm.q6,
-            q7: apiData.data.getForm.q7,
-            q8: apiData.data.getForm.q8,
-            q9: apiData.data.getForm.q9,
-            q10: apiData.data.getForm.q10
-          });
-          console.log(this.state.q2);
+            this.state.call = true;
+            this.setState({
+                q1: apiData.data.getForm.q1,
+                q2: apiData.data.getForm.q2,
+                q3: apiData.data.getForm.q3,
+                q4: apiData.data.getForm.q4,
+                q5: apiData.data.getForm.q5,
+                q6: apiData.data.getForm.q6,
+                q7: apiData.data.getForm.q7,
+                q8: apiData.data.getForm.q8,
+                q9: apiData.data.getForm.q9,
+                q10: apiData.data.getForm.q10
+            });
+            console.log(this.state.q2);
         }
-      }
+    }
 
     toggleSent() {
         this.setState({ sent: true });
@@ -224,7 +224,7 @@ class ResponseManager extends Component {
                 {!this.state.open ? <h3 className="closed"> Form has been closed.</h3> : <h3 className="open"> Form is open for responses. </h3>}
                 {this.state.sent ? <h3 className="sent"> Form results have been sent. </h3> : null}
                 <Table id={this.state.id} />
-                <ResponsesTable id={this.state.id} var = {this.state}/>
+                <ResponsesTable id={this.state.id} var={this.state} />
                 <Button
                     action={this.handleEditFormButton}
                     type={'primary'}
@@ -278,9 +278,56 @@ class Table extends Component {
         this.handleSort = this.handleSort.bind(this);
         this.compareByKey = this.compareByKey.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
+        this.downloadCSV = this.downloadCSV.bind(this);
+        this.exportTableToCSV = this.exportTableToCSV.bind(this);
     }
+
+    downloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
+
+        // CSV file
+        csvFile = new Blob([csv], { type: "text/csv" });
+
+        // Download link
+        downloadLink = document.createElement("a");
+
+        // File name
+        downloadLink.download = filename;
+
+        // Create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+
+        // Hide download link
+        downloadLink.style.display = "none";
+
+        // Add the link to DOM
+        document.body.appendChild(downloadLink);
+
+        // Click download link
+        downloadLink.click();
+    }
+
+    exportTableToCSV(filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("table.userscores tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+
+            for (var j = 0; j < cols.length; j++)
+                row.push(cols[j].innerText);
+
+            csv.push(row.join(","));
+        }
+
+        // Download CSV file
+        this.downloadCSV(csv.join("\n"), filename);
+    }
+
+
     async createGroups() {
-        this.setState({call: true});
+        this.setState({ call: true });
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({ "formID": this.state.id.toString() });
@@ -291,7 +338,7 @@ class Table extends Component {
             redirect: 'follow',
             noResponses: false,
         };
-        this.setState({loading: true});
+        this.setState({ loading: true });
         await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
@@ -302,7 +349,7 @@ class Table extends Component {
                 apiKey: awsconfig.aws_appsync_apiKey,
             },
         });
-        this.setState({loading: false});
+        this.setState({ loading: false });
         let apiData = '';
         try {
             apiData = await client.query({
@@ -429,7 +476,7 @@ class Table extends Component {
                 <div>
                     <h1 id='title'>User Scores</h1>
                     {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
-                    <table id='responses'>
+                    <table id='responses' className='userscores'>
                         <tbody>
                             <tr>{this.renderTableHeader()}</tr>
                             {this.renderTableData()}
@@ -439,6 +486,11 @@ class Table extends Component {
                         action={this.handleUpdate}
                         type={'primary'}
                         title={'Update'}
+                    /> { /*Submit */}
+                    <Button
+                        action={() => this.exportTableToCSV(this.state.id + "_userScores.csv")}
+                        type={'primary'}
+                        title={'Export to CSV'}
                     /> { /*Submit */}
                 </div>)
         }
@@ -467,9 +519,11 @@ class ResponsesTable extends Component {
         this.handleUpdate = this.handleUpdate.bind(this);
         this.resetPage = this.resetPage.bind(this);
         this.handleFormQuestions = this.handleFormQuestions.bind(this);
+        this.downloadCSV = this.downloadCSV.bind(this);
+        this.exportTableToCSV = this.exportTableToCSV.bind(this);
     }
     async createGroups() {
-        this.setState({call: true});
+        this.setState({ call: true });
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({ "formID": this.state.id.toString() });
@@ -479,7 +533,7 @@ class ResponsesTable extends Component {
             body: raw,
             redirect: 'follow'
         };
-        this.setState({loading: true});
+        this.setState({ loading: true });
         fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
@@ -490,7 +544,7 @@ class ResponsesTable extends Component {
                 apiKey: awsconfig.aws_appsync_apiKey,
             },
         });
-        this.setState({loading: false});
+        this.setState({ loading: false });
         let apiData = '';
         try {
             apiData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } } } });
@@ -514,6 +568,49 @@ class ResponsesTable extends Component {
                 call: true,
             });
         }
+    }
+
+    downloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
+
+        // CSV file
+        csvFile = new Blob([csv], { type: "text/csv" });
+
+        // Download link
+        downloadLink = document.createElement("a");
+
+        // File name
+        downloadLink.download = filename;
+
+        // Create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+
+        // Hide download link
+        downloadLink.style.display = "none";
+
+        // Add the link to DOM
+        document.body.appendChild(downloadLink);
+
+        // Click download link
+        downloadLink.click();
+    }
+
+    exportTableToCSV(filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("table.responses tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+
+            for (var j = 0; j < cols.length; j++)
+                row.push(cols[j].innerText);
+
+            csv.push(row.join(","));
+        }
+
+        // Download CSV file
+        this.downloadCSV(csv.join("\n"), filename);
     }
 
     resetPage() {
@@ -597,7 +694,7 @@ class ResponsesTable extends Component {
         // } else {
         //   document.getElementById('container-fluid').style.opacity = '1';
         // }
-      }
+    }
 
     render() {
         if (!this.state.call) {
@@ -617,8 +714,8 @@ class ResponsesTable extends Component {
                             type={'primary'}
                             title={'Form Questions'}
                         /> { /*Submit */}
-                        {this.state.formquestions && <FormQuestions toggle={this.handleFormQuestions} var = {this.props.var} />}
-                        <table id='responses'>
+                        {this.state.formquestions && <FormQuestions toggle={this.handleFormQuestions} var={this.props.var} />}
+                        <table id='responses' className="responses">
                             <tbody>
                                 <tr>{this.renderTableHeader()}</tr>
                                 {this.renderTableData()}
@@ -628,6 +725,11 @@ class ResponsesTable extends Component {
                             action={this.handleUpdate}
                             type={'primary'}
                             title={'Update'}
+                        /> { /*Submit */}
+                        <Button
+                            action={() => this.exportTableToCSV(this.state.id + "_userResponses.csv")}
+                            type={'primary'}
+                            title={'Export to CSV'}
                         /> { /*Submit */}
                     </div>
                 </div>
@@ -641,39 +743,39 @@ class ResponsesTable extends Component {
 class FormQuestions extends React.Component {
 
     constructor(props) {
-      super(props);
-      this.handleClose = this.handleClose.bind(this);
+        super(props);
+        this.handleClose = this.handleClose.bind(this);
     }
-  
+
     handleClose(e) {
-      e.preventDefault();
-      this.props.toggle(e);
+        e.preventDefault();
+        this.props.toggle(e);
     }
     render() {
-      return (
-        <div className="popupForm">
-          <div className="popup-contentForm">
-            <div className="words">
-              <p> Q1: {this.props.var.q1} </p>
-              <p> Q2: {this.props.var.q2} </p>
-              <p> Q3: {this.props.var.q3} </p>
-              <p> Q4: {this.props.var.q4} </p>
-              <p> Q5: {this.props.var.q5} </p>
-              <p> Q6: {this.props.var.q6} </p>
-              <p> Q7: {this.props.var.q7} </p>
-              <p> Q8: {this.props.var.q8} </p>
-              <p> Q9: {this.props.var.q9} </p>
-              <p> Q10: {this.props.var.q10} </p>
-              <Button
-                action={this.handleClose}
-                type={'primary'}
-                title={'Close'}
-              />
+        return (
+            <div className="popupForm">
+                <div className="popup-contentForm">
+                    <div className="words">
+                        <p> Q1: {this.props.var.q1} </p>
+                        <p> Q2: {this.props.var.q2} </p>
+                        <p> Q3: {this.props.var.q3} </p>
+                        <p> Q4: {this.props.var.q4} </p>
+                        <p> Q5: {this.props.var.q5} </p>
+                        <p> Q6: {this.props.var.q6} </p>
+                        <p> Q7: {this.props.var.q7} </p>
+                        <p> Q8: {this.props.var.q8} </p>
+                        <p> Q9: {this.props.var.q9} </p>
+                        <p> Q10: {this.props.var.q10} </p>
+                        <Button
+                            action={this.handleClose}
+                            type={'primary'}
+                            title={'Close'}
+                        />
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      )
+        )
     }
-  }
+}
 
 export default ResponseManager;
