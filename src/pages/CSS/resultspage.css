@@ -54,12 +54,17 @@
 .points{
   position: absolute;
   text-align: center;
-  right: 15%
+  right: 5%;
 }
 .response{
-  position:absolute;
+  position: absolute;
+  text-align: left;
+  right: 25%; 
+
+}
+.question{
+  position: absolute;
   text-align: center;
-  right:50%;
 }
 
 .black-container{
@@ -98,10 +103,7 @@
 .resultspage-container{
   position:relative;
 }
-.question{
-  position:absolute;
-  text-align: center;
-}
+
 #final-result{
   display:none;
   text-align: center;
@@ -139,6 +141,6 @@
   background-color: rgba(37, 198, 247, 0.475);
   text-align: center;
   height: 40px;
-  margin: 40px;
+  margin: 10px;
   border-radius: 10px;
 }
