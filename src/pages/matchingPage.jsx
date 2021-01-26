@@ -103,16 +103,16 @@ class MatchingPage extends React.Component {
         await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
         var myHeaders2 = new Headers();
         myHeaders2.append("Content-Type", "application/json");
-        var raw2 = JSON.stringify({ "formID": this.state.id.toString()});
+        var raw2 = JSON.stringify({ "formID": this.state.id.toString() });
         var requestOptions2 = {
-            method: 'PUT', 
+            method: 'PUT',
             headers: myHeaders2,
             body: raw2,
             redirect: 'follow'
         };
         await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions2).catch(error => console.log('error', error));
+        await (async () => { this.getObjects(); })();
         this.setState({ loading: false });
-        this.setState({ call: false });
         this.setState({ input: '' });
     }
 
@@ -133,7 +133,7 @@ class MatchingPage extends React.Component {
         for (var i = 1; i <= 10; i++) {
             arr.push(<Button
                 action={(e) => this.switchRound(e)}
-                disabled = {this.state.loading}
+                disabled={this.state.loading}
                 value={('r' + i)}
                 type={'primary'}
                 title={'Round ' + i}
@@ -141,9 +141,9 @@ class MatchingPage extends React.Component {
         }
         return arr;
     }
-    redirectToResponses(e){
+    redirectToResponses(e) {
         e.preventDefault();
-        this.setState({redirectToResponse: true});
+        this.setState({ redirectToResponse: true });
     }
 
     setCheckboxes() {
@@ -159,7 +159,7 @@ class MatchingPage extends React.Component {
         if (!this.state.call) {
             (async () => { this.getObjects(); })();
         }
-        if(this.state.redirectToResponse){
+        if (this.state.redirectToResponse) {
             this.state.call = false;
             this.state.redirectToResponse = false;
             return <Redirect to={{
@@ -183,7 +183,7 @@ class MatchingPage extends React.Component {
                     placeholder={'Word to Replace'}
                     handleChange={this.handleInput}
 
-                /> 
+                />
                 <Button
                     action={(e) => this.handleStep1Submit(e)}
                     type={'primary'}
@@ -191,7 +191,7 @@ class MatchingPage extends React.Component {
                 /> { /*Submit */}
                 <Button
                     action={this.redirectToResponses}
-                    disabled = {this.state.loading}
+                    disabled={this.state.loading}
                     type={'primary'}
                     title={'Go back to Responses'}
                 />
