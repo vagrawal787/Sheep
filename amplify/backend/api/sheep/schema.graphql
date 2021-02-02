@@ -58,7 +58,8 @@ type WordScore @model @key(fields: ["formID", "round"]){
   formID: ID!
   round: String!
   scores: String!
-  user_scores: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 type UserScore @model @key(fields: ["formID", "email"]){
   formID: ID!

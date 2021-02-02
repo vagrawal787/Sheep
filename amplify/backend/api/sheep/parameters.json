@@ -1,5 +1,5 @@
 {
-  "AppSyncApiName": "sheep",
-  "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+    "AppSyncApiName": "sheep",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false
 }

@@ -244,7 +244,6 @@ export const getWordScore = /* GraphQL */ `
       formID
       round
       scores
-      user_scores
       createdAt
       updatedAt
     }
@@ -271,7 +270,6 @@ export const listWordScores = /* GraphQL */ `
         formID
         round
         scores
-        user_scores
         createdAt
         updatedAt
       }
