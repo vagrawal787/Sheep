@@ -43,6 +43,8 @@ class ResponseManager extends Component {
         this.sendResults = this.sendResults.bind(this);
         this.toggleSent = this.toggleSent.bind(this);
         this.findForm = this.findForm.bind(this);
+        this.renderWordScores = this.renderWordScores.bind(this);
+        this.exportTableToCSV = this.exportTableToCSV.bind(this);
     }
 
     handleEditFormButton(e) {
@@ -184,6 +186,58 @@ class ResponseManager extends Component {
     redirectToAdmin() {
         this.setState({ redirectToAdmin: true });
     }
+    renderWordScores() {
+        var arr = []
+        for (var i = 1; i <= 10; i++) {
+            arr.push(<div className="scoreTables">
+                <CommonWordsTable id={this.state.id} round={'r' + i} />
+            </div>)
+        }
+        return arr;
+    }
+
+    downloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
+
+        // CSV file
+        csvFile = new Blob([csv], { type: "text/csv" });
+
+        // Download link
+        downloadLink = document.createElement("a");
+
+        // File name
+        downloadLink.download = filename;
+
+        // Create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+
+        // Hide download link
+        downloadLink.style.display = "none";
+
+        // Add the link to DOM
+        document.body.appendChild(downloadLink);
+
+        // Click download link
+        downloadLink.click();
+    }
+
+    exportTableToCSV(filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("table.wordscores tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+
+            for (var j = 0; j < cols.length; j++)
+                row.push(cols[j].innerText);
+
+            csv.push(row.join(","));
+        }
+
+        // Download CSV file
+        this.downloadCSV(csv.join("\n"), filename);
+    }
 
     render() {
         if (this.state.redirectToMatching) {
@@ -225,6 +279,10 @@ class ResponseManager extends Component {
                 {this.state.sent ? <h3 className="sent"> Form results have been sent. </h3> : null}
                 <Table id={this.state.id} />
                 <ResponsesTable id={this.state.id} var={this.state} />
+                <div>
+                    <h1> Word Scores</h1>
+                    {this.renderWordScores()}
+                </div>
                 <Button
                     action={this.handleEditFormButton}
                     type={'primary'}
@@ -254,6 +312,11 @@ class ResponseManager extends Component {
                     action={this.handleMatchingPageButton}
                     type={'primary'}
                     title={'Resolve Word Conflicts'}
+                /> { /*Submit */}
+                <Button
+                    action={() => this.exportTableToCSV(this.state.id + "_wordScores.csv")}
+                    type={'primary'}
+                    title={'Export Word Scores to CSV'}
                 /> { /*Submit */}
                 {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
 
@@ -490,7 +553,7 @@ class Table extends Component {
                     <Button
                         action={() => this.exportTableToCSV(this.state.id + "_userScores.csv")}
                         type={'primary'}
-                        title={'Export to CSV'}
+                        title={'Export User Scores to CSV'}
                     /> { /*Submit */}
                 </div>)
         }
@@ -729,7 +792,7 @@ class ResponsesTable extends Component {
                         <Button
                             action={() => this.exportTableToCSV(this.state.id + "_userResponses.csv")}
                             type={'primary'}
-                            title={'Export to CSV'}
+                            title={'Export Responses Cleaned to CSV'}
                         /> { /*Submit */}
                     </div>
                 </div>
@@ -777,5 +840,106 @@ class FormQuestions extends React.Component {
         )
     }
 }
+
+class CommonWordsTable extends Component {
+    constructor(props) {
+        super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
+        this.state = { //state is by default an object
+            id: this.props.id,
+            round: this.props.round,
+            responses: [[0, 'word']],
+            call: false,
+            loading: false,
+        }
+        // this.createGroups = this.createGroups.bind(this);
+        this.renderTableData = this.renderTableData.bind(this);
+        // this.handleSort = this.handleSort.bind(this);
+        // this.compareByKey = this.compareByKey.bind(this);
+        // this.handleUpdate = this.handleUpdate.bind(this);
+        // this.downloadCSV = this.downloadCSV.bind(this);
+        // this.exportTableToCSV = this.exportTableToCSV.bind(this);
+    }
+    async componentDidMount() {
+        console.log('we are inside componentdidmount');
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({ "formID": this.state.id.toString() });
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow',
+            noResponses: false,
+        };
+        this.setState({ loading: true });
+        await fetch("https://5q71mrnwdc.execute-api.us-west-2.amazonaws.com/dev", requestOptions).catch(error => console.log('error', error));
+        const client = new AWSAppSyncClient({
+            url: awsconfig.aws_appsync_graphqlEndpoint,
+            region: awsconfig.aws_appsync_region,
+            disableOffline: true,
+            auth: {
+                type: AUTH_TYPE.API_KEY,
+                apiKey: awsconfig.aws_appsync_apiKey,
+            },
+        });
+        this.setState({ loading: false });
+        let apiData = '';
+        try {
+            apiData = await client.query({
+                query: gql(queries.getWordScore),
+                variables: { formID: this.state.id, round: this.state.round }
+            });
+            console.log(apiData);
+            console.log("i got the deets");
+        } catch (e) {
+            console.log(e);
+        }
+        if (!(apiData == '' || apiData.data.getWordScore == null)) {
+            this.setState({
+                responses: apiData.data.getWordScore.scores,
+                call: true
+            })
+        }
+    }
+
+
+
+    renderTableData() {
+        var responses = this.state.responses.toString();
+        responses = responses.slice(1, -1)
+        responses = responses.replace(/,/g, '')
+        responses = responses.split(/]/g)
+        console.log('responses:' + responses[1]);
+        var arr = [];
+        for (var index = 0; index < responses.length; index++) {
+            var str = responses[index].substring(1);
+            str = str.replace("[", '');
+            var entry = str.split(' ');
+            arr.push(<tr><td>{entry[1]}</td><td>{entry[0]}</td></tr>)
+        }
+        return arr;
+    }
+    render() {
+        // if (!this.state.call) {
+        //     (async () => { this.createGroups(); })();
+        // }
+        // if (this.state.noResponses) {
+        //     return null
+        // } else {
+        return (
+            <div>
+                {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
+                <table id='responses' className='wordscores'>
+                    <tbody>
+                        <tr><th colspan = "2"> {'Round ' + this.state.round.substring(1)}</th></tr>
+                        <tr><th> Word </th> <th> Points </th></tr>
+                        {this.renderTableData()}
+                    </tbody>
+                </table>
+            </div>)
+    }
+
+}
+
 
 export default ResponseManager;

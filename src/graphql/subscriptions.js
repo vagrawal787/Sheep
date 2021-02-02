@@ -322,7 +322,6 @@ export const onCreateWordScore = /* GraphQL */ `
       formID
       round
       scores
-      user_scores
       createdAt
       updatedAt
     }
@@ -334,7 +333,6 @@ export const onUpdateWordScore = /* GraphQL */ `
       formID
       round
       scores
-      user_scores
       createdAt
       updatedAt
     }
@@ -346,7 +344,6 @@ export const onDeleteWordScore = /* GraphQL */ `
       formID
       round
       scores
-      user_scores
       createdAt
       updatedAt
     }

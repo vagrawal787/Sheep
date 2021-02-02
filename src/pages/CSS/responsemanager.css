@@ -69,3 +69,15 @@
     font-size: 1.66vh;
     border-radius: 30px;
 }
+.scoreTables{
+  height: 200px;
+  width: 20%;
+  overflow-y: scroll;
+  float: left;
+}
+table.wordscores{
+  table-layout: fixed;
+  width: 20px;
+  overflow: hidden;
+  word-wrap: break-word;
+}
