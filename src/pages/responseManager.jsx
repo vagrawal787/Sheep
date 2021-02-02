@@ -316,7 +316,7 @@ class ResponseManager extends Component {
                 <Button
                     action={() => this.exportTableToCSV(this.state.id + "_wordScores.csv")}
                     type={'primary'}
-                    title={'Export to CSV'}
+                    title={'Export Word Scores to CSV'}
                 /> { /*Submit */}
                 {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
 
@@ -553,7 +553,7 @@ class Table extends Component {
                     <Button
                         action={() => this.exportTableToCSV(this.state.id + "_userScores.csv")}
                         type={'primary'}
-                        title={'Export to CSV'}
+                        title={'Export User Scores to CSV'}
                     /> { /*Submit */}
                 </div>)
         }
@@ -792,7 +792,7 @@ class ResponsesTable extends Component {
                         <Button
                             action={() => this.exportTableToCSV(this.state.id + "_userResponses.csv")}
                             type={'primary'}
-                            title={'Export to CSV'}
+                            title={'Export Responses Cleaned to CSV'}
                         /> { /*Submit */}
                     </div>
                 </div>
