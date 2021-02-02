@@ -279,7 +279,10 @@ class ResponseManager extends Component {
                 {this.state.sent ? <h3 className="sent"> Form results have been sent. </h3> : null}
                 <Table id={this.state.id} />
                 <ResponsesTable id={this.state.id} var={this.state} />
-                {this.renderWordScores()}
+                <div>
+                    <h1> Word Scores</h1>
+                    {this.renderWordScores()}
+                </div>
                 <Button
                     action={this.handleEditFormButton}
                     type={'primary'}
@@ -925,24 +928,14 @@ class CommonWordsTable extends Component {
         // } else {
         return (
             <div>
-                <h1 id='title'>{this.state.round}</h1>
                 {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
                 <table id='responses' className='wordscores'>
                     <tbody>
+                        <tr><th colspan = "2"> {'Round ' + this.state.round.substring(1)}</th></tr>
                         <tr><th> Word </th> <th> Points </th></tr>
                         {this.renderTableData()}
                     </tbody>
                 </table>
-                {/* <Button
-                        action={this.handleUpdate}
-                        type={'primary'}
-                        title={'Update'}
-                    /> 
-                    <Button
-                        action={() => this.exportTableToCSV(this.state.id + "_userScores.csv")}
-                        type={'primary'}
-                        title={'Export to CSV'}
-                    />  */}
             </div>)
     }
 
