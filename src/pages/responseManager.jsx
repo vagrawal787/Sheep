@@ -909,13 +909,17 @@ class CommonWordsTable extends Component {
         responses = responses.slice(1, -1)
         responses = responses.replace(/,/g, '')
         responses = responses.split(/]/g)
-        console.log('responses:' + responses[1]);
+        console.log('responses:' + responses);
         var arr = [];
         for (var index = 0; index < responses.length; index++) {
             var str = responses[index].substring(1);
             str = str.replace("[", '');
             var entry = str.split(' ');
-            arr.push(<tr><td>{entry[1]}</td><td>{entry[0]}</td></tr>)
+            var entrystring = '';
+            for (var i = 1; i < entry.length; i++){
+                entrystring += entry[i] + ' ';
+            }
+            arr.push(<tr><td>{entrystring}</td><td>{entry[0]}</td></tr>)
         }
         return arr;
     }
