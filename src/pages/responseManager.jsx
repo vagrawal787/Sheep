@@ -765,7 +765,13 @@ class ResponsesTable extends Component {
         }
         this.state.reset = false;
         if (this.state.noResponses) {
-            return <h3> This form has no responses yet! Check back in a bit. </h3>
+            return (<div><h3> This form has no responses yet! Check back in a bit. </h3>
+                <Button
+                action={this.handleUpdate}
+                type={'primary'}
+                title={'Update'}
+            /> { /*Submit */}
+            </div>)
         } else {
             return (
                 <div>
