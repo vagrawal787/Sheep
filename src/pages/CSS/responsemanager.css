@@ -1,11 +1,10 @@
 #title {
     text-align: center;
-    font-family: arial, sans-serif;
+    font-weight: bolder;
   }
   
   #responses {
     text-align: center;
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     border: 3px solid #ddd;
     width: 100%;
@@ -42,6 +41,8 @@
   .responseContainer{
     text-align: center;
     height: auto;
+    font-family: 'Quicksand', 'sans-serif';
+    margin: 20px;
   }
   .popupForm{
     display: flex;
@@ -80,4 +81,20 @@ table.wordscores{
   width: 20px;
   overflow: hidden;
   word-wrap: break-word;
+}
+.userScoreTable{
+  width: 100%;
+  overflow-x: scroll;
+}
+table.responses {
+  width: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+.userScoreTableCont{
+  font-family: 'Quicksand', 'sans-serif';
+}
+.responseTable{
+  width: 100%;
+  overflow-x: scroll;
 }

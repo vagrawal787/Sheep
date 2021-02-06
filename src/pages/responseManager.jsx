@@ -277,8 +277,12 @@ class ResponseManager extends Component {
                 </h1>
                 {!this.state.open ? <h3 className="closed"> Form has been closed.</h3> : <h3 className="open"> Form is open for responses. </h3>}
                 {this.state.sent ? <h3 className="sent"> Form results have been sent. </h3> : null}
-                <Table id={this.state.id} />
-                <ResponsesTable id={this.state.id} var={this.state} />
+                <div class="userScoreTable">
+                    <Table id={this.state.id} />
+                </div>
+                <div class="responseTable">
+                    <ResponsesTable id={this.state.id} var={this.state} />
+                </div>
                 <div>
                     <h1> Word Scores</h1>
                     {this.renderWordScores()}
@@ -536,7 +540,7 @@ class Table extends Component {
             return null
         } else {
             return (
-                <div>
+                <div className = 'userScoreTableCont'>
                     <h1 id='title'>User Scores</h1>
                     {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
                     <table id='responses' className='userscores'>
@@ -931,7 +935,7 @@ class CommonWordsTable extends Component {
                 {this.state.loading && <Loader type="ThreeDots" color="#2BAD60" height="50" width="50" />}
                 <table id='responses' className='wordscores'>
                     <tbody>
-                        <tr><th colspan = "2"> {'Round ' + this.state.round.substring(1)}</th></tr>
+                        <tr><th colspan="2"> {'Round ' + this.state.round.substring(1)}</th></tr>
                         <tr><th> Word </th> <th> Points </th></tr>
                         {this.renderTableData()}
                     </tbody>
