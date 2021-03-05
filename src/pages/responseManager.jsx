@@ -614,6 +614,7 @@ class ResponsesTable extends Component {
         this.setState({ loading: false });
         let apiData = '';
         try {
+            console.log( 'current id is: ' + this.state.id)
             apiData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } } } });
         } catch (e) {
             console.log(e);
