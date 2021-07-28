@@ -612,9 +612,9 @@ class ResponsesTable extends Component {
         try {
             console.log('fetching cleaned data')
             apiData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } } } });
-            if (apiData === []){
+            if (apiData == []){
                 while (apiData.data.listResponseCleaneds.nextToken){
-                    nextData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } }, nextToken: apiData.data.listResponseCleaneds.nextToken } });
+                    var nextData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } }, nextToken: apiData.data.listResponseCleaneds.nextToken } });
                     apiData.data.listResponseCleaneds.items = apiData.data.listResponseCleaneds.items.concat(nextData.data.listResponseCleaneds.items)
                 }
             }
