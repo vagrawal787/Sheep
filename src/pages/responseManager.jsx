@@ -608,10 +608,16 @@ class ResponsesTable extends Component {
             },
         });
         this.setState({ loading: false });
-        let apiData = '';
+        let apiData = {};
         try {
             console.log('fetching cleaned data')
             apiData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } } } });
+            if (apiData === []){
+                while (apiData.data.listResponseCleaneds.nextToken){
+                    nextData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } }, nextToken: apiData.data.listResponseCleaneds.nextToken } });
+                    apiData.data.listResponseCleaneds.items = apiData.data.listResponseCleaneds.items.concat(nextData.data.listResponseCleaneds.items)
+                }
+            }
         } catch (e) {
             console.log(e);
         }
