@@ -65,13 +65,11 @@ class MainPage extends Component {
   }
 
   componentDidUpdate(){
-    console.log(this.props.history);
     window.onpopstate = this.backButtonEvent;
   }
 
   backButtonEvent(e){
     e.preventDefault();
-    console.log("backbuttonpressed");
     this.goBack();
   }
 
@@ -87,7 +85,6 @@ class MainPage extends Component {
   }
 
   async findForm() {
-    console.log("hi");
 
     const client = new AWSAppSyncClient({
       url: awsconfig.aws_appsync_graphqlEndpoint,
@@ -242,12 +239,10 @@ class MainPage extends Component {
       (async () => { await this.findForm(); })();
     }
     if (this.state.redirect) {
-      console.log("call thank you page");
       this.state.redirect = false;
       return <Redirect to={{ pathname: "/thankYou" }} />
     }
     if (this.state.error) {
-      console.log("recall landing page");
       this.state.error = false;
       return <Redirect to={{
         pathname: "/",

@@ -48,9 +48,7 @@ class MatchingPage extends React.Component {
                 query: gql(queries.getCloseResponses),
                 variables: { formID: this.state.id, round: this.state.currentRound }
             });
-            console.log("api data fetched");
             this.state.call = true;
-            console.log(apiData);
         } catch (e) {
             console.log(e);
         }
@@ -79,7 +77,6 @@ class MatchingPage extends React.Component {
                 (this.state.returnWords).splice(index, 1);
             }
         }
-        console.log(this.state.returnWords);
 
     }
 

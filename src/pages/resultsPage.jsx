@@ -62,8 +62,6 @@ class ResultsPage extends Component {
                 query: gql(queries.getForm),
                 variables: { id: this.state.id }
             });
-            console.log(apiData);
-            console.log("results fetched");
             this.state.call = true;
         } catch (e) {
             console.log(e);
@@ -143,7 +141,6 @@ class ResultsPage extends Component {
                     query: gql(queries.getResponseCleaned),
                     variables: { formID: this.state.id, email: this.state.email }
                 });
-                console.log(apiData.data.getResponseCleaned);
             } catch (e) {
                 console.log(e);
             }
@@ -170,7 +167,6 @@ class ResultsPage extends Component {
         const user = this.state.responses[this.state.userIndex];
         const userResponses = this.state.userResponses;
         const formData = this.state.formData;
-        console.log(userResponses);
         const fname = user.fname;
         const lname = user.lname;
         const totPoints = user.r10_sum;
@@ -227,7 +223,6 @@ class ResultsPage extends Component {
         const user = this.state.responses[this.state.userIndex];
         const userResponses = this.state.userResponses;
         const formData = this.state.formData;
-        console.log(userResponses);
         const fname = user.fname;
         const lname = user.lname;
         const totPoints = user.r10_sum;
@@ -268,7 +263,6 @@ class ResultsPage extends Component {
             (async () => { this.fetchWinners(); })();
         }
         if(this.state.redirectToHome){
-            console.log("okayy");
             this.state.redirectToHome = false;
             return <Redirect to={{ pathname: "/" }} />
         }

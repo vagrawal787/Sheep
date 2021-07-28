@@ -95,8 +95,6 @@ class LandingFormContainer extends Component {
       console.log('no show');
     }
     if (this.state.redirectSubmit) {
-      console.log("call mainpage");
-      console.log(this.state.code)
       this.state.redirectSubmit = false;
       return <Redirect to={{
         pathname: "/userForm",
@@ -111,7 +109,6 @@ class LandingFormContainer extends Component {
     // }
 
     if (this.state.redirectResults) {
-      console.log("call results");
       this.state.redirectResults = false;
       return <Redirect to={{
         pathname: "/resultsPage",
@@ -198,7 +195,6 @@ class Password extends React.Component {
   }
   render() {
     if (this.state.redirect) {
-      console.log("call admin");
       this.state.redirectAdmin = false;
       return <Redirect to={{ pathname: "/adminConsole" }} />
     }

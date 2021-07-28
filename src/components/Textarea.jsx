@@ -2,7 +2,6 @@ import React from 'react';
 import './textarea.css'
 
 const Textarea = (props) => {
-    console.log(props.style);
     return (
         <div className="form-group">
             <label htmlFor={props.id} className="form-label"> {props.name} </label>

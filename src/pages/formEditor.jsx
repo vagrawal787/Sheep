@@ -86,7 +86,6 @@ class EditPage extends Component {
     renderTextareas() {
         let arr = [];
         for (var i = 1; i <= this.state.numResponses; i++) {
-            console.log("iteration" + i);
             let question = 'q' + i;
             arr.push(<Textarea
                 id={question}

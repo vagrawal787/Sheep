@@ -72,7 +72,6 @@ class CreatePage extends Component {
                 match: false,
             });
         }, 2000);
-        console.log("showidmatch");
     }
 
     async handleFormSubmit(e) {

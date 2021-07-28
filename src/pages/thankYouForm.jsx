@@ -15,7 +15,6 @@ class ThankFormCreate extends Component {
 
     handleButtonPress(e) {
         e.preventDefault();
-        console.log("button pressed");
         this.setState({ redirect: true });
     }
 

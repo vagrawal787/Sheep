@@ -138,7 +138,6 @@ class ResponseManager extends Component {
     }
 
     async findForm() {
-        console.log("hi");
         const client = new AWSAppSyncClient({
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
@@ -167,7 +166,6 @@ class ResponseManager extends Component {
                 q9: apiData.data.getForm.q9,
                 q10: apiData.data.getForm.q10
             });
-            console.log(this.state.q2);
         }
     }
 
@@ -423,8 +421,6 @@ class Table extends Component {
                 query: gql(queries.getFormResponseList),
                 variables: { id: this.state.id }
             });
-            console.log(apiData);
-            console.log("i got the deets");
             this.state.call = true;
         } catch (e) {
             console.log(e);
@@ -614,12 +610,11 @@ class ResponsesTable extends Component {
         this.setState({ loading: false });
         let apiData = '';
         try {
-            console.log( 'current id is: ' + this.state.id)
             apiData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } } } });
         } catch (e) {
             console.log(e);
         }
-        console.log(apiData);
+        console.log('this is apiData: ', apiData);
         if (apiData == '' || apiData.data.listResponseCleaneds == null) {
             this.setState({
                 noResponses: true,
@@ -871,7 +866,6 @@ class CommonWordsTable extends Component {
         // this.exportTableToCSV = this.exportTableToCSV.bind(this);
     }
     async componentDidMount() {
-        console.log('we are inside componentdidmount');
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({ "formID": this.state.id.toString() });
@@ -900,8 +894,6 @@ class CommonWordsTable extends Component {
                 query: gql(queries.getWordScore),
                 variables: { formID: this.state.id, round: this.state.round }
             });
-            console.log(apiData);
-            console.log("i got the deets");
         } catch (e) {
             console.log(e);
         }
@@ -920,7 +912,6 @@ class CommonWordsTable extends Component {
         responses = responses.slice(1, -1)
         responses = responses.replace(/,/g, '')
         responses = responses.split(/]/g)
-        console.log('responses:' + responses);
         var arr = [];
         for (var index = 0; index < responses.length; index++) {
             var str = responses[index].substring(1);

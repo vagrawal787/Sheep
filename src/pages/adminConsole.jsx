@@ -63,7 +63,6 @@ class ConsolePage extends Component {
     Calls function to change button state so that user can select which of their forms to manage.*/
     async getUserID() {
         const user = await Auth.currentUserInfo();
-        console.log(user.username);
         this.state.call = true;
         this.setState({ userID: user.username });
         const client = new AWSAppSyncClient({
@@ -75,15 +74,12 @@ class ConsolePage extends Component {
                 apiKey: awsconfig.aws_appsync_apiKey,
             },
         });
-        console.log("fetching api data");
         let apiData = '';
         try {
             apiData = await client.query({
                 query: gql(queries.getUsers),
                 variables: { id: this.state.userID }
             });
-            console.log("api data fetched");
-            console.log(apiData);
         } catch (e) {
             console.log(e);
         }
@@ -96,7 +92,6 @@ class ConsolePage extends Component {
             } catch (e) {
                 console.log(e);
             }
-            console.log('normal retrieval');
         } else {
             var dict = apiData.data.getUsers.forms.items;
             var arr = [];
@@ -110,7 +105,6 @@ class ConsolePage extends Component {
             this.state.forms = arr;
             this.state.status = statusArr;
             this.state.sent = sentArr;
-            console.log(this.state.forms);
         }
         let responseData = '';
         try {
@@ -122,8 +116,6 @@ class ConsolePage extends Component {
 
             }
 
-            console.log("api data fetched");
-            console.log(apiData);
         } catch (e) {
             console.log(e);
         }
@@ -154,7 +146,6 @@ class ConsolePage extends Component {
             />
             arr.push(button);
         }
-        console.log(arr);
         this.setState({ buttons: arr });
     }
 
@@ -176,7 +167,6 @@ class ConsolePage extends Component {
 
     render() {
         if (!this.state.call) {
-            console.log("calling admin api");
             (async () => { this.getUserID(); })();
         }
         // if (!this.state.rendering){
@@ -186,7 +176,6 @@ class ConsolePage extends Component {
             this.state.redirect = false;
             this.state.call = false;
             this.state.redirectToManager = false;
-            console.log("redirecting from admin");
             return <Redirect to={{
                 pathname: "/createForm",
                 state: { userID: this.state.userID }
@@ -202,7 +191,6 @@ class ConsolePage extends Component {
             this.state.redirect = false;
             this.state.call = false;
             this.state.redirectToManager = false;
-            console.log("redirecting to responses");
             return <Redirect to={{
                 pathname: "/responseManager",
                 state: {
