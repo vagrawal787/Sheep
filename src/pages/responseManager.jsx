@@ -610,10 +610,12 @@ class ResponsesTable extends Component {
         this.setState({ loading: false });
         let apiData = '';
         try {
+            console.log('fetching cleaned data')
             apiData = await client.query({ query: gql(queries.listResponseCleaneds), variables: { filter: { formID: { eq: this.state.id.toString() } } } });
         } catch (e) {
             console.log(e);
         }
+        console.log(this.state.id)
         console.log('this is apiData: ', apiData);
         if (apiData == '' || apiData.data.listResponseCleaneds == null) {
             this.setState({
